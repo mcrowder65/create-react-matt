@@ -6,8 +6,9 @@ pkg.jest = {
     "collectCoverageFrom": [
         "src/**/*.{js*}",
         "!src/client/app.jsx",
-        "!src/client/router.jsx"
+        "!src/client/router.jsx",
+        "!src/client/actions/sagas/config.jsx",
+        "!src/client/actions/sagas/index.jsx"
     ]
 };
-
 fs.writeFile("./package.json", JSON.stringify(pkg));
