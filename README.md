@@ -17,6 +17,11 @@
 **NOTE** if you `--save` or `--save-dev` then this will clear out your project every single time you do npm 
 install! So don't do it!
 
+## After install
+Go ahead and run `npm start` and that will start a webpack-dev-server on port 8080, or even run 
+`npm test` which will run test cases with coverage generated! 
+
+
 [npm-image]: https://badge.fury.io/js/react-redux-jest-starter-kit.svg
 [npm-url]: https://npmjs.org/package/react-redux-jest-starter-kit
 

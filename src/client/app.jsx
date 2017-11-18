@@ -2,19 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {createStore, applyMiddleware, compose} from "redux";
 import {Provider} from "react-redux";
-import thunk from "redux-thunk";
 import "babel-polyfill";
+import createSagaMiddleware from "redux-saga";
+import sagaActions from "./actions/sagas/index";
 
 import rootReducer from "./reducers/index";
 import Router from "./router";
 import initialState from "./reducers/initial-state";
 import "./styles/base.css";
+
+const sagaMiddleware = createSagaMiddleware();
 /* eslint no-underscore-dangle: "off" */
 /* global window */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, initialState,
-    composeEnhancers(applyMiddleware(thunk)));
+    composeEnhancers(applyMiddleware(sagaMiddleware)));
 
+sagaMiddleware.run(sagaActions);
 const App = () => (
     <Provider store={store}>
         <Router/>

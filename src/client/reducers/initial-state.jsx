@@ -1,4 +1,5 @@
 const initialState = {
-    input: ""
+    input: "",
+    ping: ""
 };
 export default initialState;
