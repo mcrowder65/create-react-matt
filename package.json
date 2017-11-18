@@ -1,12 +1,66 @@
 {
   "name": "react-redux-jest-starter-kit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
   "scripts": {
-    "install": "echo 'Do not install this for now... Going to add stuff later'"
+    "install": "sh setup.sh",
+    "start": "webpack-dev-server",
+    "linter": "eslint src && eslint test",
+    "test": "npm run linter && jest --coverage"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "redux",
+    "react router",
+    "webpack",
+    "jest",
+    "react starter kit"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js*}",
+      "!src/client/app.jsx",
+      "!src/client/router.jsx"
+    ]
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "html-webpack-plugin": "^2.30.1",
+    "prop-types": "^15.6.0",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "enzyme": "^2.9.1",
+    "eslint": "^4.11.0",
+    "eslint-config-walmart": "^1.2.4",
+    "eslint-plugin-filenames": "^1.2.0",
+    "eslint-plugin-jest": "^21.3.2",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "jest": "^21.2.1",
+    "react-addons-test-utils": "^15.6.2",
+    "react-test-renderer": "^16.1.1",
+    "style-loader": "^0.18.2"
+  }
 }

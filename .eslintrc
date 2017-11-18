@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "walmart"
+  ],
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "env": {
+    "node": true,
+    "jest/globals": true
+  },
+  "globals": {
+    "fetch": true
+  },
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "eol-last": "off"
+  }
+}
