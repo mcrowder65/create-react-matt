@@ -5,9 +5,10 @@ import {setInput} from "../actions/index";
 
 const Home = props => {
     return (
-        <div>
+        <div className="body">
             {props.input}<br/>
-            <input value={props.input}
+            <input id="input"
+                   value={props.input}
                    onChange={e => props.setInput(e.target.value)}
             />
         </div>

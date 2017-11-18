@@ -3,20 +3,19 @@
     "walmart"
   ],
   "plugins": [
-    "react"
+    "react",
+    "jest"
   ],
   "env": {
     "node": true,
-    "mocha": true
+    "jest/globals": true
   },
   "globals": {
-    "expect": true,
     "fetch": true
   },
   "rules": {
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "eol-last": "off",
-    "max-nested-callbacks": "off"
+    "eol-last": "off"
   }
 }
