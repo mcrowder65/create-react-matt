@@ -10,7 +10,7 @@
  is so painless with jest so I wanted to create another starter app.
  
 ## How to install
- mkdir `newdir && cd newdir`<br>
+ `mkdir newdir && cd newdir`<br>
  `npm init -y`<br>
  `npm install react-redux-jest-starter-kit`<br>
  
