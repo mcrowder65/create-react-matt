@@ -1,6 +1,6 @@
 {
   "name": "react-redux-jest-starter-kit",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js*}",
       "!src/client/app.jsx",
-      "!src/client/router.jsx"
+      "!src/client/router.jsx",
+      "!src/client/actions/sagas/config.jsx",
+      "!src/client/actions/sagas/index.jsx"
     ]
   },
   "author": "",

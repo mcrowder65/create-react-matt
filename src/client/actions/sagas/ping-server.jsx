@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {setPing} from "../index";
 
-const apiCall = async () => {
+export const apiCall = async () => {
     //this is up to you whether or not you want to implement this server...
     const res = await fetch("http://localhost:3000/ping", {method: "GET"});
     return res.text();
