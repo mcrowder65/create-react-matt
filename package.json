@@ -4,11 +4,19 @@
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
   "scripts": {
-    "install": "echo 'Do not install this for now... Going to add stuff later'",
+    "install": "sh setup.sh",
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
     "test": "npm run linter && jest --coverage"
   },
+  "keywords": [
+    "react",
+    "redux",
+    "react router",
+    "webpack",
+    "jest",
+    "react starter kit"
+  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js*}",
@@ -16,7 +24,6 @@
       "!src/client/router.jsx"
     ]
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
