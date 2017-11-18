@@ -1,6 +1,6 @@
 {
   "name": "react-redux-jest-starter-kit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
   "scripts": {
