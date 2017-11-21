@@ -1,8 +1,12 @@
 {
   "name": "react-redux-jest-starter-kit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcrowder65/react-redux-jest-starter-kit"
+  },
   "scripts": {
     "install": "sh setup.sh",
     "start": "webpack-dev-server",
