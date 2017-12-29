@@ -1,12 +1,9 @@
 {
-  "name": "generator-react-jest",
+  "name": "application-name",
   "version": "0.0.1",
-  "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
+  "description": "Awesome app",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mcrowder65/react-redux-jest-starter-kit"
-  },
+  "repository": {},
   "scripts": {
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
@@ -18,7 +15,6 @@
     ".babelrc",
     ".eslintrc",
     ".gitignore",
-    "package.json",
     "webpack.config.js"
   ],
   "keywords": [
