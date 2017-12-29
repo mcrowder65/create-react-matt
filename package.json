@@ -8,7 +8,6 @@
     "url": "https://github.com/mcrowder65/react-redux-jest-starter-kit"
   },
   "scripts": {
-    "install": "sh setup.sh",
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
     "test": "npm run linter && jest --coverage"
