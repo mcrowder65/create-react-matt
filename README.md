@@ -22,11 +22,11 @@ Go ahead and run `npm start` and that will start a webpack-dev-server on port 80
 `npm test` which will run test cases with coverage generated! 
 
 
-[npm-image]: https://badge.fury.io/js/react-redux-jest-starter-kit.svg
-[npm-url]: https://npmjs.org/package/react-redux-jest-starter-kit
+[npm-image]: https://badge.fury.io/js/generator-react-jest.svg
+[npm-url]: https://npmjs.org/package/generator-react-jest
 
-[travis-image]: https://travis-ci.org/mcrowder65/react-redux-jest-starter-kit.svg?branch=master
-[travis-url]: https://travis-ci.org/mcrowder65/react-redux-jest-starter-kit
+[travis-image]: https://travis-ci.org/mcrowder65/generator-react-jest.svg?branch=master
+[travis-url]: https://travis-ci.org/mcrowder65/generator-react-jest
 
-[total-image]: 	https://img.shields.io/npm/dt/react-redux-jest-starter-kit.svg
-[total-url]: 	https://img.shields.io/npm/dt/react-redux-jest-starter-kit
+[total-image]: 	https://img.shields.io/npm/dt/generator-react-jest.svg
+[total-url]: 	https://img.shields.io/npm/dt/generator-react-jest
