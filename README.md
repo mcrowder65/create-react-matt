@@ -1,4 +1,4 @@
-# React Redux Jest Starter Kit
+# React Jest Generator
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Total Status][total-image]][total-url]
@@ -9,17 +9,8 @@
  karma starter kit... But it turns out that karma/mocha/chai is horrible compared to jest, the configuration
  is so painless with jest so I wanted to create another starter app.
  
-## How to install
- `mkdir newdir && cd newdir`<br>
- `npm init -y`<br>
- `npm install react-redux-jest-starter-kit`<br>
- 
-**NOTE** if you `--save` or `--save-dev` then this will clear out your project every single time you do npm 
-install! So don't do it!
-
-## After install
-Go ahead and run `npm start` and that will start a webpack-dev-server on port 8080, or even run 
-`npm test` which will run test cases with coverage generated! 
+## NOTE
+Do not use this as of right now. Still under construction
 
 
 [npm-image]: https://badge.fury.io/js/generator-react-jest.svg
