@@ -1,6 +1,6 @@
 {
   "name": "generator-react-jest",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "index.js",
   "repository": {
