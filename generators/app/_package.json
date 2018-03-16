@@ -1,7 +1,6 @@
 {
-  "name": "application-name",
+  "name": "<%= name %>",
   "version": "0.0.1",
-  "description": "Awesome app",
   "main": "index.js",
   "repository": {},
   "scripts": {
