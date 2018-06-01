@@ -209,8 +209,10 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            // await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
+            _context3.next = 15;
+            return executeCommand(enterFolder(install() + " " + dependencies), "Installing dependencies");
 
+          case 15:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -218,25 +220,27 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            // await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
-
-            _context3.next = 16;
-            return executeCommand(enterFolder("echo '" + webpackConfig + "' > webpack.config.js"), "Webpack configured");
-
-          case 16:
             _context3.next = 18;
-            return createFolderStructure();
+            return executeCommand(enterFolder(install() + " -D " + devDependencies), "Installing devDependencies");
 
           case 18:
             _context3.next = 20;
-            return createSagas();
+            return executeCommand(enterFolder("echo '" + webpackConfig + "' > webpack.config.js"), "Webpack configured");
 
           case 20:
-            _context3.next = 25;
-            break;
+            _context3.next = 22;
+            return createFolderStructure();
 
           case 22:
-            _context3.prev = 22;
+            _context3.next = 24;
+            return createSagas();
+
+          case 24:
+            _context3.next = 29;
+            break;
+
+          case 26:
+            _context3.prev = 26;
             _context3.t0 = _context3["catch"](2);
 
             if (!_context3.t0.message.indexOf("File exists")) {
@@ -245,12 +249,12 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 25:
+          case 29:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, undefined, [[2, 22]]);
+    }, _callee3, undefined, [[2, 26]]);
   }));
 
   return function (_x) {

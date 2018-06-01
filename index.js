@@ -131,9 +131,9 @@ program
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      // await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
+      await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      // await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
+      await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
       await createFolderStructure();
       await createSagas();
