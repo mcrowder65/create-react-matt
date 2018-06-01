@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "lib/index.js",
   "repository": {
@@ -8,17 +8,15 @@
     "url": "https://github.com/mcrowder65/generator-react-jest"
   },
   "bin": {
-    "create-react-matt": "./lib/index.js"
+    "create-react-matt": "./lib/src/index.js"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
-    "build": "babel src/index.js -d lib/index.js",
-    "test": "npm run linter && jest --coverage"
+    "build": "rm -rf lib && babel src/index.js -d lib",
+    "test": "npm run linter && jest --coverage",
+    "prepublishOnly": "npm run build"
   },
-  "pre-commit": [
-    "build"
-  ],
   "files": [
     "src",
     "test",
@@ -73,7 +71,6 @@
     "eslint-config-mcrowder65": "^0.0.16",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.1",
-    "pre-commit": "^1.2.2",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-addons-test-utils": "^15.6.2",
