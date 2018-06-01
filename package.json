@@ -1,11 +1,11 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mcrowder65/create-react-matt"
+    "url": "git+https://github.com/mcrowder65/create-react-matt.git"
   },
   "pre-commit": [
     "build"
@@ -48,7 +48,10 @@
   "eslintConfig": {
     "extends": [
       "mcrowder65"
-    ]
+    ],
+    "rules": {
+      "quote-props": "off"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -57,35 +60,20 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-jest": "^21.2.0",
-    "babel-loader": "^7.1.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "chalk": "^2.3.2",
-    "css-loader": "^0.28.7",
-    "enzyme": "^2.9.1",
-    "eslint-config-mcrowder65": "^0.0.16",
-    "html-webpack-plugin": "^2.30.1",
-    "jest": "^21.2.1",
-    "pre-commit": "^1.2.2",
-    "prop-types": "^15.6.0",
-    "react": "^15.6.2",
-    "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^15.6.2",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-test-renderer": "^16.1.1",
-    "redux": "^3.7.2",
-    "redux-saga": "^0.16.0",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "eslint-config-mcrowder65": "0.0.17"
+  },
+  "bugs": {
+    "url": "https://github.com/mcrowder65/create-react-matt/issues"
+  },
+  "homepage": "https://github.com/mcrowder65/create-react-matt#readme",
+  "directories": {
+    "test": "test"
   }
 }
