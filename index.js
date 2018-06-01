@@ -108,7 +108,6 @@ program
       await createReducers();
       await createStyles();
       await createClientFiles();
-      // TODO get the other files
 
       displaySuccessMessage("Files scaffolded and placed");
       async function createConfigs() {
@@ -122,15 +121,24 @@ program
         await sagaFetcher(`index.jsx`);
         await sagaFetcher(`ping-server.jsx`);
         await sagaFetcher(`types.jsx`);
+
+        const sagaTestFetcher = fileGetter("test/client/actions/sagas");
+        await sagaTestFetcher("ping-server.spec.jsx");
       }
       async function createActions() {
         const actionFetcher = fileGetter(`src/client/actions`);
         await actionFetcher("index.jsx");
         await actionFetcher("types.jsx");
+
+        const actionTestFetcher = fileGetter("test/client/actions");
+        await actionTestFetcher("index.spec.jsx");
       }
       async function createComponents() {
         const componentFetcher = fileGetter("src/client/components");
         await componentFetcher("home.jsx");
+
+        const componentTestFetcher = fileGetter("test/client/components");
+        await componentTestFetcher("home.spec.jsx");
       }
       async function createReducers() {
         const reducerFetcher = fileGetter("src/client/reducers");

@@ -123,7 +123,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
         var createSagas = function () {
           var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-            var sagaFetcher;
+            var sagaFetcher, sagaTestFetcher;
             return _regenerator2.default.wrap(function _callee2$(_context2) {
               while (1) {
                 switch (_context2.prev = _context2.next) {
@@ -145,6 +145,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return sagaFetcher("types.jsx");
 
                   case 9:
+                    sagaTestFetcher = fileGetter("test/client/actions/sagas");
+                    _context2.next = 12;
+                    return sagaTestFetcher("ping-server.spec.jsx");
+
+                  case 12:
                   case "end":
                     return _context2.stop();
                 }
@@ -159,7 +164,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
         var createActions = function () {
           var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-            var actionFetcher;
+            var actionFetcher, actionTestFetcher;
             return _regenerator2.default.wrap(function _callee3$(_context3) {
               while (1) {
                 switch (_context3.prev = _context3.next) {
@@ -173,6 +178,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return actionFetcher("types.jsx");
 
                   case 5:
+                    actionTestFetcher = fileGetter("test/client/actions");
+                    _context3.next = 8;
+                    return actionTestFetcher("index.spec.jsx");
+
+                  case 8:
                   case "end":
                     return _context3.stop();
                 }
@@ -187,7 +197,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
         var createComponents = function () {
           var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-            var componentFetcher;
+            var componentFetcher, componentTestFetcher;
             return _regenerator2.default.wrap(function _callee4$(_context4) {
               while (1) {
                 switch (_context4.prev = _context4.next) {
@@ -197,6 +207,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return componentFetcher("home.jsx");
 
                   case 3:
+                    componentTestFetcher = fileGetter("test/client/components");
+                    _context4.next = 6;
+                    return componentTestFetcher("home.spec.jsx");
+
+                  case 6:
                   case "end":
                     return _context4.stop();
                 }
@@ -362,7 +377,6 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                 return createClientFiles();
 
               case 17:
-                // TODO get the other files
 
                 displaySuccessMessage("Files scaffolded and placed");
 
