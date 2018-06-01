@@ -65,7 +65,13 @@ var executeCommand = function executeCommand(command, loadingText) {
       }
       exec(command, function (error, stdout) {
         if (error) {
-          reject(error);
+          if (error.message.indexOf("File exists") !== -1) {
+            spinner.fail(error.message);
+            reject(error);
+          } else {
+
+            reject(error);
+          }
         } else {
           if (loadingText) {
             spinner.succeed();
@@ -83,7 +89,7 @@ var executeCommand = function executeCommand(command, loadingText) {
 };
 
 var webpackConfig = "const HtmlWebpackPlugin = require(\"html-webpack-plugin\");\nconst HtmlWebpackPluginConfig = new HtmlWebpackPlugin({\n  template: \"./src/client/index.html\",\n  filename: \"./index.html\",\n  inject: \"body\"\n});\nmodule.exports = {\n  cache: true,\n  devtool: \"sourcemap\",\n  entry: \"./src/client/app.jsx\",\n  output: {\n    path: `" + __dirname + "/build`,\n    filename: \"bundle.js\"\n  },\n  resolve: {\n    extensions: [\".js\", \".jsx\"]\n  },\n  module: {\n    loaders: [\n      {\n        test: /.js$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.jsx$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.css$/,\n        loader: \"style-loader!css-loader\"\n      }\n    ]\n  },\n  devServer: {\n    historyApiFallback: true\n  },\n  plugins: [HtmlWebpackPluginConfig]\n\n};";
-program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(function () {
+program.arguments("<folder>").option("-y, --yarn", "Add yarn").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(folder) {
     var pkg, spinner, dependencies, devDependencies, enterFolder, install;
     return _regenerator2.default.wrap(function _callee$(_context) {
@@ -137,7 +143,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
 
           case 15:
             _context.next = 17;
-            return executeCommand(enterFolder("cat " + webpackConfig + " > webpack.config.js"), "Webpack configured");
+            return executeCommand(enterFolder("echo '" + webpackConfig + "' > webpack.config.js"), "Webpack configured");
 
           case 17:
             _context.next = 22;
@@ -147,7 +153,9 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
             _context.prev = 19;
             _context.t0 = _context["catch"](2);
 
-            console.error("Something went wrong, sorry");
+            if (!_context.t0.message.indexOf("File exists")) {
+              console.error("Something went wrong, sorry");
+            }
 
           case 22:
           case "end":

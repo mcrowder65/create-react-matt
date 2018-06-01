@@ -46,7 +46,13 @@ const executeCommand = (command, loadingText) => {
       }
       exec(command, (error, stdout) => {
         if (error) {
-          reject(error);
+          if (error.message.indexOf("File exists") !== -1) {
+            spinner.fail(error.message);
+            reject(error);
+          } else {
+
+            reject(error);
+          }
         } else {
           if (loadingText) {
             spinner.succeed();
@@ -105,7 +111,7 @@ module.exports = {
 };`;
 program
   .arguments("<folder>")
-  .option("-y, --yarn", "Add peppers")
+  .option("-y, --yarn", "Add yarn")
   .action(async folder => {
     try {
       const pkg = program.yarn ? "yarn" : "npm";
@@ -119,9 +125,12 @@ program
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
-      await executeCommand(enterFolder(`cat ${webpackConfig} > webpack.config.js`), "Webpack configured");
+      await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
     } catch (error) {
-      console.error("Something went wrong, sorry");
+      if (!error.message.indexOf("File exists")) {
+        console.error("Something went wrong, sorry");
+      }
+
 
     }
 
