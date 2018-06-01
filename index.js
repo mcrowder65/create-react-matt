@@ -38,6 +38,10 @@ const deps = {
   }};
 
 const executeCommand = (command, loadingText) => {
+  if (!loadingText) {
+    // eslint-disable-next-line no-param-reassign
+    loadingText = command;
+  }
   let spinner;
   return new Promise((resolve, reject) => {
     try {
@@ -109,11 +113,16 @@ module.exports = {
   plugins: [HtmlWebpackPluginConfig]
 
 };`;
+
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Add yarn")
+  .option("-f, --force", "rm -rf's your folder for good measure")
   .action(async folder => {
     try {
+      if (program.force) {
+        await executeCommand(`rm -rf ${folder}`);
+      }
       const pkg = program.yarn ? "yarn" : "npm";
       if (program.yarn) {
         const spinner = ora("Using yarn to install").start();
@@ -126,14 +135,19 @@ program
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
+      await createFolderStructure();
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
         console.error("Something went wrong, sorry");
+      } else if (error.message.indexOf("File exists") !== -1) {
+        console.error(`You need to delete ${folder}, or run again with -f`);
       }
-
-
     }
 
+    async function createFolderStructure() {
+      await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
+      await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
+    }
     function enterFolder(str) {
       return `cd ${folder} && ${str}`;
     }
