@@ -9,18 +9,18 @@ import Home from "../../../src/client/components/home";
 
 const generateEvent = value => ({target: {value}});
 describe("test/client/components/home.spec.jsx", () => {
-    let home;
-    let store;
-    beforeAll(() => {
-        store = createStore(rootReducer, initialState);
-        home = mount(
-            <Provider store={store}>
-                <Home/>
-            </Provider>
-        );
-    });
-    test("input", () => {
-        home.find("#input").props().onChange(generateEvent("hello"));
-        expect(store.getState().input).toEqual("hello");
-    });
+  let home;
+  let store;
+  beforeAll(() => {
+    store = createStore(rootReducer, initialState);
+    home = mount(
+      <Provider store={store}>
+        <Home/>
+      </Provider>
+    );
+  });
+  test("input", () => {
+    home.find("#input").props().onChange(generateEvent("hello"));
+    expect(store.getState().input).toEqual("hello");
+  });
 });

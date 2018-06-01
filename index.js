@@ -109,7 +109,7 @@ module.exports = {
   plugins: [HtmlWebpackPluginConfig]
 
 };`;
-
+const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Add yarn")
@@ -132,11 +132,7 @@ program
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
-      await createFolderStructure();
-      await createSagas();
-      // TODO get the other files
-
-      displaySuccessMessage("Files scaffolded and placed");
+      await scaffold();
 
 
     } catch (error) {
@@ -146,22 +142,30 @@ program
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
     }
+    async function scaffold() {
+      await createFolderStructure();
+      await createSagas();
+      // TODO get the other files
 
+      displaySuccessMessage("Files scaffolded and placed");
+      async function createSagas() {
+        const sagaFetcher = fileGetter(`src/client/actions/sagas/`);
+        await sagaFetcher(`config.jsx`);
+        await sagaFetcher(`index.jsx`);
+        await sagaFetcher(`ping-server.jsx`);
+        await sagaFetcher(`types.jsx`);
+      }
+    }
+    function fileGetter(prepend) {
+      return function(filename) {
+        executeCommand(enterFolder(`${curlCmd}${prepend}${filename}`, `/${prepend}`));
+      };
+    }
     function displaySuccessMessage(message) {
       const spinner = ora(message).start();
       spinner.succeed();
     }
-    async function createSagas() {
-      await wrapper(`config.jsx`);
-      await wrapper(`index.jsx`);
-      await wrapper(`ping-server.jsx`);
-      await wrapper(`types.jsx`);
-      function wrapper(filename) {
-        const filepath = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
-        const prepend = `src/client/actions/sagas/`;
-        return executeCommand(enterFolder(`${filepath}${prepend}${filename}`, `/${prepend}`));
-      }
-    }
+
     async function createFolderStructure() {
       await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
       await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
@@ -169,7 +173,6 @@ program
     function enterFolder(str, post) {
       return `cd ${folder}${post ? post : ""} && ${str}`;
     }
-
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
