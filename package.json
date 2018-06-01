@@ -1,8 +1,8 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
-  "main": "lib/index.js",
+  "main": "build-index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mcrowder65/create-react-matt"
@@ -11,12 +11,12 @@
     "build"
   ],
   "bin": {
-    "create-react-matt": "./bin/src/index.js"
+    "create-react-matt": "./build-index.js"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
-    "build": "rm -rf bin && babel src/index.js -d bin",
+    "build": "babel index.js --out-file build-index.js",
     "test": "npm run linter && jest --coverage",
     "prepublishOnly": "npm run build"
   },
