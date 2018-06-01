@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -47,7 +47,8 @@
       "mcrowder65"
     ],
     "rules": {
-      "quote-props": "off"
+      "quote-props": "off",
+      "max-statements":"off"
     }
   },
   "author": "",

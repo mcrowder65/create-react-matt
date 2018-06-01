@@ -74,7 +74,9 @@ program
         const spinner = ora("Using yarn to install").start();
         spinner.succeed();
       }
+      console.log(await executeCommand("pwd"));
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
+      console.log(await executeCommand("pwd"));
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
