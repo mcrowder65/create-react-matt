@@ -64,6 +64,45 @@ const executeCommand = (command, loadingText) => {
 
 };
 
+const webpackConfig = `const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: "./src/client/index.html",
+  filename: "./index.html",
+  inject: "body"
+});
+module.exports = {
+  cache: true,
+  devtool: "sourcemap",
+  entry: "./src/client/app.jsx",
+  output: {
+    path: \`${__dirname}/build\`,
+    filename: "bundle.js"
+  },
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: "babel-loader",
+        exclude: /node_modules/
+      }, {
+        test: /\.jsx$/,
+        loader: "babel-loader",
+        exclude: /node_modules/
+      }, {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      }
+    ]
+  },
+  devServer: {
+    historyApiFallback: true
+  },
+  plugins: [HtmlWebpackPluginConfig]
+
+};`;
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Add peppers")
@@ -82,7 +121,7 @@ program
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
-      await executeCommand(enterFolder(`cp ../webpack.config.js .`), "Webpack configured");
+      await executeCommand(enterFolder(`cat ${webpackConfig} > webpack.config.js .`), "Webpack configured");
     } catch (error) {
       console.error("Something went wrong, sorry");
 

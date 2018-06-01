@@ -82,6 +82,7 @@ var executeCommand = function executeCommand(command, loadingText) {
   });
 };
 
+var webpackConfig = "const HtmlWebpackPlugin = require(\"html-webpack-plugin\");\nconst HtmlWebpackPluginConfig = new HtmlWebpackPlugin({\n  template: \"./src/client/index.html\",\n  filename: \"./index.html\",\n  inject: \"body\"\n});\nmodule.exports = {\n  cache: true,\n  devtool: \"sourcemap\",\n  entry: \"./src/client/app.jsx\",\n  output: {\n    path: `" + __dirname + "/build`,\n    filename: \"bundle.js\"\n  },\n  resolve: {\n    extensions: [\".js\", \".jsx\"]\n  },\n  module: {\n    loaders: [\n      {\n        test: /.js$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.jsx$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.css$/,\n        loader: \"style-loader!css-loader\"\n      }\n    ]\n  },\n  devServer: {\n    historyApiFallback: true\n  },\n  plugins: [HtmlWebpackPluginConfig]\n\n};";
 program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(folder) {
     var pkg, spinner, dependencies, devDependencies, enterFolder, install;
@@ -154,7 +155,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
 
           case 25:
             _context.next = 27;
-            return executeCommand(enterFolder("cp ../webpack.config.js ."), "Webpack configured");
+            return executeCommand(enterFolder("cat " + webpackConfig + " > webpack.config.js ."), "Webpack configured");
 
           case 27:
             _context.next = 32;
