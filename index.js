@@ -131,11 +131,12 @@ program
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
+      // await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
+      // await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
       await createFolderStructure();
+      await createSagas();
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
         console.error("Something went wrong, sorry");
@@ -143,13 +144,23 @@ program
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
     }
-
+    async function createSagas() {
+      await wrapper(`config.jsx`);
+      await wrapper(`index.jsx`);
+      await wrapper(`ping-server.jsx`);
+      await wrapper(`types.jsx`);
+      function wrapper(filename) {
+        const filepath = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
+        const prepend = `src/client/actions/sagas/`;
+        return executeCommand(enterFolder(`${filepath}${prepend}${filename}`, `/${prepend}`));
+      }
+    }
     async function createFolderStructure() {
       await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
       await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
     }
-    function enterFolder(str) {
-      return `cd ${folder} && ${str}`;
+    function enterFolder(str, post) {
+      return `cd ${folder}${post ? post : ""} && ${str}`;
     }
 
     function install() {
