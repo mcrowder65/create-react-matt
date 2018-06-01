@@ -3,3 +3,5 @@ test
 .gitignore
 .travis.yml
 README.md
+src
+.babelrc
