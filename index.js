@@ -113,15 +113,13 @@ program
         const spinner = ora("Using yarn to install").start();
         spinner.succeed();
       }
-      console.log(await executeCommand("pwd"));
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
-      console.log(await executeCommand("pwd"));
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
-      await executeCommand(enterFolder(`cat ${webpackConfig} > webpack.config.js .`), "Webpack configured");
+      await executeCommand(enterFolder(`cat ${webpackConfig} > webpack.config.js`), "Webpack configured");
     } catch (error) {
       console.error("Something went wrong, sorry");
 

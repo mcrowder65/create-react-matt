@@ -106,32 +106,14 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
 
               spinner.succeed();
             }
-            _context.t0 = console;
-            _context.next = 8;
-            return executeCommand("pwd");
-
-          case 8:
-            _context.t1 = _context.sent;
-
-            _context.t0.log.call(_context.t0, _context.t1);
-
-            _context.next = 12;
+            _context.next = 7;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 12:
-            _context.t2 = console;
-            _context.next = 15;
-            return executeCommand("pwd");
-
-          case 15:
-            _context.t3 = _context.sent;
-
-            _context.t2.log.call(_context.t2, _context.t3);
-
-            _context.next = 19;
+          case 7:
+            _context.next = 9;
             return executeCommand(enterFolder(pkg + " init " + folder + " -y"), pkg + " init " + folder + " -y");
 
-          case 19:
+          case 9:
             dependencies = Object.entries(deps.dependencies).map(function (_ref2) {
               var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
                   dep = _ref3[0],
@@ -139,10 +121,10 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 22;
+            _context.next = 12;
             return executeCommand(enterFolder(install() + " " + dependencies), "Installing dependencies");
 
-          case 22:
+          case 12:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -150,29 +132,29 @@ program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(functio
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 25;
+            _context.next = 15;
             return executeCommand(enterFolder(install() + " -D " + devDependencies), "Installing devDependencies");
 
-          case 25:
-            _context.next = 27;
-            return executeCommand(enterFolder("cat " + webpackConfig + " > webpack.config.js ."), "Webpack configured");
+          case 15:
+            _context.next = 17;
+            return executeCommand(enterFolder("cat " + webpackConfig + " > webpack.config.js"), "Webpack configured");
 
-          case 27:
-            _context.next = 32;
+          case 17:
+            _context.next = 22;
             break;
 
-          case 29:
-            _context.prev = 29;
-            _context.t4 = _context["catch"](2);
+          case 19:
+            _context.prev = 19;
+            _context.t0 = _context["catch"](2);
 
             console.error("Something went wrong, sorry");
 
-          case 32:
+          case 22:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[2, 29]]);
+    }, _callee, undefined, [[2, 19]]);
   }));
 
   return function (_x) {
