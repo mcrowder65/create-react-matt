@@ -37,7 +37,7 @@ const deps = {
     "style-loader": "^0.18.2"
   }};
 
-const executeCommand = (command, output, loadingText) => {
+const executeCommand = (command, loadingText) => {
   let spinner;
   return new Promise((resolve, reject) => {
     try {
@@ -48,9 +48,6 @@ const executeCommand = (command, output, loadingText) => {
         if (error) {
           reject(error);
         } else {
-          if (output) {
-            console.log(output);
-          }
           if (loadingText) {
             spinner.succeed();
           }
@@ -58,6 +55,9 @@ const executeCommand = (command, output, loadingText) => {
         }
       });
     } catch (error) {
+      if (loadingText) {
+        spinner.fail();
+      }
       reject(error);
     }
   });
@@ -69,18 +69,29 @@ program
   .option("-y, --yarn", "Add peppers")
   .action(async folder => {
     try {
+      const pkg = program.yarn ? "yarn" : "npm";
+      if (program.yarn) {
+        const spinner = ora("Using yarn to install").start();
+        spinner.succeed();
+      }
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
-      await executeCommand(enterFolder(`npm init ${folder} -y`), `npm init done`);
+      await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`npm install --save ${dependencies}`), "Installing dependencies");
+      await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`npm install --save-dev ${devDependencies}`), "devDependencies installed");
+      await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
+      await executeCommand(enterFolder(`cp ../webpack.config.js .`), "Webpack configured");
     } catch (error) {
       console.error("Something went wrong, sorry");
+
     }
 
     function enterFolder(str) {
       return `cd ${folder} && ${str}`;
+    }
+
+    function install() {
+      return program.yarn ? "yarn add" : "npm install";
     }
   })
   .parse(process.argv);
