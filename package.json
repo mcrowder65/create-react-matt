@@ -11,12 +11,12 @@
     "build"
   ],
   "bin": {
-    "create-react-matt": "./lib/src/index.js"
+    "create-react-matt": "./bin/src/index.js"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "linter": "eslint src && eslint test",
-    "build": "rm -rf lib && babel src/index.js -d lib",
+    "build": "rm -rf bin && babel src/index.js -d bin",
     "test": "npm run linter && jest --coverage",
     "prepublishOnly": "npm run build"
   },
