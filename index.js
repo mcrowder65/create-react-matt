@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const program = require("commander");
 const { exec } = require("child_process");
+const ora = require("ora");
 
 const deps = {
   "dependencies": {
@@ -35,15 +36,23 @@ const deps = {
     "react-test-renderer": "^16.1.1",
     "style-loader": "^0.18.2"
   }};
-const executeCommand = (command, output) => {
+
+const executeCommand = (command, output, loadingText) => {
+  let spinner;
   return new Promise((resolve, reject) => {
     try {
+      if (loadingText) {
+        spinner = ora(loadingText).start();
+      }
       exec(command, (error, stdout) => {
         if (error) {
           reject(error);
         } else {
           if (output) {
             console.log(output);
+          }
+          if (loadingText) {
+            spinner.succeed();
           }
           resolve(stdout);
         }
@@ -52,21 +61,26 @@ const executeCommand = (command, output) => {
       reject(error);
     }
   });
+
 };
 
 program
   .arguments("<folder>")
+  .option("-y, --yarn", "Add peppers")
   .action(async folder => {
     try {
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
-      await executeCommand(`cd ${folder}`, `cd'd into ${folder}`);
-      await executeCommand(`npm init ${folder} -y`, `npm init done`);
+      await executeCommand(enterFolder(`npm init ${folder} -y`), `npm init done`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(`npm install --save ${dependencies}`, "dependencies installed");
+      await executeCommand(enterFolder(`npm install --save ${dependencies}`), "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(`npm install --save-dev ${devDependencies}`, "devDependencies installed");
+      await executeCommand(enterFolder(`npm install --save-dev ${devDependencies}`), "devDependencies installed");
     } catch (error) {
-      console.log("Something went wrong, sorry");
+      console.error("Something went wrong, sorry");
+    }
+
+    function enterFolder(str) {
+      return `cd ${folder} && ${str}`;
     }
   })
   .parse(process.argv);

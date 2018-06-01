@@ -74,24 +74,24 @@ var executeCommand = function executeCommand(command, output) {
 
 program.arguments("<folder>").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(folder) {
-    var dependencies, devDependencies;
+    var dependencies, devDependencies, enterFolder;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            enterFolder = function enterFolder(str) {
+              return "cd " + folder + " && " + str;
+            };
+
+            _context.prev = 1;
+            _context.next = 4;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 3:
-            _context.next = 5;
-            return executeCommand("cd " + folder, "cd'd into " + folder);
+          case 4:
+            _context.next = 6;
+            return executeCommand(enterFolder("npm init " + folder + " -y"), "npm init done");
 
-          case 5:
-            _context.next = 7;
-            return executeCommand("npm init " + folder + " -y", "npm init done");
-
-          case 7:
+          case 6:
             dependencies = Object.entries(deps.dependencies).map(function (_ref2) {
               var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
                   dep = _ref3[0],
@@ -99,10 +99,10 @@ program.arguments("<folder>").action(function () {
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 10;
-            return executeCommand("npm install --save " + dependencies, "dependencies installed");
+            _context.next = 9;
+            return executeCommand(enterFolder("npm install --save " + dependencies), "dependencies installed");
 
-          case 10:
+          case 9:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -110,25 +110,25 @@ program.arguments("<folder>").action(function () {
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 13;
-            return executeCommand("npm install --save-dev " + devDependencies, "devDependencies installed");
+            _context.next = 12;
+            return executeCommand(enterFolder("npm install --save-dev " + devDependencies), "devDependencies installed");
 
-          case 13:
-            _context.next = 18;
+          case 12:
+            _context.next = 17;
             break;
 
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context["catch"](0);
+          case 14:
+            _context.prev = 14;
+            _context.t0 = _context["catch"](1);
 
             console.log("Something went wrong, sorry");
 
-          case 18:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[0, 15]]);
+    }, _callee, undefined, [[1, 14]]);
   }));
 
   return function (_x) {

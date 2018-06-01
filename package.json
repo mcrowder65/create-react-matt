@@ -7,9 +7,6 @@
     "type": "git",
     "url": "git+https://github.com/mcrowder65/create-react-matt.git"
   },
-  "pre-commit": [
-    "build"
-  ],
   "bin": {
     "create-react-matt": "./build-index.js"
   },
@@ -56,12 +53,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^2.15.1"
+    "commander": "^2.15.1",
+    "ora": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
