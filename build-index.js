@@ -57,10 +57,6 @@ var deps = {
   } };
 
 var executeCommand = function executeCommand(command, loadingText) {
-  if (!loadingText) {
-    // eslint-disable-next-line no-param-reassign
-    loadingText = command;
-  }
   var spinner = void 0;
   return new Promise(function (resolve, reject) {
     try {
@@ -92,81 +88,301 @@ var executeCommand = function executeCommand(command, loadingText) {
   });
 };
 
-var webpackConfig = "const HtmlWebpackPlugin = require(\"html-webpack-plugin\");\nconst HtmlWebpackPluginConfig = new HtmlWebpackPlugin({\n  template: \"./src/client/index.html\",\n  filename: \"./index.html\",\n  inject: \"body\"\n});\nmodule.exports = {\n  cache: true,\n  devtool: \"sourcemap\",\n  entry: \"./src/client/app.jsx\",\n  output: {\n    path: `" + __dirname + "/build`,\n    filename: \"bundle.js\"\n  },\n  resolve: {\n    extensions: [\".js\", \".jsx\"]\n  },\n  module: {\n    loaders: [\n      {\n        test: /.js$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.jsx$/,\n        loader: \"babel-loader\",\n        exclude: /node_modules/\n      }, {\n        test: /.css$/,\n        loader: \"style-loader!css-loader\"\n      }\n    ]\n  },\n  devServer: {\n    historyApiFallback: true\n  },\n  plugins: [HtmlWebpackPluginConfig]\n\n};";
-
+var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/";
 program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --force", "rm -rf's your folder for good measure").action(function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(folder) {
-    var createSagas = function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var wrapper;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(folder) {
+    var scaffold = function () {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
+        var createConfigs = function () {
+          var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+            var configFetcher;
+            return _regenerator2.default.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    configFetcher = fileGetter("");
+                    _context.next = 3;
+                    return configFetcher(".babelrc");
+
+                  case 3:
+                    _context.next = 5;
+                    return configFetcher("webpack.config.js");
+
+                  case 5:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee, this);
+          }));
+
+          return function createConfigs() {
+            return _ref7.apply(this, arguments);
+          };
+        }();
+
+        var createSagas = function () {
+          var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+            var sagaFetcher;
+            return _regenerator2.default.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    sagaFetcher = fileGetter("src/client/actions/sagas");
+                    _context2.next = 3;
+                    return sagaFetcher("config.jsx");
+
+                  case 3:
+                    _context2.next = 5;
+                    return sagaFetcher("index.jsx");
+
+                  case 5:
+                    _context2.next = 7;
+                    return sagaFetcher("ping-server.jsx");
+
+                  case 7:
+                    _context2.next = 9;
+                    return sagaFetcher("types.jsx");
+
+                  case 9:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2, this);
+          }));
+
+          return function createSagas() {
+            return _ref8.apply(this, arguments);
+          };
+        }();
+
+        var createActions = function () {
+          var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+            var actionFetcher;
+            return _regenerator2.default.wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    actionFetcher = fileGetter("src/client/actions");
+                    _context3.next = 3;
+                    return actionFetcher("index.jsx");
+
+                  case 3:
+                    _context3.next = 5;
+                    return actionFetcher("types.jsx");
+
+                  case 5:
+                  case "end":
+                    return _context3.stop();
+                }
+              }
+            }, _callee3, this);
+          }));
+
+          return function createActions() {
+            return _ref9.apply(this, arguments);
+          };
+        }();
+
+        var createComponents = function () {
+          var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+            var componentFetcher;
+            return _regenerator2.default.wrap(function _callee4$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    componentFetcher = fileGetter("src/client/components");
+                    _context4.next = 3;
+                    return componentFetcher("home.jsx");
+
+                  case 3:
+                  case "end":
+                    return _context4.stop();
+                }
+              }
+            }, _callee4, this);
+          }));
+
+          return function createComponents() {
+            return _ref10.apply(this, arguments);
+          };
+        }();
+
+        var createReducers = function () {
+          var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+            var reducerFetcher;
+            return _regenerator2.default.wrap(function _callee5$(_context5) {
+              while (1) {
+                switch (_context5.prev = _context5.next) {
+                  case 0:
+                    reducerFetcher = fileGetter("src/client/reducers");
+                    _context5.next = 3;
+                    return reducerFetcher("index.jsx");
+
+                  case 3:
+                    _context5.next = 5;
+                    return reducerFetcher("initial-state.jsx");
+
+                  case 5:
+                  case "end":
+                    return _context5.stop();
+                }
+              }
+            }, _callee5, this);
+          }));
+
+          return function createReducers() {
+            return _ref11.apply(this, arguments);
+          };
+        }();
+
+        var createStyles = function () {
+          var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
+            var stylesFetcher;
+            return _regenerator2.default.wrap(function _callee6$(_context6) {
+              while (1) {
+                switch (_context6.prev = _context6.next) {
+                  case 0:
+                    stylesFetcher = fileGetter("src/client/styles");
+                    _context6.next = 3;
+                    return stylesFetcher("base.css");
+
+                  case 3:
+                  case "end":
+                    return _context6.stop();
+                }
+              }
+            }, _callee6, this);
+          }));
+
+          return function createStyles() {
+            return _ref12.apply(this, arguments);
+          };
+        }();
+
+        var createClientFiles = function () {
+          var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+            var clientFileFetcher;
+            return _regenerator2.default.wrap(function _callee7$(_context7) {
+              while (1) {
+                switch (_context7.prev = _context7.next) {
+                  case 0:
+                    clientFileFetcher = fileGetter("src/client");
+                    _context7.next = 3;
+                    return clientFileFetcher("app.jsx");
+
+                  case 3:
+                    _context7.next = 5;
+                    return clientFileFetcher("index.html");
+
+                  case 5:
+                    _context7.next = 7;
+                    return clientFileFetcher("router.jsx");
+
+                  case 7:
+                  case "end":
+                    return _context7.stop();
+                }
+              }
+            }, _callee7, this);
+          }));
+
+          return function createClientFiles() {
+            return _ref13.apply(this, arguments);
+          };
+        }();
+
+        var createFolderStructure = function () {
+          var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
+            return _regenerator2.default.wrap(function _callee8$(_context8) {
+              while (1) {
+                switch (_context8.prev = _context8.next) {
+                  case 0:
+                    _context8.next = 2;
+                    return executeCommand(enterFolder("mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles"));
+
+                  case 2:
+                    _context8.next = 4;
+                    return executeCommand(enterFolder("mkdir -p test/client/actions/sagas && mkdir -p test/client/components"));
+
+                  case 4:
+                  case "end":
+                    return _context8.stop();
+                }
+              }
+            }, _callee8, this);
+          }));
+
+          return function createFolderStructure() {
+            return _ref14.apply(this, arguments);
+          };
+        }();
+
+        var fileGetter;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                wrapper = function wrapper(filename) {
-                  var filepath = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/";
-                  var prepend = "src/client/actions/sagas/";
-                  return executeCommand(enterFolder("" + filepath + prepend + filename, "/" + prepend));
+                fileGetter = function fileGetter(filepath) {
+                  return function (filename) {
+                    executeCommand(enterFolder("" + curlCmd + filepath + "/" + filename, "/" + filepath));
+                  };
                 };
 
-                _context.next = 3;
-                return wrapper("config.jsx");
+                _context9.next = 3;
+                return createFolderStructure();
 
               case 3:
-                _context.next = 5;
-                return wrapper("index.jsx");
+                _context9.next = 5;
+                return createConfigs();
 
               case 5:
-                _context.next = 7;
-                return wrapper("ping-server.jsx");
+                _context9.next = 7;
+                return createSagas();
 
               case 7:
-                _context.next = 9;
-                return wrapper("types.jsx");
+                _context9.next = 9;
+                return createActions();
 
               case 9:
+                _context9.next = 11;
+                return createComponents();
+
+              case 11:
+                _context9.next = 13;
+                return createReducers();
+
+              case 13:
+                _context9.next = 15;
+                return createStyles();
+
+              case 15:
+                _context9.next = 17;
+                return createClientFiles();
+
+              case 17:
+                // TODO get the other files
+
+                displaySuccessMessage("Files scaffolded and placed");
+
+              case 18:
               case "end":
-                return _context.stop();
+                return _context9.stop();
             }
           }
-        }, _callee, this);
+        }, _callee9, this);
       }));
 
-      return function createSagas() {
+      return function scaffold() {
         return _ref6.apply(this, arguments);
       };
     }();
 
-    var createFolderStructure = function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return executeCommand(enterFolder("mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles"));
-
-              case 2:
-                _context2.next = 4;
-                return executeCommand(enterFolder("mkdir -p test/client/actions/sagas && mkdir -p test/client/components"));
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      return function createFolderStructure() {
-        return _ref7.apply(this, arguments);
-      };
-    }();
-
-    var pkg, spinner, dependencies, devDependencies, enterFolder, install;
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
+    var pkg, dependencies, devDependencies, displaySuccessMessage, enterFolder, install;
+    return _regenerator2.default.wrap(function _callee10$(_context10) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context10.prev = _context10.next) {
           case 0:
             install = function install() {
               return program.yarn ? "yarn add" : "npm install";
@@ -176,32 +392,35 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               return "cd " + folder + (post ? post : "") + " && " + str;
             };
 
-            _context3.prev = 2;
+            displaySuccessMessage = function displaySuccessMessage(message) {
+              var spinner = ora(message).start();
+              spinner.succeed();
+            };
+
+            _context10.prev = 3;
 
             if (!program.force) {
-              _context3.next = 6;
+              _context10.next = 7;
               break;
             }
 
-            _context3.next = 6;
-            return executeCommand("rm -rf " + folder);
+            _context10.next = 7;
+            return executeCommand("rm -rf " + folder, "Removing " + folder);
 
-          case 6:
+          case 7:
             pkg = program.yarn ? "yarn" : "npm";
 
             if (program.yarn) {
-              spinner = ora("Using yarn to install").start();
-
-              spinner.succeed();
+              displaySuccessMessage("Using yarn to install");
             }
-            _context3.next = 10;
+            _context10.next = 11;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 10:
-            _context3.next = 12;
+          case 11:
+            _context10.next = 13;
             return executeCommand(enterFolder(pkg + " init " + folder + " -y"), pkg + " init " + folder + " -y");
 
-          case 12:
+          case 13:
             dependencies = Object.entries(deps.dependencies).map(function (_ref2) {
               var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
                   dep = _ref3[0],
@@ -209,10 +428,10 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            _context3.next = 15;
+            _context10.next = 16;
             return executeCommand(enterFolder(install() + " " + dependencies), "Installing dependencies");
 
-          case 15:
+          case 16:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -220,41 +439,33 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            _context3.next = 18;
+            _context10.next = 19;
             return executeCommand(enterFolder(install() + " -D " + devDependencies), "Installing devDependencies");
 
-          case 18:
-            _context3.next = 20;
-            return executeCommand(enterFolder("echo '" + webpackConfig + "' > webpack.config.js"), "Webpack configured");
+          case 19:
+            _context10.next = 21;
+            return scaffold();
 
-          case 20:
-            _context3.next = 22;
-            return createFolderStructure();
-
-          case 22:
-            _context3.next = 24;
-            return createSagas();
-
-          case 24:
-            _context3.next = 29;
+          case 21:
+            _context10.next = 26;
             break;
 
-          case 26:
-            _context3.prev = 26;
-            _context3.t0 = _context3["catch"](2);
+          case 23:
+            _context10.prev = 23;
+            _context10.t0 = _context10["catch"](3);
 
-            if (!_context3.t0.message.indexOf("File exists")) {
+            if (!_context10.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
-            } else if (_context3.t0.message.indexOf("File exists") !== -1) {
+            } else if (_context10.t0.message.indexOf("File exists") !== -1) {
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 29:
+          case 26:
           case "end":
-            return _context3.stop();
+            return _context10.stop();
         }
       }
-    }, _callee3, undefined, [[2, 26]]);
+    }, _callee10, undefined, [[3, 23]]);
   }));
 
   return function (_x) {

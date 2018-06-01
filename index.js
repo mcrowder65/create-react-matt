@@ -70,45 +70,6 @@ const executeCommand = (command, loadingText) => {
 
 };
 
-const webpackConfig = `const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: "./src/client/index.html",
-  filename: "./index.html",
-  inject: "body"
-});
-module.exports = {
-  cache: true,
-  devtool: "sourcemap",
-  entry: "./src/client/app.jsx",
-  output: {
-    path: \`${__dirname}/build\`,
-    filename: "bundle.js"
-  },
-  resolve: {
-    extensions: [".js", ".jsx"]
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      }, {
-        test: /\.jsx$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      }, {
-        test: /\.css$/,
-        loader: "style-loader!css-loader"
-      }
-    ]
-  },
-  devServer: {
-    historyApiFallback: true
-  },
-  plugins: [HtmlWebpackPluginConfig]
-
-};`;
 const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
 program
   .arguments("<folder>")
@@ -125,15 +86,11 @@ program
       }
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
-      // TODO add timer to dependencies
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
-      // TODO add timer to devDependencies
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
-      await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
       await scaffold();
-
 
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
@@ -144,32 +101,69 @@ program
     }
     async function scaffold() {
       await createFolderStructure();
+      await createConfigs();
       await createSagas();
+      await createActions();
+      await createComponents();
+      await createReducers();
+      await createStyles();
+      await createClientFiles();
       // TODO get the other files
 
       displaySuccessMessage("Files scaffolded and placed");
+      async function createConfigs() {
+        const configFetcher = fileGetter("");
+        await configFetcher(".babelrc");
+        await configFetcher("webpack.config.js");
+      }
       async function createSagas() {
-        const sagaFetcher = fileGetter(`src/client/actions/sagas/`);
+        const sagaFetcher = fileGetter(`src/client/actions/sagas`);
         await sagaFetcher(`config.jsx`);
         await sagaFetcher(`index.jsx`);
         await sagaFetcher(`ping-server.jsx`);
         await sagaFetcher(`types.jsx`);
       }
+      async function createActions() {
+        const actionFetcher = fileGetter(`src/client/actions`);
+        await actionFetcher("index.jsx");
+        await actionFetcher("types.jsx");
+      }
+      async function createComponents() {
+        const componentFetcher = fileGetter("src/client/components");
+        await componentFetcher("home.jsx");
+      }
+      async function createReducers() {
+        const reducerFetcher = fileGetter("src/client/reducers");
+        await reducerFetcher("index.jsx");
+        await reducerFetcher("initial-state.jsx");
+      }
+      async function createStyles() {
+        const stylesFetcher = fileGetter("src/client/styles");
+        await stylesFetcher("base.css");
+      }
+      async function createClientFiles() {
+        const clientFileFetcher = fileGetter("src/client");
+        await clientFileFetcher("app.jsx");
+        await clientFileFetcher("index.html");
+        await clientFileFetcher("router.jsx");
+      }
+      function fileGetter(filepath) {
+        return function(filename) {
+          executeCommand(enterFolder(`${curlCmd}${filepath}/${filename}`, `/${filepath}`));
+        };
+      }
+      async function createFolderStructure() {
+        await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
+        await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
+      }
     }
-    function fileGetter(prepend) {
-      return function(filename) {
-        executeCommand(enterFolder(`${curlCmd}${prepend}${filename}`, `/${prepend}`));
-      };
-    }
+
     function displaySuccessMessage(message) {
       const spinner = ora(message).start();
       spinner.succeed();
     }
 
-    async function createFolderStructure() {
-      await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
-      await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
-    }
+
     function enterFolder(str, post) {
       return `cd ${folder}${post ? post : ""} && ${str}`;
     }
