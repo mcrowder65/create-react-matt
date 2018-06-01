@@ -38,10 +38,6 @@ const deps = {
   }};
 
 const executeCommand = (command, loadingText) => {
-  if (!loadingText) {
-    // eslint-disable-next-line no-param-reassign
-    loadingText = command;
-  }
   let spinner;
   return new Promise((resolve, reject) => {
     try {
@@ -121,28 +117,39 @@ program
   .action(async folder => {
     try {
       if (program.force) {
-        await executeCommand(`rm -rf ${folder}`);
+        await executeCommand(`rm -rf ${folder}`, `Removing ${folder}`);
       }
       const pkg = program.yarn ? "yarn" : "npm";
       if (program.yarn) {
-        const spinner = ora("Using yarn to install").start();
-        spinner.succeed();
+        displaySuccessMessage("Using yarn to install");
       }
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
+      // TODO add timer to dependencies
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
+      // TODO add timer to devDependencies
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await executeCommand(enterFolder(`echo '${webpackConfig}' > webpack.config.js`), "Webpack configured");
       await createFolderStructure();
       await createSagas();
+      // TODO get the other files
+
+      displaySuccessMessage("Files scaffolded and placed");
+
+
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
         console.error("Something went wrong, sorry");
       } else if (error.message.indexOf("File exists") !== -1) {
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
+    }
+
+    function displaySuccessMessage(message) {
+      const spinner = ora(message).start();
+      spinner.succeed();
     }
     async function createSagas() {
       await wrapper(`config.jsx`);
