@@ -110,6 +110,7 @@ program
       await createClientFiles();
 
       displaySuccessMessage("Files scaffolded and placed");
+
       async function createConfigs() {
         const configFetcher = fileGetter("");
         await configFetcher(".babelrc");
