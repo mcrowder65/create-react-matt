@@ -20,6 +20,8 @@ var program = require("commander");
 var _require = require("child_process"),
     exec = _require.exec;
 
+var ora = require("ora");
+
 var deps = {
   "dependencies": {
     "html-webpack-plugin": "^2.30.1",
@@ -53,45 +55,82 @@ var deps = {
     "react-test-renderer": "^16.1.1",
     "style-loader": "^0.18.2"
   } };
-var executeCommand = function executeCommand(command, output) {
+
+var executeCommand = function executeCommand(command, loadingText) {
+  var spinner = void 0;
   return new Promise(function (resolve, reject) {
     try {
+      if (loadingText) {
+        spinner = ora(loadingText).start();
+      }
       exec(command, function (error, stdout) {
         if (error) {
           reject(error);
         } else {
-          if (output) {
-            console.log(output);
+          if (loadingText) {
+            spinner.succeed();
           }
           resolve(stdout);
         }
       });
     } catch (error) {
+      if (loadingText) {
+        spinner.fail();
+      }
       reject(error);
     }
   });
 };
 
-program.arguments("<folder>").action(function () {
+program.arguments("<folder>").option("-y, --yarn", "Add peppers").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(folder) {
-    var dependencies, devDependencies, enterFolder;
+    var pkg, spinner, dependencies, devDependencies, enterFolder, install;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            install = function install() {
+              return program.yarn ? "yarn add" : "npm install";
+            };
+
             enterFolder = function enterFolder(str) {
               return "cd " + folder + " && " + str;
             };
 
-            _context.prev = 1;
-            _context.next = 4;
+            _context.prev = 2;
+            pkg = program.yarn ? "yarn" : "npm";
+
+            if (program.yarn) {
+              spinner = ora("Using yarn to install").start();
+
+              spinner.succeed();
+            }
+            _context.t0 = console;
+            _context.next = 8;
+            return executeCommand("pwd");
+
+          case 8:
+            _context.t1 = _context.sent;
+
+            _context.t0.log.call(_context.t0, _context.t1);
+
+            _context.next = 12;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 4:
-            _context.next = 6;
-            return executeCommand(enterFolder("npm init " + folder + " -y"), "npm init done");
+          case 12:
+            _context.t2 = console;
+            _context.next = 15;
+            return executeCommand("pwd");
 
-          case 6:
+          case 15:
+            _context.t3 = _context.sent;
+
+            _context.t2.log.call(_context.t2, _context.t3);
+
+            _context.next = 19;
+            return executeCommand(enterFolder(pkg + " init " + folder + " -y"), pkg + " init " + folder + " -y");
+
+          case 19:
             dependencies = Object.entries(deps.dependencies).map(function (_ref2) {
               var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
                   dep = _ref3[0],
@@ -99,10 +138,10 @@ program.arguments("<folder>").action(function () {
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 9;
-            return executeCommand(enterFolder("npm install --save " + dependencies), "dependencies installed");
+            _context.next = 22;
+            return executeCommand(enterFolder(install() + " " + dependencies), "Installing dependencies");
 
-          case 9:
+          case 22:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -110,25 +149,29 @@ program.arguments("<folder>").action(function () {
 
               return dep + "@" + version;
             }).join(" ");
-            _context.next = 12;
-            return executeCommand(enterFolder("npm install --save-dev " + devDependencies), "devDependencies installed");
+            _context.next = 25;
+            return executeCommand(enterFolder(install() + " -D " + devDependencies), "Installing devDependencies");
 
-          case 12:
-            _context.next = 17;
+          case 25:
+            _context.next = 27;
+            return executeCommand(enterFolder("cp ../webpack.config.js ."), "Webpack configured");
+
+          case 27:
+            _context.next = 32;
             break;
 
-          case 14:
-            _context.prev = 14;
-            _context.t0 = _context["catch"](1);
+          case 29:
+            _context.prev = 29;
+            _context.t4 = _context["catch"](2);
 
-            console.log("Something went wrong, sorry");
+            console.error("Something went wrong, sorry");
 
-          case 17:
+          case 32:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[1, 14]]);
+    }, _callee, undefined, [[2, 29]]);
   }));
 
   return function (_x) {
