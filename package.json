@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/mcrowder65/create-react-matt"
   },
+  "pre-commit": [
+    "build"
+  ],
   "bin": {
     "create-react-matt": "./lib/src/index.js"
   },
@@ -70,6 +73,7 @@
     "eslint-config-mcrowder65": "^0.0.16",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.1",
+    "pre-commit": "^1.2.2",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-addons-test-utils": "^15.6.2",
