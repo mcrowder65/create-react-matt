@@ -8,7 +8,7 @@
     "url": "https://github.com/mcrowder65/generator-react-jest"
   },
   "bin": {
-     "snippet": "./src/index.js"
+     "create-react-matt": "./src/index.js"
   },
   "scripts": {
     "start": "webpack-dev-server",
