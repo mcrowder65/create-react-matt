@@ -21,6 +21,7 @@ var _require = require("child_process"),
     exec = _require.exec;
 
 var ora = require("ora");
+var fs = require("fs");
 
 var deps = {
   "dependencies": {
@@ -405,7 +406,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
       };
     }();
 
-    var pkg, dependencies, devDependencies, displaySuccessMessage, enterFolder, install;
+    var pkg, dependencies, devDependencies, pkgJson, displaySuccessMessage, enterFolder, install;
     return _regenerator2.default.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
@@ -473,11 +474,16 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
             return scaffold();
 
           case 21:
-            _context10.next = 26;
+            pkgJson = require("./package.json");
+
+            pkgJson.scripts.start = "webpack-dev-server";
+
+            fs.writeFile("./package.json", JSON.stringify(pkg));
+            _context10.next = 29;
             break;
 
-          case 23:
-            _context10.prev = 23;
+          case 26:
+            _context10.prev = 26;
             _context10.t0 = _context10["catch"](3);
 
             if (!_context10.t0.message.indexOf("File exists")) {
@@ -486,12 +492,12 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 26:
+          case 29:
           case "end":
             return _context10.stop();
         }
       }
-    }, _callee10, undefined, [[3, 23]]);
+    }, _callee10, undefined, [[3, 26]]);
   }));
 
   return function (_x) {
