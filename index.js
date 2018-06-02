@@ -43,7 +43,7 @@ const deps = {
     "style-loader": "0.18.2",
     "postcss-loader": "2.1.5",
     "postcss-flexbugs-fixes": "3.3.1",
-    "sass-loader": "7.0.1",
+    "sass-loader": "7.0.2",
     "react-hot-loader": "4.2.0",
     "webpack-dev-server": "2.9.4",
     "identity-obj-proxy": "3.0.0"
