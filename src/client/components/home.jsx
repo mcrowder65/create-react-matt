@@ -23,10 +23,10 @@ const Home = props => {
 };
 
 Home.propTypes = {
-  input: PropTypes.string,
-  setInput: PropTypes.func,
-  pingServer: PropTypes.func,
-  ping: PropTypes.string
+  input: PropTypes.string.isRequired,
+  setInput: PropTypes.func.isRequired,
+  pingServer: PropTypes.func.isRequired,
+  ping: PropTypes.string.isRequired
 };
 const mapStateToProps = state => {
   return {

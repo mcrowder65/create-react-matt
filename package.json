@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "export NODE_ENV=development && webpack-dev-server",
-    "linter": "eslint src && eslint test",
+    "linter": "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
     "build": "babel index.js --out-file build-index.js",
     "test": "npm run linter && jest --coverage",
     "prepublishOnly": "npm run build"
@@ -43,7 +43,7 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
       "\\.(css|scss|less)$": "identity-obj-proxy"
     },
     "coverageReporters": [
@@ -58,7 +58,8 @@
       "mcrowder65"
     ],
     "rules": {
-      "max-statements": "off"
+      "max-statements": "off",
+      "react/jsx-uses-vars": 2
     }
   },
   "author": "",

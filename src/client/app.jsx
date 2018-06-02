@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {createStore, applyMiddleware, compose} from "redux";
+// eslint-disable-next-line no-unused-vars
 import {Provider} from "react-redux";
 import "babel-polyfill";
 import createSagaMiddleware from "redux-saga";
@@ -11,7 +12,6 @@ import Router from "./router";
 import initialState from "./reducers/initial-state";
 
 const sagaMiddleware = createSagaMiddleware();
-/* eslint no-underscore-dangle: "off" */
 /* global window */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, initialState,

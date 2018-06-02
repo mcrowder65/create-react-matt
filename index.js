@@ -18,7 +18,8 @@ const deps = {
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "webpack": "^3.8.1",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.9.0",
+    "history": "^4.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -196,6 +197,7 @@ program
         await clientFileFetcher("app.jsx");
         await clientFileFetcher("index.html");
         await clientFileFetcher("router.jsx");
+        await clientFileFetcher("browser-history.jsx");
 
         const clientTestFileFetcher = fileGetter("test/client");
         await clientTestFileFetcher("config.jsx");
