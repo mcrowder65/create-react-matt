@@ -23,6 +23,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+require("babel-polyfill");
 var program = require("commander");
 
 var _require = require("child_process"),
