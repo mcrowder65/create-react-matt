@@ -153,7 +153,8 @@ program
           start: "export NODE_ENV=development && webpack-dev-server",
           test: "npm run linter && npm run jest",
           jest: "jest --coverage",
-          linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx"
+          linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
+          webpack: "export NODE_ENV=production && webpack"
         },
         jest: {
           ...pkgJson.jest,
