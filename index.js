@@ -115,14 +115,16 @@ program
     async function installDependencies() {
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
+
+      const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+      const newPkg = {
+        ...pkgJson,
+        dependencies: mapDeps(dependencies),
+        devDependencies: mapDeps(devDependencies)
+      };
+      await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
+
       if (program.skip) {
-        const pkgJson = JSON.parse(await execInFolder("cat package.json"));
-        const newPkg = {
-          ...pkgJson,
-          dependencies: mapDeps(dependencies),
-          devDependencies: mapDeps(devDependencies)
-        };
-        await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
         await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");

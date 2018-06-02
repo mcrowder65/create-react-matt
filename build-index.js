@@ -143,27 +143,26 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
                   return dep + "@" + version;
                 }).join(" ");
-
-                if (!program.skip) {
-                  _context.next = 15;
-                  break;
-                }
-
                 _context.t0 = JSON;
-                _context.next = 7;
+                _context.next = 6;
                 return execInFolder("cat package.json");
 
-              case 7:
+              case 6:
                 _context.t1 = _context.sent;
                 pkgJson = _context.t0.parse.call(_context.t0, _context.t1);
                 newPkg = (0, _extends4.default)({}, pkgJson, {
                   dependencies: mapDeps(dependencies),
                   devDependencies: mapDeps(devDependencies)
                 });
-                _context.next = 12;
+                _context.next = 11;
                 return writeFile(folder + "/package.json", JSON.stringify(newPkg, null, 2));
 
-              case 12:
+              case 11:
+                if (!program.skip) {
+                  _context.next = 15;
+                  break;
+                }
+
                 displaySuccessMessage("Skipping installation of node_modules");
                 _context.next = 19;
                 break;
