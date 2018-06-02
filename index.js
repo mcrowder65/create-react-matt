@@ -2,6 +2,8 @@
 const program = require("commander");
 const { exec } = require("child_process");
 const ora = require("ora");
+const fs = require("fs");
+
 
 const deps = {
   "dependencies": {
@@ -98,7 +100,10 @@ program
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await scaffold();
+      const pkgJson = require("./package.json");
+      pkgJson.scripts.start = "webpack-dev-server";
 
+      fs.writeFile("./package.json", JSON.stringify(pkg));
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
         console.error("Something went wrong, sorry");
