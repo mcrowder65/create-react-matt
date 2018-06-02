@@ -4,10 +4,11 @@ import {connect} from "react-redux";
 
 import {setInput} from "../actions/index";
 import {PING_SERVER} from "../actions/sagas/types";
+import styles from "../styles/base.css";
 
 const Home = props => {
   return (
-    <div className="body">
+    <div className={styles.body}>
       {props.input}<br/>
       <input id="input"
         value={props.input}
