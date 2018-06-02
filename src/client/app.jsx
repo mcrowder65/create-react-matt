@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {createStore, applyMiddleware, compose} from "redux";
-// eslint-disable-next-line no-unused-vars
 import {Provider} from "react-redux";
 import "babel-polyfill";
 import createSagaMiddleware from "redux-saga";
