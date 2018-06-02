@@ -9,7 +9,6 @@ import sagaActions from "./actions/sagas/index";
 import rootReducer from "./reducers/index";
 import Router from "./router";
 import initialState from "./reducers/initial-state";
-import "./styles/base.css";
 
 const sagaMiddleware = createSagaMiddleware();
 /* eslint no-underscore-dangle: "off" */

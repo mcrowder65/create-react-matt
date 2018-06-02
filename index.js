@@ -17,7 +17,8 @@ const deps = {
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "node-sass": "^4.9.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -44,7 +45,7 @@ const deps = {
     "sass-loader": "^7.0.1",
     "react-hot-loader": "^4.2.0",
     "webpack-dev-server": "^2.9.4",
-    "identity-obj-proxy": "^3.0.0",
+    "identity-obj-proxy": "^3.0.0"
   }};
 
 const executeCommand = (command, loadingText) => {
@@ -176,7 +177,7 @@ program
       }
       async function createStyles() {
         const stylesFetcher = fileGetter("src/client/styles");
-        await stylesFetcher("base.css");
+        await stylesFetcher("base.scss");
       }
       async function createClientFiles() {
         const clientFileFetcher = fileGetter("src/client");

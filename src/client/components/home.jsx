@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import {setInput} from "../actions/index";
 import {PING_SERVER} from "../actions/sagas/types";
-import styles from "../styles/base.css";
+import styles from "../styles/base.scss";
 
 const Home = props => {
   return (

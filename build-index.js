@@ -39,7 +39,8 @@ var deps = {
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "node-sass": "^4.9.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -311,7 +312,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                   case 0:
                     stylesFetcher = fileGetter("src/client/styles");
                     _context7.next = 3;
-                    return stylesFetcher("base.css");
+                    return stylesFetcher("base.scss");
 
                   case 3:
                   case "end":
