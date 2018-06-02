@@ -86,8 +86,9 @@ const executeCommand = (command, loadingText) => {
 const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
 program
   .arguments("<folder>")
-  .option("-y, --yarn", "Add yarn")
+  .option("-y, --yarn", "Use yarn")
   .option("-f, --force", "rm -rf's your folder for good measure")
+  .option("-s, --skip", "Doesn't save to node_modules")
   .action(async folder => {
     let execInFolder;
     try {
@@ -101,10 +102,7 @@ program
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       execInFolder = executeCmdInFolder();
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
-      const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
-      const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
+      await installDependencies();
       await scaffold();
       await fixPackageJson();
     } catch (error) {
@@ -112,6 +110,32 @@ program
         console.error("Something went wrong, sorry");
       } else if (error.message.indexOf("File exists") !== -1) {
         console.error(`You need to delete ${folder}, or run again with -f`);
+      }
+    }
+    async function installDependencies() {
+      const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
+      const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
+      if (program.skip) {
+        const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+        const newPkg = {
+          ...pkgJson,
+          dependencies: mapDeps(dependencies),
+          devDependencies: mapDeps(devDependencies)
+        };
+        await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
+        displaySuccessMessage("Skipping installation of node_modules");
+      } else {
+        await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
+        await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
+      }
+      function mapDeps(d) {
+        return d.split(" ").reduce((a, str) => {
+          const [pkg, version] = str.split("@");
+          return {
+            ...a,
+            [pkg]: version
+          };
+        }, {});
       }
     }
     async function fixPackageJson() {
@@ -139,7 +163,7 @@ program
           "coverageReporters": ["html"]
         }
       };
-      await writeFile(`${folder}/package.json`, JSON.stringify(newPkg));
+      await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
     }
     async function scaffold() {
       await createFolderStructure();
