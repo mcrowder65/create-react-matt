@@ -5,6 +5,7 @@ const ora = require("ora");
 
 const deps = {
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "html-webpack-plugin": "^2.30.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
