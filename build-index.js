@@ -68,7 +68,8 @@ var deps = {
     "react-hot-loader": "^4.2.0",
     "webpack-dev-server": "^2.9.4",
     "identity-obj-proxy": "^3.0.0"
-  } };
+  }
+};
 
 var executeCommand = function executeCommand(command, loadingText) {
   var spinner = void 0;
@@ -107,29 +108,41 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(folder) {
     var fixPackageJson = function () {
       var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var pkgJson;
+        var pkgJson, newPkg;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                pkgJson = require("./package.json");
+                _context.t0 = JSON;
+                _context.next = 3;
+                return execInFolder("cat package.json");
 
-                pkgJson.scripts.start = "export NODE_ENV=development && webpack-dev-server";
-                pkgJson.json = (0, _extends3.default)({}, pkgJson.json, {
-                  "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
-                  "moduleNameMapper": {
-                    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-                    "\\.(css|scss|less)$": "identity-obj-proxy"
+              case 3:
+                _context.t1 = _context.sent;
+                pkgJson = _context.t0.parse.call(_context.t0, _context.t1);
+                newPkg = (0, _extends3.default)({}, pkgJson, {
+                  eslintConfig: {
+                    "extends": ["mcrowder65"]
                   },
-                  "coverageReporters": ["html"],
-                  "globals": {
-                    "localStorage": {}
-                  }
+                  scripts: (0, _extends3.default)({}, pkgJson.scripts, {
+                    start: "export NODE_ENV=development && webpack-dev-server",
+                    test: "npm run linter && npm run jest",
+                    jest: "jest --coverage",
+                    linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx"
+                  }),
+                  jest: (0, _extends3.default)({}, pkgJson.jest, {
+                    "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
+                    "moduleNameMapper": {
+                      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
+                      "\\.(css|scss|less)$": "identity-obj-proxy"
+                    },
+                    "coverageReporters": ["html"]
+                  })
                 });
-                _context.next = 5;
-                return writeFile(folder + "/package.json", JSON.stringify(pkgJson));
+                _context.next = 8;
+                return writeFile(folder + "/package.json", JSON.stringify(newPkg));
 
-              case 5:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -329,7 +342,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
         var createClientFiles = function () {
           var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
-            var clientFileFetcher, clientTestFileFetcher;
+            var clientFileFetcher, clientTestFileFetcher, clientMockTestFetcher;
             return _regenerator2.default.wrap(function _callee8$(_context8) {
               while (1) {
                 switch (_context8.prev = _context8.next) {
@@ -352,6 +365,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return clientTestFileFetcher("config.jsx");
 
                   case 10:
+                    clientMockTestFetcher = fileGetter("test/client/__mocks__");
+                    _context8.next = 13;
+                    return clientMockTestFetcher("file-mock.js");
+
+                  case 13:
                   case "end":
                     return _context8.stop();
                 }
@@ -371,11 +389,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                 switch (_context9.prev = _context9.next) {
                   case 0:
                     _context9.next = 2;
-                    return executeCommand(enterFolder("mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles"));
+                    return execInFolder("mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles");
 
                   case 2:
                     _context9.next = 4;
-                    return executeCommand(enterFolder("mkdir -p test/client/actions/sagas && mkdir -p test/client/components"));
+                    return execInFolder("mkdir -p test/client/actions/sagas && mkdir -p test/client/components && mkdir -p test/client/__mocks__");
 
                   case 4:
                   case "end":
@@ -449,7 +467,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
       };
     }();
 
-    var pkg, dependencies, devDependencies, displaySuccessMessage, enterFolder, install, writeFile;
+    var execInFolder, pkg, dependencies, devDependencies, displaySuccessMessage, executeCmdInFolder, enterFolder, install, writeFile;
     return _regenerator2.default.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
@@ -480,35 +498,43 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               return "cd " + folder + (post ? post : "") + " && " + str;
             };
 
+            executeCmdInFolder = function executeCmdInFolder() {
+              return function (str, output) {
+                return executeCommand(enterFolder(str), output);
+              };
+            };
+
             displaySuccessMessage = function displaySuccessMessage(message) {
               var spinner = ora(message).start();
               spinner.succeed();
             };
 
-            _context11.prev = 4;
+            execInFolder = void 0;
+            _context11.prev = 6;
 
             if (!program.force) {
-              _context11.next = 8;
+              _context11.next = 10;
               break;
             }
 
-            _context11.next = 8;
+            _context11.next = 10;
             return executeCommand("rm -rf " + folder, "Removing " + folder);
 
-          case 8:
+          case 10:
             pkg = program.yarn ? "yarn" : "npm";
 
             if (program.yarn) {
               displaySuccessMessage("Using yarn to install");
             }
-            _context11.next = 12;
+            _context11.next = 14;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 12:
-            _context11.next = 14;
-            return executeCommand(enterFolder(pkg + " init " + folder + " -y"), pkg + " init " + folder + " -y");
-
           case 14:
+            execInFolder = executeCmdInFolder();
+            _context11.next = 17;
+            return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
+
+          case 17:
             dependencies = Object.entries(deps.dependencies).map(function (_ref2) {
               var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
                   dep = _ref3[0],
@@ -516,10 +542,10 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            _context11.next = 17;
-            return executeCommand(enterFolder(install() + " " + dependencies), "Installing dependencies");
+            _context11.next = 20;
+            return execInFolder(install() + " " + dependencies, "Installing dependencies");
 
-          case 17:
+          case 20:
             devDependencies = Object.entries(deps.devDependencies).map(function (_ref4) {
               var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
                   dep = _ref5[0],
@@ -527,24 +553,24 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
               return dep + "@" + version;
             }).join(" ");
-            _context11.next = 20;
-            return executeCommand(enterFolder(install() + " -D " + devDependencies), "Installing devDependencies");
+            _context11.next = 23;
+            return execInFolder(install() + " -D " + devDependencies, "Installing devDependencies");
 
-          case 20:
-            _context11.next = 22;
+          case 23:
+            _context11.next = 25;
             return scaffold();
 
-          case 22:
-            _context11.next = 24;
+          case 25:
+            _context11.next = 27;
             return fixPackageJson();
 
-          case 24:
-            _context11.next = 29;
+          case 27:
+            _context11.next = 32;
             break;
 
-          case 26:
-            _context11.prev = 26;
-            _context11.t0 = _context11["catch"](4);
+          case 29:
+            _context11.prev = 29;
+            _context11.t0 = _context11["catch"](6);
 
             if (!_context11.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
@@ -552,12 +578,12 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 29:
+          case 32:
           case "end":
             return _context11.stop();
         }
       }
-    }, _callee11, undefined, [[4, 26]]);
+    }, _callee11, undefined, [[6, 29]]);
   }));
 
   return function (_x) {

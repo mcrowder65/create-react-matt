@@ -46,7 +46,8 @@ const deps = {
     "react-hot-loader": "^4.2.0",
     "webpack-dev-server": "^2.9.4",
     "identity-obj-proxy": "^3.0.0"
-  }};
+  }
+};
 
 const executeCommand = (command, loadingText) => {
   let spinner;
@@ -87,6 +88,7 @@ program
   .option("-y, --yarn", "Add yarn")
   .option("-f, --force", "rm -rf's your folder for good measure")
   .action(async folder => {
+    let execInFolder;
     try {
       if (program.force) {
         await executeCommand(`rm -rf ${folder}`, `Removing ${folder}`);
@@ -96,11 +98,12 @@ program
         displaySuccessMessage("Using yarn to install");
       }
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
-      await executeCommand(enterFolder(`${pkg} init ${folder} -y`), `${pkg} init ${folder} -y`);
+      execInFolder = executeCmdInFolder();
+      await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
       const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`${install()} ${dependencies}`), "Installing dependencies");
+      await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
+      await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
       await scaffold();
       await fixPackageJson();
     } catch (error) {
@@ -112,21 +115,30 @@ program
     }
     async function fixPackageJson() {
 
-      const pkgJson = require("./package.json");
-      pkgJson.scripts.start = "export NODE_ENV=development && webpack-dev-server";
-      pkgJson.json = {
-        ...pkgJson.json,
-        "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
-        "moduleNameMapper": {
-          "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-          "\\.(css|scss|less)$": "identity-obj-proxy"
+      const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+      const newPkg = {
+        ...pkgJson,
+        eslintConfig: {
+          "extends": ["mcrowder65"]
         },
-        "coverageReporters": ["html"],
-        "globals": {
-          "localStorage": {}
+        scripts: {
+          ...pkgJson.scripts,
+          start: "export NODE_ENV=development && webpack-dev-server",
+          test: "npm run linter && npm run jest",
+          jest: "jest --coverage",
+          linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx"
+        },
+        jest: {
+          ...pkgJson.jest,
+          "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
+          "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
+            "\\.(css|scss|less)$": "identity-obj-proxy"
+          },
+          "coverageReporters": ["html"]
         }
       };
-      await writeFile(`${folder}/package.json`, JSON.stringify(pkgJson));
+      await writeFile(`${folder}/package.json`, JSON.stringify(newPkg));
     }
     async function scaffold() {
       await createFolderStructure();
@@ -187,15 +199,18 @@ program
 
         const clientTestFileFetcher = fileGetter("test/client");
         await clientTestFileFetcher("config.jsx");
+
+        const clientMockTestFetcher = fileGetter("test/client/__mocks__");
+        await clientMockTestFetcher("file-mock.js");
       }
       function fileGetter(filepath) {
-        return function(filename) {
+        return function (filename) {
           executeCommand(enterFolder(`${curlCmd}${filepath}/${filename}`, `/${filepath}`));
         };
       }
       async function createFolderStructure() {
-        await executeCommand(enterFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`));
-        await executeCommand(enterFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components`));
+        await execInFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`);
+        await execInFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components && mkdir -p test/client/__mocks__`);
       }
     }
 
@@ -204,7 +219,9 @@ program
       spinner.succeed();
     }
 
-
+    function executeCmdInFolder() {
+      return (str, output) => executeCommand(enterFolder(str), output);
+    }
     function enterFolder(str, post) {
       return `cd ${folder}${post ? post : ""} && ${str}`;
     }
