@@ -65,7 +65,8 @@ var deps = {
     "postcss-flexbugs-fixes": "^3.3.1",
     "sass-loader": "^7.0.1",
     "react-hot-loader": "^4.2.0",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.4",
+    "identity-obj-proxy": "^3.0.0"
   } };
 
 var executeCommand = function executeCommand(command, loadingText) {
