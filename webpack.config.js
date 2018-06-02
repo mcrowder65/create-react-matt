@@ -128,7 +128,7 @@ const webpackConfig = {
   },
   plugins: [
     HtmlWebpackPluginConfig,
-    new webpack.EnvironmentPlugin(["NODE_ENV", "IS_STATIC"]),
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ]

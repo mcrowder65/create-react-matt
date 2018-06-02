@@ -19,6 +19,9 @@ const store = createStore(rootReducer, initialState,
   composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(sagaActions);
+if (process.env.NODE_ENV === "development" && module.hot) {
+  module.hot.accept();
+}
 const App = () => (
   <Provider store={store}>
     <Router/>

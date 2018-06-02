@@ -26,15 +26,14 @@ var deps = {
   "dependencies": {
     "html-webpack-plugin": "^2.30.1",
     "prop-types": "^15.6.0",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -48,12 +47,18 @@ var deps = {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
-    "enzyme": "^2.9.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint-config-mcrowder65": "latest",
     "jest": "^21.2.1",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.1.1",
-    "style-loader": "^0.18.2"
+    "style-loader": "^0.18.2",
+    "postcss-loader": "^2.1.5",
+    "postcss-flexbugs-fixes": "^3.3.1",
+    "sass-loader": "^7.0.1",
+    "react-hot-loader": "^4.2.0",
+    "webpack-dev-server": "^2.9.4"
   } };
 
 var executeCommand = function executeCommand(command, loadingText) {
@@ -278,7 +283,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
 
         var createClientFiles = function () {
           var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-            var clientFileFetcher;
+            var clientFileFetcher, clientTestFileFetcher;
             return _regenerator2.default.wrap(function _callee7$(_context7) {
               while (1) {
                 switch (_context7.prev = _context7.next) {
@@ -296,6 +301,11 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return clientFileFetcher("router.jsx");
 
                   case 7:
+                    clientTestFileFetcher = fileGetter("test/client");
+                    _context7.next = 10;
+                    return clientTestFileFetcher("config.jsx");
+
+                  case 10:
                   case "end":
                     return _context7.stop();
                 }
