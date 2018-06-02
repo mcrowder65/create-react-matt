@@ -114,7 +114,7 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
               case 0:
                 pkgJson = require("./package.json");
 
-                pkgJson.scripts.start = "webpack-dev-server";
+                pkgJson.scripts.start = "export NODE_ENV=development && webpack-dev-server";
                 pkgJson.json = (0, _extends3.default)({}, pkgJson.json, {
                   "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
                   "moduleNameMapper": {
