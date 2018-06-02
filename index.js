@@ -113,7 +113,7 @@ program
     async function fixPackageJson() {
 
       const pkgJson = require("./package.json");
-      pkgJson.scripts.start = "webpack-dev-server";
+      pkgJson.scripts.start = "export NODE_ENV=development && webpack-dev-server";
       pkgJson.json = {
         ...pkgJson.json,
         "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",

@@ -58,7 +58,6 @@
       "mcrowder65"
     ],
     "rules": {
-      "quote-props": "off",
       "max-statements": "off"
     }
   },
