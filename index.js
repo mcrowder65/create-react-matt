@@ -100,16 +100,31 @@ program
       const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
       await executeCommand(enterFolder(`${install()} -D ${devDependencies}`), "Installing devDependencies");
       await scaffold();
-      const pkgJson = require("./package.json");
-      pkgJson.scripts.start = "webpack-dev-server";
-
-      fs.writeFile("./package.json", JSON.stringify(pkg));
+      await fixPackageJson();
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
         console.error("Something went wrong, sorry");
       } else if (error.message.indexOf("File exists") !== -1) {
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
+    }
+    async function fixPackageJson() {
+
+      const pkgJson = require("./package.json");
+      pkgJson.scripts.start = "webpack-dev-server";
+      pkgJson.json = {
+        ...pkgJson.json,
+        "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
+        "moduleNameMapper": {
+          "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+          "\\.(css|scss|less)$": "identity-obj-proxy"
+        },
+        "coverageReporters": ["html"],
+        "globals": {
+          "localStorage": {}
+        }
+      };
+      await writeFile(`${folder}/package.json`, JSON.stringify(pkgJson));
     }
     async function scaffold() {
       await createFolderStructure();
@@ -193,6 +208,23 @@ program
     }
     function install() {
       return program.yarn ? "yarn add" : "npm install";
+    }
+    function writeFile(filename, content) {
+      return new Promise((resolve, reject) => {
+        try {
+          fs.writeFile(filename, content, error => {
+            if (error) {
+              console.log(error);
+              reject(error);
+            } else {
+              resolve();
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          reject(error);
+        }
+      });
     }
   })
   .parse(process.argv);
