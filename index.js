@@ -25,6 +25,7 @@ const deps = {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
