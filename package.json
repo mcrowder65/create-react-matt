@@ -58,8 +58,7 @@
       "mcrowder65"
     ],
     "rules": {
-      "max-statements": "off",
-      "react/jsx-uses-vars": 2
+      "max-statements": "off"
     }
   },
   "author": "",
@@ -85,6 +84,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-config-mcrowder65": "latest",
+    "history": "^4.7.2",
     "html-webpack-plugin": "^2.30.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^21.2.1",

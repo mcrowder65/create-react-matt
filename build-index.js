@@ -40,7 +40,8 @@ var deps = {
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "webpack": "^3.8.1",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.9.0",
+    "history": "^4.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -360,16 +361,20 @@ program.arguments("<folder>").option("-y, --yarn", "Add yarn").option("-f, --for
                     return clientFileFetcher("router.jsx");
 
                   case 7:
+                    _context8.next = 9;
+                    return clientFileFetcher("browser-history.jsx");
+
+                  case 9:
                     clientTestFileFetcher = fileGetter("test/client");
-                    _context8.next = 10;
+                    _context8.next = 12;
                     return clientTestFileFetcher("config.jsx");
 
-                  case 10:
+                  case 12:
                     clientMockTestFetcher = fileGetter("test/client/__mocks__");
-                    _context8.next = 13;
+                    _context8.next = 15;
                     return clientMockTestFetcher("file-mock.js");
 
-                  case 13:
+                  case 15:
                   case "end":
                     return _context8.stop();
                 }
