@@ -1,12 +1,6 @@
 language: node_js
-node_js: 6.11.2
+node_js: 8.9.4
 script:
-  - echo 'LOCAL-TEST';
-  - npm install eslint;
-  - npm run linter;
-  - echo 'GLOBAL TEST';
-  - mkdir npm-install && cd npm-install;
-  - npm init -y;
-  - npm install react-redux-jest-starter-kit;
+  - npm install
   - npm test;
-  - node_modules/webpack/bin/webpack.js;
+  - npm run webpack

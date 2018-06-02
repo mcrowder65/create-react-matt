@@ -13,6 +13,7 @@
   "scripts": {
     "start": "export NODE_ENV=development && webpack-dev-server",
     "linter": "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
+    "webpack": "export NODE_ENV=production && webpack",
     "build": "babel index.js --out-file build-index.js",
     "test": "npm run linter && jest --coverage",
     "prepublishOnly": "npm run build"

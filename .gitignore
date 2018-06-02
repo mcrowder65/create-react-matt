@@ -4,3 +4,6 @@ npm-debug.log
 clover
 coverage
 hello-world
+bundle.js.map
+bundle.js
+index.html
