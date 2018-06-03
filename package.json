@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
