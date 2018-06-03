@@ -125,18 +125,14 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                 }
 
                 displaySuccessMessage("Skipping installation of node_modules");
-                _context.next = 18;
+                _context.next = 16;
                 break;
 
               case 14:
                 _context.next = 16;
-                return execInFolder(install() + " " + dependencies, "Installing dependencies");
+                return execInFolder("" + install(), "Installing dependencies and devDependencies");
 
               case 16:
-                _context.next = 18;
-                return execInFolder(install() + " -D " + devDependencies, "Installing devDependencies");
-
-              case 18:
               case "end":
                 return _context.stop();
             }

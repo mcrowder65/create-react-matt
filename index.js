@@ -147,8 +147,7 @@ program
       if (program.skip) {
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
-        await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
-        await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
+        await execInFolder(`${install()}`, "Installing dependencies and devDependencies");
       }
       function mapDeps(myDeps) {
         const mattPkg = require("./package.json");
