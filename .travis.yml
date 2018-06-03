@@ -3,7 +3,7 @@ node_js: 8.9.4
 script:
   - npm test;
   - npm run webpack;
-  - npm install create-react-matt@https://github.com/mcrowder65/create-react-matt#TRAVIS_BRANCH;
+  - npm install create-react-matt@https://github.com/mcrowder65/create-react-matt#$TRAVIS_BRANCH;
   - node_modules/.bin/create-react-matt hello-world -f;
   - cd hello-world;
   - npm test;
