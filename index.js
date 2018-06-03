@@ -6,48 +6,48 @@ const ora = require("ora");
 const fs = require("fs");
 
 const deps = {
-  "dependencies": {
-    "babel-runtime": "6.26.0",
-    "babel-polyfill": "6.26.0",
-    "html-webpack-plugin": "2.30.1",
-    "prop-types": "15.6.1",
-    "react": "16.4.0",
-    "react-dom": "16.4.0",
-    "react-redux": "5.0.7",
-    "react-router": "4.2.0",
-    "react-router-dom": "4.2.2",
-    "redux": "3.7.2",
-    "redux-saga": "0.16.0",
-    "webpack": "3.12.0",
-    "node-sass": "4.9.0",
-    "history": "4.7.2"
-  },
-  "devDependencies": {
-    "babel-core": "6.26.3",
-    "babel-eslint": "8.2.3",
-    "babel-jest": "21.2.0",
-    "babel-loader": "7.1.4",
-    "babel-plugin-transform-async-to-generator": "6.24.1",
-    "babel-plugin-transform-es2015-modules-umd": "6.24.1",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "css-loader": "0.28.7",
-    "enzyme": "3.3.0",
-    "enzyme-adapter-react-16": "1.1.1",
-    "eslint-config-mcrowder65": "latest",
-    "jest": "21.2.1",
-    "react-addons-test-utils": "15.6.2",
-    "react-test-renderer": "16.4.0",
-    "style-loader": "0.18.2",
-    "postcss-loader": "2.1.5",
-    "postcss-flexbugs-fixes": "3.3.1",
-    "sass-loader": "7.0.2",
-    "react-hot-loader": "4.2.0",
-    "webpack-dev-server": "2.9.4",
-    "identity-obj-proxy": "3.0.0"
-  }
+  "dependencies": [
+    "babel-runtime",
+    "babel-polyfill",
+    "html-webpack-plugin",
+    "prop-types",
+    "react",
+    "react-dom",
+    "react-redux",
+    "react-router",
+    "react-router-dom",
+    "redux",
+    "redux-saga",
+    "webpack",
+    "node-sass",
+    "history"
+  ],
+  "devDependencies": [
+    "babel-core",
+    "babel-eslint",
+    "babel-jest",
+    "babel-loader",
+    "babel-plugin-transform-async-to-generator",
+    "babel-plugin-transform-es2015-modules-umd",
+    "babel-plugin-transform-object-rest-spread",
+    "babel-plugin-transform-runtime",
+    "babel-preset-env",
+    "babel-preset-react",
+    "css-loader",
+    "enzyme",
+    "enzyme-adapter-react-16",
+    "eslint-config-mcrowder65",
+    "jest",
+    "react-addons-test-utils",
+    "react-test-renderer",
+    "style-loader",
+    "postcss-loader",
+    "postcss-flexbugs-fixes",
+    "sass-loader",
+    "react-hot-loader",
+    "webpack-dev-server",
+    "identity-obj-proxy"
+  ]
 };
 
 const executeCommand = (command, loadingText) => {
@@ -102,7 +102,6 @@ program
       await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       execInFolder = executeCmdInFolder();
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
-      await installDependencies();
       await scaffold();
       await fixPackageJson();
     } catch (error) {
@@ -112,39 +111,15 @@ program
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
     }
-    async function installDependencies() {
-      const dependencies = Object.entries(deps.dependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-      const devDependencies = Object.entries(deps.devDependencies).map(([dep, version]) => `${dep}@${version}`).join(" ");
-
-      const pkgJson = JSON.parse(await execInFolder("cat package.json"));
-      const newPkg = {
-        ...pkgJson,
-        dependencies: mapDeps(dependencies),
-        devDependencies: mapDeps(devDependencies)
-      };
-      await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
-
-      if (program.skip) {
-        displaySuccessMessage("Skipping installation of node_modules");
-      } else {
-        await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
-        await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
-      }
-      function mapDeps(d) {
-        return d.split(" ").reduce((a, str) => {
-          const [pkg, version] = str.split("@");
-          return {
-            ...a,
-            [pkg]: version
-          };
-        }, {});
-      }
-    }
     async function fixPackageJson() {
 
       const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+      const {dependencies, devDependencies} = deps;
+
       const newPkg = {
         ...pkgJson,
+        dependencies: mapDeps(dependencies),
+        devDependencies: mapDeps(devDependencies),
         eslintConfig: {
           "extends": ["mcrowder65"]
         },
@@ -165,8 +140,28 @@ program
           },
           "coverageReporters": ["html"]
         }
+
       };
       await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
+      if (program.skip) {
+        displaySuccessMessage("Skipping installation of node_modules");
+      } else {
+        await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
+        await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
+      }
+      function mapDeps(myDeps) {
+        const mattPkg = require("./package.json");
+        const combined = {
+          ...mattPkg.devDependencies,
+          ...mattPkg.dependencies
+        };
+        return myDeps.reduce((accum, d) => {
+          return {
+            ...accum,
+            [d]: combined[d]
+          };
+        }, {});
+      }
     }
     async function scaffold() {
       await createFolderStructure();
