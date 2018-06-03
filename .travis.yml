@@ -6,5 +6,6 @@ script:
   - ./scripts/travis-install.sh
   - create-react-matt hello-world -f;
   - cd hello-world;
+  - npm install;
   - npm test;
   - npm run webpack;
