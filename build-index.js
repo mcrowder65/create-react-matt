@@ -66,6 +66,7 @@ var executeCommand = function executeCommand(command, loadingText) {
 };
 
 var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/";
+
 program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "rm -rf's your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(folder) {
     var fixPackageJson = function () {
@@ -98,11 +99,11 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                     "extends": ["mcrowder65"]
                   },
                   scripts: (0, _extends4.default)({}, pkgJson.scripts, {
-                    start: "export NODE_ENV=development && webpack-dev-server",
+                    start: "export NODE_ENV=development && node_modules/.bin/webpack-dev-server",
                     test: "npm run linter && npm run jest",
-                    jest: "jest --coverage",
-                    linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
-                    webpack: "export NODE_ENV=production && webpack"
+                    jest: "node_modules/.bin/jest --coverage",
+                    linter: "node_modules/.bin/eslint src --ext .js,.jsx && node_modules/.bin/eslint test --ext .js,.jsx",
+                    webpack: "export NODE_ENV=production && node_modules/.bin/webpack"
                   }),
                   jest: (0, _extends4.default)({}, pkgJson.jest, {
                     "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
