@@ -84,6 +84,7 @@ const executeCommand = (command, loadingText) => {
 };
 
 const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
+
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
