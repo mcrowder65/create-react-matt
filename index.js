@@ -84,6 +84,7 @@ const executeCommand = (command, loadingText) => {
 };
 
 const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
+
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
@@ -125,11 +126,11 @@ program
         },
         scripts: {
           ...pkgJson.scripts,
-          start: "export NODE_ENV=development && webpack-dev-server",
+          start: "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server",
           test: "npm run linter && npm run jest",
-          jest: "jest --coverage",
-          linter: "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
-          webpack: "export NODE_ENV=production && webpack"
+          jest: "./node_modules/.bin/jest --coverage",
+          linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
+          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack"
         },
         jest: {
           ...pkgJson.jest,
@@ -146,8 +147,7 @@ program
       if (program.skip) {
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
-        await execInFolder(`${install()} ${dependencies}`, "Installing dependencies");
-        await execInFolder(`${install()} -D ${devDependencies}`, "Installing devDependencies");
+        await execInFolder(`${install()}`, "Installing dependencies and devDependencies");
       }
       function mapDeps(myDeps) {
         const mattPkg = require("./package.json");

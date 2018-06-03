@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -18,6 +18,9 @@
     "test": "npm run linter && jest --coverage",
     "prepublishOnly": "npm run build"
   },
+  "pre-commit": [
+    "build"
+  ],
   "files": [
     "src",
     "test",
@@ -93,6 +96,7 @@
     "node-sass": "4.9.0",
     "postcss-flexbugs-fixes": "3.3.1",
     "postcss-loader": "2.1.5",
+    "pre-commit": "^1.2.2",
     "prop-types": "15.6.1",
     "react": "16.4.0",
     "react-addons-test-utils": "15.6.2",
@@ -105,7 +109,7 @@
     "redux": "3.7.2",
     "redux-saga": "0.16.0",
     "sass-loader": "7.0.2",
-    "style-loader": "0.18.2",
+    "style-loader": "0.21.0",
     "webpack": "3.12.0",
     "webpack-dev-server": "2.9.4"
   },
