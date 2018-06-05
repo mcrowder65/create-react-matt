@@ -28,6 +28,7 @@ const deps = {
     "babel-jest",
     "babel-loader",
     "babel-plugin-transform-async-to-generator",
+    "babel-plugin-transform-class-properties",
     "babel-plugin-transform-es2015-modules-umd",
     "babel-plugin-transform-object-rest-spread",
     "babel-plugin-transform-runtime",
