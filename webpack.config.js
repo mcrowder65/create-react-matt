@@ -2,12 +2,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
   cache: !isProd,
+  devtool: isProd ? "" : "eval-cheap-module-source-map",
   entry: isProd ? "./src/client/app.jsx" : [
     "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:8080",
@@ -117,7 +117,7 @@ const webpackConfig = {
 
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: !isProd,
     hot: !isProd,
     compress: isProd,
     contentBase: "./",
@@ -152,18 +152,17 @@ webpackConfig.plugins = [
 ];
 if (isProd) {
 
-  webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
-  webpackConfig.plugins.push(new CompressionPlugin({
-    asset: "[path].gz[query]",
-    algorithm: "gzip",
-    test: /\.js$|\.css$|\.html$/,
-    threshold: 10240,
-    minRatio: 0
-  }));
-  webpackConfig.plugins.push(new UglifyJSPlugin());
+  webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0
+    })
+  );
 } else if (!isProd) {
-  webpackConfig.devtool = "sourcemap";
-  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-  webpackConfig.plugins.push(new webpack.NamedModulesPlugin());
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin());
 }
 module.exports = webpackConfig;
