@@ -65,7 +65,7 @@ var executeCommand = function executeCommand(command, loadingText) {
   });
 };
 
-var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/";
+var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/" + (process.env.TRAVIS_PULL_REQUEST_BRANCH || "master") + "/";
 
 program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "rm -rf's your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(folder) {
