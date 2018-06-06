@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -89,7 +89,7 @@
     "css-loader": "0.28.11",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
-    "eslint-config-mcrowder65": "0.0.20",
+    "eslint-config-mcrowder65": "0.0.27",
     "history": "4.7.2",
     "html-webpack-plugin": "2.30.1",
     "identity-obj-proxy": "3.0.0",
