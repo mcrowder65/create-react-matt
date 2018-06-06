@@ -1,7 +1,7 @@
-import {call, put} from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
-import {setPing} from "../../../../src/client/actions/index";
-import {apiCall, pingServer} from "../../../../src/client/actions/sagas/ping-server";
+import { setPing } from "../../../../src/client/actions/index";
+import { apiCall, pingServer } from "../../../../src/client/actions/sagas/ping-server";
 
 describe("test/client/actions/sagas/ping-server.spec.jsx", () => {
   describe("pingServer", () => {
