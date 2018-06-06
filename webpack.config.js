@@ -2,12 +2,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: "./src/client/index.html",
-  filename: "./index.html",
-  inject: "body"
-});
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
@@ -127,43 +123,47 @@ const webpackConfig = {
     contentBase: "./",
     publicPath: "/"
   },
-  plugins: [
-    HtmlWebpackPluginConfig,
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": "\"production\""
-    }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
-      compress: {
-        warnings: false, // Suppress uglification warnings
-        // eslint-disable-next-line
-        pure_getters: true,
-        unsafe: true,
-        // eslint-disable-next-line
-        unsafe_comps: true,
-        // eslint-disable-next-line
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-      },
-      exclude: [/\.min\.js$/gi] // skip pre-minified libs
-    }),
-  ]
 
 };
-if (!isProd) {
+webpackConfig.plugins = [
+  new HtmlWebpackPlugin({
+    template: "./src/client/index.html",
+    filename: "./index.html",
+    inject: "body",
+    minify: isProd && {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true,
+    },
+  }),
+  new webpack.EnvironmentPlugin(["NODE_ENV"]),
+
+  new webpack.DefinePlugin({
+    "process.env.NODE_ENV": "\"production\""
+  }),
+
+];
+if (isProd) {
+
+  webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin());
+  webpackConfig.plugins.push(new CompressionPlugin({
+    asset: "[path].gz[query]",
+    algorithm: "gzip",
+    test: /\.js$|\.css$|\.html$/,
+    threshold: 10240,
+    minRatio: 0
+  }));
+  webpackConfig.plugins.push(new UglifyJSPlugin());
+} else if (!isProd) {
   webpackConfig.devtool = "sourcemap";
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackConfig.plugins.push(new webpack.NamedModulesPlugin());
 }
 module.exports = webpackConfig;
