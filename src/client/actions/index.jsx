@@ -1,4 +1,4 @@
-import { SET_INPUT, SET_PING } from "./types";
+import { SET_INPUT, } from "./types";
 
 export const setInput = input => {
   return {
