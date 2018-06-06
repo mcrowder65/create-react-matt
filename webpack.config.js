@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
@@ -152,17 +153,20 @@ webpackConfig.plugins = [
 ];
 if (isProd) {
 
-  webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin(),
+  webpackConfig.plugins.push(
+    new webpack.NoEmitOnErrorsPlugin(),
     new CompressionPlugin({
       asset: "[path].gz[query]",
       algorithm: "gzip",
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0
-    })
+    }),
+    new UglifyJsPlugin()
   );
 } else if (!isProd) {
-  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin(),
+  webpackConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin());
 }
 module.exports = webpackConfig;
