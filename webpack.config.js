@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: "./src/client/index.html",
@@ -10,7 +11,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
-  cache: true,
+  cache: !isProd,
   entry: isProd ? "./src/client/app.jsx" : [
     "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:8080",
@@ -130,7 +131,35 @@ const webpackConfig = {
     HtmlWebpackPluginConfig,
     new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": "\"production\""
+    }),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        // eslint-disable-next-line
+        pure_getters: true,
+        unsafe: true,
+        // eslint-disable-next-line
+        unsafe_comps: true,
+        // eslint-disable-next-line
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+      },
+      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
   ]
 
 };
