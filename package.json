@@ -22,7 +22,8 @@
   "bundlesize": [
     {
       "path": "./build/bundle.js",
-      "compression": "gzip"
+      "compression": "gzip",
+      "maxSize": "100 kB"
     }
   ],
   "pre-commit": [
