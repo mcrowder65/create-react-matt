@@ -22,7 +22,7 @@
   "bundlesize": [
     {
       "path": "./build/bundle.js",
-      "compression": "none"
+      "compression": "gzip"
     }
   ],
   "pre-commit": [
