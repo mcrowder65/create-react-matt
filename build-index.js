@@ -30,7 +30,7 @@ var fs = require("fs");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy"]
+  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy"]
 };
 
 var executeCommand = function executeCommand(command, loadingText) {
@@ -65,7 +65,7 @@ var executeCommand = function executeCommand(command, loadingText) {
   });
 };
 
-var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/";
+var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/" + (process.env.TRAVIS_PULL_REQUEST_BRANCH || "master") + "/";
 
 program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "rm -rf's your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(folder) {
