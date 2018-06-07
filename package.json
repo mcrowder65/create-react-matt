@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -85,7 +85,7 @@
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.3",
-    "babel-jest": "21.2.0",
+    "babel-jest": "23.0.1",
     "babel-loader": "7.1.4",
     "babel-plugin-transform-async-to-generator": "6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -106,7 +106,7 @@
     "history": "4.7.2",
     "html-webpack-plugin": "3.2.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "21.2.1",
+    "jest": "23.1.0",
     "node-sass": "4.9.0",
     "path": "^0.12.7",
     "postcss-flexbugs-fixes": "3.3.1",
