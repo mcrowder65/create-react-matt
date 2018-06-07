@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
@@ -161,8 +160,7 @@ if (isProd) {
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0
-    }),
-    new UglifyJsPlugin()
+    })
   );
 } else if (!isProd) {
   webpackConfig.plugins.push(
