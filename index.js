@@ -28,6 +28,7 @@ const deps = {
     "babel-jest",
     "babel-loader",
     "babel-plugin-transform-async-to-generator",
+    "babel-plugin-transform-class-properties",
     "babel-plugin-transform-es2015-modules-umd",
     "babel-plugin-transform-object-rest-spread",
     "babel-plugin-transform-runtime",
@@ -83,7 +84,7 @@ const executeCommand = (command, loadingText) => {
 
 };
 
-const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/master/`;
+const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/${process.env.TRAVIS_PULL_REQUEST_BRANCH || "master"}/`;
 
 program
   .arguments("<folder>")
@@ -115,7 +116,7 @@ program
     async function fixPackageJson() {
 
       const pkgJson = JSON.parse(await execInFolder("cat package.json"));
-      const {dependencies, devDependencies} = deps;
+      const { dependencies, devDependencies } = deps;
 
       const newPkg = {
         ...pkgJson,
@@ -130,7 +131,7 @@ program
           test: "npm run linter && npm run jest",
           jest: "./node_modules/.bin/jest --coverage",
           linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
-          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack"
+          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress"
         },
         jest: {
           ...pkgJson.jest,
