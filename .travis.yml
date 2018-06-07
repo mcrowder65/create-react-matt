@@ -2,4 +2,10 @@ language: node_js
 node_js: 8.9.4
 script:
   - npm test;
-  - npm run webpack
+  - npm run webpack;
+  - npm run bundlesize
+  - ./scripts/travis-install.sh
+  - create-react-matt hello-world -f;
+  - cd hello-world;
+  - npm test;
+  - npm run webpack;

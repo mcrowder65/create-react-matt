@@ -1,16 +1,13 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const CompressionPlugin = require("compression-webpack-plugin");
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: "./src/client/index.html",
-  filename: "./index.html",
-  inject: "body"
-});
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
-  cache: true,
+  cache: !isProd,
+  devtool: isProd ? "" : "eval-cheap-module-source-map",
   entry: isProd ? "./src/client/app.jsx" : [
     "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:8080",
@@ -120,21 +117,54 @@ const webpackConfig = {
 
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: !isProd,
     hot: !isProd,
     compress: isProd,
     contentBase: "./",
     publicPath: "/"
   },
-  plugins: [
-    HtmlWebpackPluginConfig,
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  ]
 
 };
-if (!isProd) {
-  webpackConfig.devtool = "sourcemap";
+webpackConfig.plugins = [
+  new HtmlWebpackPlugin({
+    template: "./src/client/index.html",
+    filename: "./index.html",
+    inject: "body",
+    minify: isProd && {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true,
+    },
+  }),
+  new webpack.EnvironmentPlugin(["NODE_ENV"]),
+
+  new webpack.DefinePlugin({
+    "process.env.NODE_ENV": "\"production\""
+  }),
+
+];
+if (isProd) {
+
+  webpackConfig.plugins.push(
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  );
+} else if (!isProd) {
+  webpackConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin());
 }
 module.exports = webpackConfig;
