@@ -7,3 +7,5 @@ hello-world
 bundle.js.map
 bundle.js
 index.html
+build
+build/bundle.js.gz
