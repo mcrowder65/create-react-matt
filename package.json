@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -112,9 +112,8 @@
     "redux-saga": "0.16.0",
     "sass-loader": "7.0.2",
     "style-loader": "0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "3.12.0",
-    "webpack-dev-server": "2.9.4"
+    "webpack-dev-server": "2.11.2"
   },
   "bugs": {
     "url": "https://github.com/mcrowder65/create-react-matt/issues"

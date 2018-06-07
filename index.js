@@ -131,7 +131,7 @@ program
           test: "npm run linter && npm run jest",
           jest: "./node_modules/.bin/jest --coverage",
           linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
-          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack"
+          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress"
         },
         jest: {
           ...pkgJson.jest,
