@@ -161,14 +161,14 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
               case 6:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 22;
+                  _context2.next = 23;
                   break;
                 }
 
                 f = _step.value;
                 _context2.prev = 8;
                 _context2.next = 11;
-                return executeCommand("cat ./" + f);
+                return readFile("./" + f);
 
               case 11:
                 file = _context2.sent;
@@ -176,7 +176,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                 return writeFile(folder + "/" + f, file);
 
               case 14:
-                _context2.next = 19;
+                _context2.next = 20;
                 break;
 
               case 16:
@@ -184,55 +184,56 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                 _context2.t0 = _context2["catch"](8);
 
                 console.log(_context2.t0);
+                throw _context2.t0;
 
-              case 19:
+              case 20:
                 _iteratorNormalCompletion = true;
                 _context2.next = 6;
                 break;
 
-              case 22:
-                _context2.next = 28;
+              case 23:
+                _context2.next = 29;
                 break;
 
-              case 24:
-                _context2.prev = 24;
+              case 25:
+                _context2.prev = 25;
                 _context2.t1 = _context2["catch"](4);
                 _didIteratorError = true;
                 _iteratorError = _context2.t1;
 
-              case 28:
-                _context2.prev = 28;
+              case 29:
                 _context2.prev = 29;
+                _context2.prev = 30;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 31:
-                _context2.prev = 31;
+              case 32:
+                _context2.prev = 32;
 
                 if (!_didIteratorError) {
-                  _context2.next = 34;
+                  _context2.next = 35;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 34:
-                return _context2.finish(31);
-
               case 35:
-                return _context2.finish(28);
+                return _context2.finish(32);
 
               case 36:
-                displaySuccessMessage("Files scaffolded and placed");
+                return _context2.finish(29);
 
               case 37:
+                displaySuccessMessage("Files scaffolded and placed");
+
+              case 38:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 24, 28, 36], [8, 16], [29,, 31, 35]]);
+        }, _callee2, this, [[4, 25, 29, 37], [8, 16], [30,, 32, 36]]);
       }));
 
       return function scaffold() {
@@ -240,7 +241,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
       };
     }();
 
-    var execInFolder, pkg, displaySuccessMessage, executeCmdInFolder, enterFolder, install, writeFile;
+    var execInFolder, pkg, displaySuccessMessage, executeCmdInFolder, enterFolder, install, readFile, writeFile;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -277,6 +278,22 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
               });
             };
 
+            readFile = function readFile(filename) {
+              return new Promise(function (resolve, reject) {
+                fs.readFile(filename, "UTF8", function (err, data) {
+                  try {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(data);
+                    }
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              });
+            };
+
             install = function install() {
               return program.yarn ? "yarn add" : "npm install";
             };
@@ -297,45 +314,45 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             };
 
             execInFolder = void 0;
-            _context3.prev = 6;
+            _context3.prev = 7;
 
             if (!program.force) {
-              _context3.next = 10;
+              _context3.next = 11;
               break;
             }
 
-            _context3.next = 10;
+            _context3.next = 11;
             return executeCommand("rm -rf " + folder, "Removing " + folder);
 
-          case 10:
+          case 11:
             pkg = program.yarn ? "yarn" : "npm";
 
             if (program.yarn) {
               displaySuccessMessage("Using yarn to install");
             }
-            _context3.next = 14;
+            _context3.next = 15;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
-          case 14:
+          case 15:
             execInFolder = executeCmdInFolder();
-            _context3.next = 17;
+            _context3.next = 18;
             return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
 
-          case 17:
-            _context3.next = 19;
+          case 18:
+            _context3.next = 20;
             return scaffold();
 
-          case 19:
-            _context3.next = 21;
+          case 20:
+            _context3.next = 22;
             return fixPackageJson();
 
-          case 21:
-            _context3.next = 26;
+          case 22:
+            _context3.next = 27;
             break;
 
-          case 23:
-            _context3.prev = 23;
-            _context3.t0 = _context3["catch"](6);
+          case 24:
+            _context3.prev = 24;
+            _context3.t0 = _context3["catch"](7);
 
             if (!_context3.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
@@ -343,12 +360,12 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 26:
+          case 27:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, undefined, [[6, 23]]);
+    }, _callee3, undefined, [[7, 24]]);
   }));
 
   return function (_x) {

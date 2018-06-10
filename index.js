@@ -189,12 +189,12 @@ program
         "test/client/config.jsx"
       ];
       for (const f of files) {
-
         try {
-          const file = await executeCommand(`cat ./${f}`);
+          const file = await readFile(`./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
           console.log(e);
+          throw e;
         }
       }
       displaySuccessMessage("Files scaffolded and placed");
@@ -214,7 +214,22 @@ program
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
+    function readFile(filename) {
+      return new Promise((resolve, reject) => {
+        fs.readFile(filename, "UTF8", (err, data) => {
+          try {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(data);
+            }
 
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+    }
     function writeFile(filename, content) {
       return new Promise((resolve, reject) => {
         try {
