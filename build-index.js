@@ -403,7 +403,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
           };
         }();
 
-        var fileGetter;
+        var files, i, file, fileGetter;
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -414,42 +414,37 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                   };
                 };
 
-                _context10.next = 3;
-                return createFolderStructure();
+                files = ["webpack.config.js"];
+                i = 0;
 
               case 3:
-                _context10.next = 5;
-                return createConfigs();
+                if (!(i < files.length)) {
+                  _context10.next = 10;
+                  break;
+                }
 
-              case 5:
+                file = require(files[i]);
                 _context10.next = 7;
-                return createSagas();
+                return writeFile(files[i], JSON.stringify(file, null, 2));
 
               case 7:
-                _context10.next = 9;
-                return createActions();
+                i++;
+                _context10.next = 3;
+                break;
 
-              case 9:
-                _context10.next = 11;
-                return createComponents();
-
-              case 11:
-                _context10.next = 13;
-                return createReducers();
-
-              case 13:
-                _context10.next = 15;
-                return createStyles();
-
-              case 15:
-                _context10.next = 17;
-                return createClientFiles();
-
-              case 17:
+              case 10:
+                // await createFolderStructure();
+                // await createConfigs();
+                // await createSagas();
+                // await createActions();
+                // await createComponents();
+                // await createReducers();
+                // await createStyles();
+                // await createClientFiles();
 
                 displaySuccessMessage("Files scaffolded and placed");
 
-              case 18:
+              case 11:
               case "end":
                 return _context10.stop();
             }
