@@ -28,8 +28,6 @@ var _require = require("child_process"),
 var ora = require("ora");
 var fs = require("fs");
 
-console.log("__dirname ", __dirname);
-console.log("__filename ", __filename);
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
   "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
@@ -154,7 +152,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                files = ["webpack.config.js"];
+                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/components/home.spec.jsx", "test/client/config.jsx"];
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
@@ -163,75 +161,79 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
               case 6:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 21;
+                  _context2.next = 23;
                   break;
                 }
 
                 f = _step.value;
                 _context2.prev = 8;
-                file = readFile("./" + f);
-                _context2.next = 12;
+                _context2.next = 11;
+                return readFile("./" + f);
+
+              case 11:
+                file = _context2.sent;
+                _context2.next = 14;
                 return writeFile(folder + "/" + f, file);
 
-              case 12:
-                _context2.next = 18;
+              case 14:
+                _context2.next = 20;
                 break;
 
-              case 14:
-                _context2.prev = 14;
+              case 16:
+                _context2.prev = 16;
                 _context2.t0 = _context2["catch"](8);
 
                 console.log(_context2.t0);
                 throw _context2.t0;
 
-              case 18:
+              case 20:
                 _iteratorNormalCompletion = true;
                 _context2.next = 6;
                 break;
 
-              case 21:
-                _context2.next = 27;
+              case 23:
+                _context2.next = 29;
                 break;
 
-              case 23:
-                _context2.prev = 23;
+              case 25:
+                _context2.prev = 25;
                 _context2.t1 = _context2["catch"](4);
                 _didIteratorError = true;
                 _iteratorError = _context2.t1;
 
-              case 27:
-                _context2.prev = 27;
-                _context2.prev = 28;
+              case 29:
+                _context2.prev = 29;
+                _context2.prev = 30;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 30:
-                _context2.prev = 30;
+              case 32:
+                _context2.prev = 32;
 
                 if (!_didIteratorError) {
-                  _context2.next = 33;
+                  _context2.next = 35;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 33:
-                return _context2.finish(30);
-
-              case 34:
-                return _context2.finish(27);
-
               case 35:
-                displaySuccessMessage("Files scaffolded and placed");
+                return _context2.finish(32);
 
               case 36:
+                return _context2.finish(29);
+
+              case 37:
+                displaySuccessMessage("Files scaffolded and placed");
+
+              case 38:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 23, 27, 35], [8, 14], [28,, 30, 34]]);
+        }, _callee2, this, [[4, 25, 29, 37], [8, 16], [30,, 32, 36]]);
       }));
 
       return function scaffold() {
@@ -278,7 +280,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
             readFile = function readFile(filename) {
               return new Promise(function (resolve, reject) {
-                fs.readFile(filename, function (err, data) {
+                fs.readFile(__dirname + "/" + filename, function (err, data) {
                   try {
                     if (err) {
                       reject(err);
