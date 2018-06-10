@@ -34,6 +34,7 @@ const deps = {
     "babel-plugin-transform-runtime",
     "babel-preset-env",
     "babel-preset-react",
+    "compression-webpack-plugin",
     "css-loader",
     "enzyme",
     "enzyme-adapter-react-16",
