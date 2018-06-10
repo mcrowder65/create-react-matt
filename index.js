@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 require("babel-polyfill");
-const path = require("path");
 const program = require("commander");
 const { exec } = require("child_process");
 const ora = require("ora");
 const fs = require("fs");
 
-const fi = path.resolve("./webpack.config.js");
-console.log(fi);
-
+console.log("__dirname ", __dirname);
+console.log("__filename ", __filename);
 const deps = {
   "dependencies": [
     "babel-runtime",
