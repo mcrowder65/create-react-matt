@@ -5,8 +5,6 @@ const { exec } = require("child_process");
 const ora = require("ora");
 const fs = require("fs");
 
-console.log("__dirname ", __dirname);
-console.log("__filename ", __filename);
 const deps = {
   "dependencies": [
     "babel-runtime",
@@ -169,30 +167,30 @@ program
     async function scaffold() {
       const files = [
         "webpack.config.js",
-        // ".babelrc",
-        // "src/client/actions/sagas/config.jsx",
-        // "src/client/actions/sagas/index.jsx",
-        // "src/client/actions/sagas/ping-server.jsx",
-        // "src/client/actions/sagas/types.jsx",
-        // "src/client/actions/index.jsx",
-        // "src/client/actions/types.jsx",
-        // "src/client/components/home.jsx",
-        // "src/client/reducers/index.jsx",
-        // "src/client/reducers/initial-state.jsx",
-        // "src/client/styles/base.scss",
-        // "src/client/app.jsx",
-        // "src/client/browser-history.jsx",
-        // "src/client/index.html",
-        // "src/client/router.jsx",
-        // "test/client/__mocks__/file-mock.js",
-        // "test/client/actions/sagas/ping-server.spec.jsx",
-        // "test/client/actions/index.spec.jsx",
-        // "test/client/components/home.spec.jsx",
-        // "test/client/config.jsx"
+        ".babelrc",
+        "src/client/actions/sagas/config.jsx",
+        "src/client/actions/sagas/index.jsx",
+        "src/client/actions/sagas/ping-server.jsx",
+        "src/client/actions/sagas/types.jsx",
+        "src/client/actions/index.jsx",
+        "src/client/actions/types.jsx",
+        "src/client/components/home.jsx",
+        "src/client/reducers/index.jsx",
+        "src/client/reducers/initial-state.jsx",
+        "src/client/styles/base.scss",
+        "src/client/app.jsx",
+        "src/client/browser-history.jsx",
+        "src/client/index.html",
+        "src/client/router.jsx",
+        "test/client/__mocks__/file-mock.js",
+        "test/client/actions/sagas/ping-server.spec.jsx",
+        "test/client/actions/index.spec.jsx",
+        "test/client/components/home.spec.jsx",
+        "test/client/config.jsx"
       ];
       for (const f of files) {
         try {
-          const file = readFile(`./${f}`);
+          const file = await readFile(`./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
           console.log(e);
@@ -218,7 +216,7 @@ program
     }
     function readFile(filename) {
       return new Promise((resolve, reject) => {
-        fs.readFile(filename, (err, data) => {
+        fs.readFile(`${__dirname}/${filename}`, (err, data) => {
           try {
             if (err) {
               reject(err);
