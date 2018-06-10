@@ -190,7 +190,7 @@ program
       ];
       for (const f of files) {
         try {
-          const file = await readFile(`./${f}`);
+          const file = require(`./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
           console.log(e);
@@ -216,7 +216,7 @@ program
     }
     function readFile(filename) {
       return new Promise((resolve, reject) => {
-        fs.readFile(filename, "UTF8", (err, data) => {
+        fs.readFile(filename, (err, data) => {
           try {
             if (err) {
               reject(err);

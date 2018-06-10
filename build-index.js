@@ -161,79 +161,75 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
               case 6:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 23;
+                  _context2.next = 21;
                   break;
                 }
 
                 f = _step.value;
                 _context2.prev = 8;
-                _context2.next = 11;
-                return readFile("./" + f);
-
-              case 11:
-                file = _context2.sent;
-                _context2.next = 14;
+                file = require("./" + f);
+                _context2.next = 12;
                 return writeFile(folder + "/" + f, file);
 
-              case 14:
-                _context2.next = 20;
+              case 12:
+                _context2.next = 18;
                 break;
 
-              case 16:
-                _context2.prev = 16;
+              case 14:
+                _context2.prev = 14;
                 _context2.t0 = _context2["catch"](8);
 
                 console.log(_context2.t0);
                 throw _context2.t0;
 
-              case 20:
+              case 18:
                 _iteratorNormalCompletion = true;
                 _context2.next = 6;
                 break;
 
-              case 23:
-                _context2.next = 29;
+              case 21:
+                _context2.next = 27;
                 break;
 
-              case 25:
-                _context2.prev = 25;
+              case 23:
+                _context2.prev = 23;
                 _context2.t1 = _context2["catch"](4);
                 _didIteratorError = true;
                 _iteratorError = _context2.t1;
 
-              case 29:
-                _context2.prev = 29;
-                _context2.prev = 30;
+              case 27:
+                _context2.prev = 27;
+                _context2.prev = 28;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 32:
-                _context2.prev = 32;
+              case 30:
+                _context2.prev = 30;
 
                 if (!_didIteratorError) {
-                  _context2.next = 35;
+                  _context2.next = 33;
                   break;
                 }
 
                 throw _iteratorError;
 
+              case 33:
+                return _context2.finish(30);
+
+              case 34:
+                return _context2.finish(27);
+
               case 35:
-                return _context2.finish(32);
-
-              case 36:
-                return _context2.finish(29);
-
-              case 37:
                 displaySuccessMessage("Files scaffolded and placed");
 
-              case 38:
+              case 36:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 25, 29, 37], [8, 16], [30,, 32, 36]]);
+        }, _callee2, this, [[4, 23, 27, 35], [8, 14], [28,, 30, 34]]);
       }));
 
       return function scaffold() {
@@ -280,7 +276,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
             readFile = function readFile(filename) {
               return new Promise(function (resolve, reject) {
-                fs.readFile(filename, "UTF8", function (err, data) {
+                fs.readFile(filename, function (err, data) {
                   try {
                     if (err) {
                       reject(err);
