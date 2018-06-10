@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
@@ -150,6 +151,9 @@ webpackConfig.plugins = [
   }),
 
 ];
+if (process.env.ANALYZE_BUNDLE) {
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+}
 if (isProd) {
 
   webpackConfig.plugins.push(

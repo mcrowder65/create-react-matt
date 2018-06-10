@@ -47,7 +47,8 @@ const deps = {
     "sass-loader",
     "react-hot-loader",
     "webpack-dev-server",
-    "identity-obj-proxy"
+    "identity-obj-proxy",
+    "webpack-bundle-analyzer"
   ]
 };
 
@@ -123,7 +124,7 @@ program
         dependencies: mapDeps(dependencies),
         devDependencies: mapDeps(devDependencies),
         eslintConfig: {
-          "extends": ["mcrowder65"]
+          extends: ["mcrowder65"]
         },
         scripts: {
           ...pkgJson.scripts,
@@ -131,16 +132,17 @@ program
           test: "npm run linter && npm run jest",
           jest: "./node_modules/.bin/jest --coverage",
           linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
-          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress"
+          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress",
+          "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
         },
         jest: {
           ...pkgJson.jest,
-          "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
-          "moduleNameMapper": {
+          setupTestFrameworkScriptFile: "<rootDir>/test/client/config.jsx",
+          moduleNameMapper: {
             "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
             "\\.(css|scss|less)$": "identity-obj-proxy"
           },
-          "coverageReporters": ["html"]
+          coverageReporters: ["html"]
         }
 
       };
@@ -165,14 +167,19 @@ program
       }
     }
     async function scaffold() {
-      await createFolderStructure();
-      await createConfigs();
-      await createSagas();
-      await createActions();
-      await createComponents();
-      await createReducers();
-      await createStyles();
-      await createClientFiles();
+      const files = ["webpack.config.js"];
+      for (let i = 0; i < files.length; i++) {
+        const file = require(files[i]);
+        await writeFile(files[i], JSON.stringify(file, null, 2));
+      }
+      // await createFolderStructure();
+      // await createConfigs();
+      // await createSagas();
+      // await createActions();
+      // await createComponents();
+      // await createReducers();
+      // await createStyles();
+      // await createClientFiles();
 
       displaySuccessMessage("Files scaffolded and placed");
 

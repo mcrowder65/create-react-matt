@@ -30,7 +30,7 @@ var fs = require("fs");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy"]
+  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
 };
 
 var executeCommand = function executeCommand(command, loadingText) {
@@ -96,22 +96,23 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                   dependencies: mapDeps(dependencies),
                   devDependencies: mapDeps(devDependencies),
                   eslintConfig: {
-                    "extends": ["mcrowder65"]
+                    extends: ["mcrowder65"]
                   },
                   scripts: (0, _extends4.default)({}, pkgJson.scripts, {
                     start: "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server",
                     test: "npm run linter && npm run jest",
                     jest: "./node_modules/.bin/jest --coverage",
                     linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
-                    webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress"
+                    webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress",
+                    "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
                   }),
                   jest: (0, _extends4.default)({}, pkgJson.jest, {
-                    "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
-                    "moduleNameMapper": {
+                    setupTestFrameworkScriptFile: "<rootDir>/test/client/config.jsx",
+                    moduleNameMapper: {
                       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
                       "\\.(css|scss|less)$": "identity-obj-proxy"
                     },
-                    "coverageReporters": ["html"]
+                    coverageReporters: ["html"]
                   })
 
                 });

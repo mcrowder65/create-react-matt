@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.56",
+  "version": "0.0.57",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -11,6 +11,7 @@
     "create-react-matt": "./build-index.js"
   },
   "scripts": {
+    "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack",
     "start": "export NODE_ENV=development && webpack-dev-server",
     "linter": "eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
     "webpack": "export NODE_ENV=production && webpack -p --progress",
@@ -126,6 +127,7 @@
     "sass-loader": "7.0.2",
     "style-loader": "0.21.0",
     "webpack": "3.12.0",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "2.11.2"
   },
   "bugs": {
