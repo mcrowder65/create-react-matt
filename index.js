@@ -85,8 +85,6 @@ const executeCommand = (command, loadingText) => {
 
 };
 
-const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/${process.env.TRAVIS_PULL_REQUEST_BRANCH || "master"}/`;
-
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
@@ -167,83 +165,34 @@ program
       }
     }
     async function scaffold() {
-      const files = ["webpack.config.js"];
-      for (let i = 0; i < files.length; i++) {
-        const file = require(files[i]);
-        await writeFile(files[i], JSON.stringify(file, null, 2));
+      const files = [
+        "webpack.config.js",
+        ".babelrc",
+        "src/client/actions/sagas/config.jsx",
+        "src/client/actions/sagas/index.jsx",
+        "src/client/actions/sagas/ping-server.jsx",
+        "src/client/actions/sagas/types.jsx",
+        "src/client/actions/index.jsx",
+        "src/client/actions/types.jsx",
+        "src/client/components/home.jsx",
+        "src/client/reducers/index.jsx",
+        "src/client/reducers/initial-state.jsx",
+        "src/client/styles/base.scss",
+        "src/client/app.jsx",
+        "src/client/browser-history.jsx",
+        "src/client/index.html",
+        "src/client/router.jsx",
+        "test/client/__mocks__/file-mock.js",
+        "test/client/actions/sagas/ping-server.spec.jsx",
+        "test/client/actions/index.spec.jsx",
+        "test/client/components/home.spec.jsx",
+        "test/client/config.jsx"
+      ];
+      for (const f in files) {
+        const file = await executeCommand(`cat ${f}`);
+        await writeFile(`${folder}/${f}`, file);
       }
-      // await createFolderStructure();
-      // await createConfigs();
-      // await createSagas();
-      // await createActions();
-      // await createComponents();
-      // await createReducers();
-      // await createStyles();
-      // await createClientFiles();
-
       displaySuccessMessage("Files scaffolded and placed");
-
-      async function createConfigs() {
-        const configFetcher = fileGetter("");
-        await configFetcher(".babelrc");
-        await configFetcher("webpack.config.js");
-      }
-      async function createSagas() {
-        const sagaFetcher = fileGetter(`src/client/actions/sagas`);
-        await sagaFetcher(`config.jsx`);
-        await sagaFetcher(`index.jsx`);
-        await sagaFetcher(`ping-server.jsx`);
-        await sagaFetcher(`types.jsx`);
-
-        const sagaTestFetcher = fileGetter("test/client/actions/sagas");
-        await sagaTestFetcher("ping-server.spec.jsx");
-      }
-      async function createActions() {
-        const actionFetcher = fileGetter(`src/client/actions`);
-        await actionFetcher("index.jsx");
-        await actionFetcher("types.jsx");
-
-        const actionTestFetcher = fileGetter("test/client/actions");
-        await actionTestFetcher("index.spec.jsx");
-      }
-      async function createComponents() {
-        const componentFetcher = fileGetter("src/client/components");
-        await componentFetcher("home.jsx");
-
-        const componentTestFetcher = fileGetter("test/client/components");
-        await componentTestFetcher("home.spec.jsx");
-      }
-      async function createReducers() {
-        const reducerFetcher = fileGetter("src/client/reducers");
-        await reducerFetcher("index.jsx");
-        await reducerFetcher("initial-state.jsx");
-      }
-      async function createStyles() {
-        const stylesFetcher = fileGetter("src/client/styles");
-        await stylesFetcher("base.scss");
-      }
-      async function createClientFiles() {
-        const clientFileFetcher = fileGetter("src/client");
-        await clientFileFetcher("app.jsx");
-        await clientFileFetcher("index.html");
-        await clientFileFetcher("router.jsx");
-        await clientFileFetcher("browser-history.jsx");
-
-        const clientTestFileFetcher = fileGetter("test/client");
-        await clientTestFileFetcher("config.jsx");
-
-        const clientMockTestFetcher = fileGetter("test/client/__mocks__");
-        await clientMockTestFetcher("file-mock.js");
-      }
-      function fileGetter(filepath) {
-        return function (filename) {
-          executeCommand(enterFolder(`${curlCmd}${filepath}/${filename}`, `/${filepath}`));
-        };
-      }
-      async function createFolderStructure() {
-        await execInFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`);
-        await execInFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components && mkdir -p test/client/__mocks__`);
-      }
     }
 
     function displaySuccessMessage(message) {
@@ -260,9 +209,22 @@ program
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
+
     function writeFile(filename, content) {
       return new Promise((resolve, reject) => {
         try {
+          const dirs = filename.split("/");
+          if (dirs) {
+            dirs.forEach((d, i) => {
+              const dir = makeDir(d, i);
+              if (!fs.existsSync(dir) && d.indexOf(".") === -1) {
+                fs.mkdirSync(dir);
+              }
+              function makeDir(currentDirectory, index) {
+                return dirs.filter((di, ind) => ind <= index).join("/");
+              }
+            });
+          }
           fs.writeFile(filename, content, error => {
             if (error) {
               console.log(error);

@@ -65,10 +65,8 @@ var executeCommand = function executeCommand(command, loadingText) {
   });
 };
 
-var curlCmd = "curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/" + (process.env.TRAVIS_PULL_REQUEST_BRANCH || "master") + "/";
-
 program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "rm -rf's your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(folder) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(folder) {
     var fixPackageJson = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var pkgJson, dependencies, devDependencies, newPkg, mapDeps;
@@ -147,309 +145,43 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
     }();
 
     var scaffold = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
-        var createConfigs = function () {
-          var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-            var configFetcher;
-            return _regenerator2.default.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    configFetcher = fileGetter("");
-                    _context2.next = 3;
-                    return configFetcher(".babelrc");
-
-                  case 3:
-                    _context2.next = 5;
-                    return configFetcher("webpack.config.js");
-
-                  case 5:
-                  case "end":
-                    return _context2.stop();
-                }
-              }
-            }, _callee2, this);
-          }));
-
-          return function createConfigs() {
-            return _ref4.apply(this, arguments);
-          };
-        }();
-
-        var createSagas = function () {
-          var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-            var sagaFetcher, sagaTestFetcher;
-            return _regenerator2.default.wrap(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    sagaFetcher = fileGetter("src/client/actions/sagas");
-                    _context3.next = 3;
-                    return sagaFetcher("config.jsx");
-
-                  case 3:
-                    _context3.next = 5;
-                    return sagaFetcher("index.jsx");
-
-                  case 5:
-                    _context3.next = 7;
-                    return sagaFetcher("ping-server.jsx");
-
-                  case 7:
-                    _context3.next = 9;
-                    return sagaFetcher("types.jsx");
-
-                  case 9:
-                    sagaTestFetcher = fileGetter("test/client/actions/sagas");
-                    _context3.next = 12;
-                    return sagaTestFetcher("ping-server.spec.jsx");
-
-                  case 12:
-                  case "end":
-                    return _context3.stop();
-                }
-              }
-            }, _callee3, this);
-          }));
-
-          return function createSagas() {
-            return _ref5.apply(this, arguments);
-          };
-        }();
-
-        var createActions = function () {
-          var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-            var actionFetcher, actionTestFetcher;
-            return _regenerator2.default.wrap(function _callee4$(_context4) {
-              while (1) {
-                switch (_context4.prev = _context4.next) {
-                  case 0:
-                    actionFetcher = fileGetter("src/client/actions");
-                    _context4.next = 3;
-                    return actionFetcher("index.jsx");
-
-                  case 3:
-                    _context4.next = 5;
-                    return actionFetcher("types.jsx");
-
-                  case 5:
-                    actionTestFetcher = fileGetter("test/client/actions");
-                    _context4.next = 8;
-                    return actionTestFetcher("index.spec.jsx");
-
-                  case 8:
-                  case "end":
-                    return _context4.stop();
-                }
-              }
-            }, _callee4, this);
-          }));
-
-          return function createActions() {
-            return _ref6.apply(this, arguments);
-          };
-        }();
-
-        var createComponents = function () {
-          var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-            var componentFetcher, componentTestFetcher;
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
-              while (1) {
-                switch (_context5.prev = _context5.next) {
-                  case 0:
-                    componentFetcher = fileGetter("src/client/components");
-                    _context5.next = 3;
-                    return componentFetcher("home.jsx");
-
-                  case 3:
-                    componentTestFetcher = fileGetter("test/client/components");
-                    _context5.next = 6;
-                    return componentTestFetcher("home.spec.jsx");
-
-                  case 6:
-                  case "end":
-                    return _context5.stop();
-                }
-              }
-            }, _callee5, this);
-          }));
-
-          return function createComponents() {
-            return _ref7.apply(this, arguments);
-          };
-        }();
-
-        var createReducers = function () {
-          var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
-            var reducerFetcher;
-            return _regenerator2.default.wrap(function _callee6$(_context6) {
-              while (1) {
-                switch (_context6.prev = _context6.next) {
-                  case 0:
-                    reducerFetcher = fileGetter("src/client/reducers");
-                    _context6.next = 3;
-                    return reducerFetcher("index.jsx");
-
-                  case 3:
-                    _context6.next = 5;
-                    return reducerFetcher("initial-state.jsx");
-
-                  case 5:
-                  case "end":
-                    return _context6.stop();
-                }
-              }
-            }, _callee6, this);
-          }));
-
-          return function createReducers() {
-            return _ref8.apply(this, arguments);
-          };
-        }();
-
-        var createStyles = function () {
-          var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-            var stylesFetcher;
-            return _regenerator2.default.wrap(function _callee7$(_context7) {
-              while (1) {
-                switch (_context7.prev = _context7.next) {
-                  case 0:
-                    stylesFetcher = fileGetter("src/client/styles");
-                    _context7.next = 3;
-                    return stylesFetcher("base.scss");
-
-                  case 3:
-                  case "end":
-                    return _context7.stop();
-                }
-              }
-            }, _callee7, this);
-          }));
-
-          return function createStyles() {
-            return _ref9.apply(this, arguments);
-          };
-        }();
-
-        var createClientFiles = function () {
-          var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
-            var clientFileFetcher, clientTestFileFetcher, clientMockTestFetcher;
-            return _regenerator2.default.wrap(function _callee8$(_context8) {
-              while (1) {
-                switch (_context8.prev = _context8.next) {
-                  case 0:
-                    clientFileFetcher = fileGetter("src/client");
-                    _context8.next = 3;
-                    return clientFileFetcher("app.jsx");
-
-                  case 3:
-                    _context8.next = 5;
-                    return clientFileFetcher("index.html");
-
-                  case 5:
-                    _context8.next = 7;
-                    return clientFileFetcher("router.jsx");
-
-                  case 7:
-                    _context8.next = 9;
-                    return clientFileFetcher("browser-history.jsx");
-
-                  case 9:
-                    clientTestFileFetcher = fileGetter("test/client");
-                    _context8.next = 12;
-                    return clientTestFileFetcher("config.jsx");
-
-                  case 12:
-                    clientMockTestFetcher = fileGetter("test/client/__mocks__");
-                    _context8.next = 15;
-                    return clientMockTestFetcher("file-mock.js");
-
-                  case 15:
-                  case "end":
-                    return _context8.stop();
-                }
-              }
-            }, _callee8, this);
-          }));
-
-          return function createClientFiles() {
-            return _ref10.apply(this, arguments);
-          };
-        }();
-
-        var createFolderStructure = function () {
-          var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
-            return _regenerator2.default.wrap(function _callee9$(_context9) {
-              while (1) {
-                switch (_context9.prev = _context9.next) {
-                  case 0:
-                    _context9.next = 2;
-                    return execInFolder("mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles");
-
-                  case 2:
-                    _context9.next = 4;
-                    return execInFolder("mkdir -p test/client/actions/sagas && mkdir -p test/client/components && mkdir -p test/client/__mocks__");
-
-                  case 4:
-                  case "end":
-                    return _context9.stop();
-                }
-              }
-            }, _callee9, this);
-          }));
-
-          return function createFolderStructure() {
-            return _ref11.apply(this, arguments);
-          };
-        }();
-
-        var files, i, file, fileGetter;
-        return _regenerator2.default.wrap(function _callee10$(_context10) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        var files, f, file;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                fileGetter = function fileGetter(filepath) {
-                  return function (filename) {
-                    executeCommand(enterFolder("" + curlCmd + filepath + "/" + filename, "/" + filepath));
-                  };
-                };
+                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/components/home.spec.jsx", "test/client/config.jsx"];
+                _context2.t0 = _regenerator2.default.keys(files);
 
-                files = ["webpack.config.js"];
-                i = 0;
-
-              case 3:
-                if (!(i < files.length)) {
-                  _context10.next = 10;
+              case 2:
+                if ((_context2.t1 = _context2.t0()).done) {
+                  _context2.next = 11;
                   break;
                 }
 
-                file = require(files[i]);
-                _context10.next = 7;
-                return writeFile(files[i], JSON.stringify(file, null, 2));
+                f = _context2.t1.value;
+                _context2.next = 6;
+                return executeCommand("cat " + f);
 
-              case 7:
-                i++;
-                _context10.next = 3;
+              case 6:
+                file = _context2.sent;
+                _context2.next = 9;
+                return writeFile(folder + "/" + f, file);
+
+              case 9:
+                _context2.next = 2;
                 break;
 
-              case 10:
-                // await createFolderStructure();
-                // await createConfigs();
-                // await createSagas();
-                // await createActions();
-                // await createComponents();
-                // await createReducers();
-                // await createStyles();
-                // await createClientFiles();
-
+              case 11:
                 displaySuccessMessage("Files scaffolded and placed");
 
-              case 11:
+              case 12:
               case "end":
-                return _context10.stop();
+                return _context2.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee2, this);
       }));
 
       return function scaffold() {
@@ -458,13 +190,27 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
     }();
 
     var execInFolder, pkg, displaySuccessMessage, executeCmdInFolder, enterFolder, install, writeFile;
-    return _regenerator2.default.wrap(function _callee11$(_context11) {
+    return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context11.prev = _context11.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             writeFile = function writeFile(filename, content) {
               return new Promise(function (resolve, reject) {
                 try {
+                  var dirs = filename.split("/");
+                  if (dirs) {
+                    dirs.forEach(function (d, i) {
+                      var dir = makeDir(d, i);
+                      if (!fs.existsSync(dir) && d.indexOf(".") === -1) {
+                        fs.mkdirSync(dir);
+                      }
+                      function makeDir(currentDirectory, index) {
+                        return dirs.filter(function (di, ind) {
+                          return ind <= index;
+                        }).join("/");
+                      }
+                    });
+                  }
                   fs.writeFile(filename, content, function (error) {
                     if (error) {
                       console.log(error);
@@ -500,14 +246,14 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             };
 
             execInFolder = void 0;
-            _context11.prev = 6;
+            _context3.prev = 6;
 
             if (!program.force) {
-              _context11.next = 10;
+              _context3.next = 10;
               break;
             }
 
-            _context11.next = 10;
+            _context3.next = 10;
             return executeCommand("rm -rf " + folder, "Removing " + folder);
 
           case 10:
@@ -516,42 +262,42 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             if (program.yarn) {
               displaySuccessMessage("Using yarn to install");
             }
-            _context11.next = 14;
+            _context3.next = 14;
             return executeCommand("mkdir " + folder, "Created " + folder);
 
           case 14:
             execInFolder = executeCmdInFolder();
-            _context11.next = 17;
+            _context3.next = 17;
             return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
 
           case 17:
-            _context11.next = 19;
+            _context3.next = 19;
             return scaffold();
 
           case 19:
-            _context11.next = 21;
+            _context3.next = 21;
             return fixPackageJson();
 
           case 21:
-            _context11.next = 26;
+            _context3.next = 26;
             break;
 
           case 23:
-            _context11.prev = 23;
-            _context11.t0 = _context11["catch"](6);
+            _context3.prev = 23;
+            _context3.t0 = _context3["catch"](6);
 
-            if (!_context11.t0.message.indexOf("File exists")) {
+            if (!_context3.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
-            } else if (_context11.t0.message.indexOf("File exists") !== -1) {
+            } else if (_context3.t0.message.indexOf("File exists") !== -1) {
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
           case 26:
           case "end":
-            return _context11.stop();
+            return _context3.stop();
         }
       }
-    }, _callee11, undefined, [[6, 23]]);
+    }, _callee3, undefined, [[6, 23]]);
   }));
 
   return function (_x) {
