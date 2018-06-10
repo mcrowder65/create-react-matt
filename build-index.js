@@ -146,42 +146,82 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
     var scaffold = function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        var files, f, file;
+        var files, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, f, file;
+
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/components/home.spec.jsx", "test/client/config.jsx"];
-                _context2.t0 = _regenerator2.default.keys(files);
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context2.prev = 4;
+                _iterator = files[Symbol.iterator]();
 
-              case 2:
-                if ((_context2.t1 = _context2.t0()).done) {
-                  _context2.next = 11;
+              case 6:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context2.next = 16;
                   break;
                 }
 
-                f = _context2.t1.value;
-                _context2.next = 6;
+                f = _step.value;
+                _context2.next = 10;
                 return executeCommand("cat " + f);
 
-              case 6:
+              case 10:
                 file = _context2.sent;
-                _context2.next = 9;
+                _context2.next = 13;
                 return writeFile(folder + "/" + f, file);
 
-              case 9:
-                _context2.next = 2;
+              case 13:
+                _iteratorNormalCompletion = true;
+                _context2.next = 6;
                 break;
 
-              case 11:
+              case 16:
+                _context2.next = 22;
+                break;
+
+              case 18:
+                _context2.prev = 18;
+                _context2.t0 = _context2["catch"](4);
+                _didIteratorError = true;
+                _iteratorError = _context2.t0;
+
+              case 22:
+                _context2.prev = 22;
+                _context2.prev = 23;
+
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+
+              case 25:
+                _context2.prev = 25;
+
+                if (!_didIteratorError) {
+                  _context2.next = 28;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 28:
+                return _context2.finish(25);
+
+              case 29:
+                return _context2.finish(22);
+
+              case 30:
                 displaySuccessMessage("Files scaffolded and placed");
 
-              case 12:
+              case 31:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[4, 18, 22, 30], [23,, 25, 29]]);
       }));
 
       return function scaffold() {

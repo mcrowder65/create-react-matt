@@ -188,7 +188,7 @@ program
         "test/client/components/home.spec.jsx",
         "test/client/config.jsx"
       ];
-      for (const f in files) {
+      for (const f of files) {
         const file = await executeCommand(`cat ${f}`);
         await writeFile(`${folder}/${f}`, file);
       }
