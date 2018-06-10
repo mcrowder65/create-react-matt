@@ -20,6 +20,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require("babel-polyfill");
+var path = require("path");
 var program = require("commander");
 
 var _require = require("child_process"),
@@ -27,6 +28,9 @@ var _require = require("child_process"),
 
 var ora = require("ora");
 var fs = require("fs");
+
+var fi = path.resolve("./webpack.config.js");
+console.log(fi);
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
@@ -152,7 +156,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/components/home.spec.jsx", "test/client/config.jsx"];
+                files = ["webpack.config.js"];
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
@@ -167,7 +171,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
                 f = _step.value;
                 _context2.prev = 8;
-                file = require("./" + f);
+                file = readFile("./" + f);
                 _context2.next = 12;
                 return writeFile(folder + "/" + f, file);
 

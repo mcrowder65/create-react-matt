@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 require("babel-polyfill");
+const path = require("path");
 const program = require("commander");
 const { exec } = require("child_process");
 const ora = require("ora");
 const fs = require("fs");
+
+const fi = path.resolve("./webpack.config.js");
+console.log(fi);
 
 const deps = {
   "dependencies": [
@@ -167,30 +171,30 @@ program
     async function scaffold() {
       const files = [
         "webpack.config.js",
-        ".babelrc",
-        "src/client/actions/sagas/config.jsx",
-        "src/client/actions/sagas/index.jsx",
-        "src/client/actions/sagas/ping-server.jsx",
-        "src/client/actions/sagas/types.jsx",
-        "src/client/actions/index.jsx",
-        "src/client/actions/types.jsx",
-        "src/client/components/home.jsx",
-        "src/client/reducers/index.jsx",
-        "src/client/reducers/initial-state.jsx",
-        "src/client/styles/base.scss",
-        "src/client/app.jsx",
-        "src/client/browser-history.jsx",
-        "src/client/index.html",
-        "src/client/router.jsx",
-        "test/client/__mocks__/file-mock.js",
-        "test/client/actions/sagas/ping-server.spec.jsx",
-        "test/client/actions/index.spec.jsx",
-        "test/client/components/home.spec.jsx",
-        "test/client/config.jsx"
+        // ".babelrc",
+        // "src/client/actions/sagas/config.jsx",
+        // "src/client/actions/sagas/index.jsx",
+        // "src/client/actions/sagas/ping-server.jsx",
+        // "src/client/actions/sagas/types.jsx",
+        // "src/client/actions/index.jsx",
+        // "src/client/actions/types.jsx",
+        // "src/client/components/home.jsx",
+        // "src/client/reducers/index.jsx",
+        // "src/client/reducers/initial-state.jsx",
+        // "src/client/styles/base.scss",
+        // "src/client/app.jsx",
+        // "src/client/browser-history.jsx",
+        // "src/client/index.html",
+        // "src/client/router.jsx",
+        // "test/client/__mocks__/file-mock.js",
+        // "test/client/actions/sagas/ping-server.spec.jsx",
+        // "test/client/actions/index.spec.jsx",
+        // "test/client/components/home.spec.jsx",
+        // "test/client/config.jsx"
       ];
       for (const f of files) {
         try {
-          const file = require(`./${f}`);
+          const file = readFile(`./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
           console.log(e);
