@@ -168,7 +168,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                 f = _step.value;
                 _context2.prev = 8;
                 _context2.next = 11;
-                return executeCommand("cat " + f);
+                return executeCommand("cat ./" + f);
 
               case 11:
                 file = _context2.sent;

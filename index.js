@@ -191,7 +191,7 @@ program
       for (const f of files) {
 
         try {
-          const file = await executeCommand(`cat ${f}`);
+          const file = await executeCommand(`cat ./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
           console.log(e);
