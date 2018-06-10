@@ -189,8 +189,13 @@ program
         "test/client/config.jsx"
       ];
       for (const f of files) {
-        const file = await executeCommand(`cat ${f}`);
-        await writeFile(`${folder}/${f}`, file);
+
+        try {
+          const file = await executeCommand(`cat ${f}`);
+          await writeFile(`${folder}/${f}`, file);
+        } catch (e) {
+          console.log(e);
+        }
       }
       displaySuccessMessage("Files scaffolded and placed");
     }
