@@ -65,7 +65,9 @@
       "html",
       "lcov"
     ],
-    "modulePaths": ["src/client/"],
+    "modulePaths": [
+      "src/client/"
+    ],
     "globals": {
       "localStorage": {}
     }
@@ -109,6 +111,7 @@
     "enzyme-adapter-react-16": "1.1.1",
     "eslint-config-mcrowder65": "0.0.27",
     "express": "^4.16.3",
+    "fetch-mock": "^6.4.4",
     "history": "4.7.2",
     "html-webpack-plugin": "3.2.0",
     "identity-obj-proxy": "3.0.0",
