@@ -30,7 +30,7 @@ var fs = require("fs");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
+  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
 };
 
 var executeCommand = function executeCommand(command, loadingText) {

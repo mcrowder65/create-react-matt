@@ -40,6 +40,7 @@ const deps = {
     "enzyme-adapter-react-16",
     "eslint-config-mcrowder65",
     "jest",
+    "fetch-mock",
     "react-addons-test-utils",
     "react-test-renderer",
     "style-loader",
