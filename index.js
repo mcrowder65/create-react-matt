@@ -188,7 +188,6 @@ program
         "test/client/__mocks__/file-mock.js",
         "test/client/actions/sagas/ping-server.spec.jsx",
         "test/client/actions/index.spec.jsx",
-        "test/client/components/home.spec.jsx",
         "test/client/config.jsx"
       ];
       for (const f of files) {
