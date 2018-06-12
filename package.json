@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -50,6 +50,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/client/**/*.{js*}",
+      "index.js",
       "!src/client/browser-history.js",
       "!src/client/app.js",
       "!src/client/router.js",

@@ -30,7 +30,7 @@ var fs = require("fs-extra");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
+  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "bundlesize", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
 };
 var executeFunction = function executeFunction(func, loadingText) {
   var spinner = void 0;
@@ -72,8 +72,8 @@ var createFolder = function createFolder(folder) {
     return fs.mkdir(folder, callback);
   }, "Creating " + folder);
 };
-program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(folder) {
+program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(folder) {
     var fixPackageJson = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var pkgJson, dependencies, devDependencies, newPkg, mapDeps;
@@ -103,12 +103,18 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                   eslintConfig: {
                     extends: ["mcrowder65"]
                   },
+                  bundlesize: [{
+                    "path": "./build/bundle.js",
+                    "compression": "gzip",
+                    "maxSize": "100 kB"
+                  }],
                   scripts: (0, _extends4.default)({}, pkgJson.scripts, {
                     start: "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server",
                     test: "npm run linter && npm run jest",
                     jest: "./node_modules/.bin/jest --coverage",
                     linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
                     webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress",
+                    bundlesize: "bundlesize",
                     "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
                   }),
                   jest: (0, _extends4.default)({}, pkgJson.jest, {
@@ -260,10 +266,34 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
       };
     }();
 
+    var createTravisFile = function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        var travisFile;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                travisFile = "\nlanguage: node_js\nnode_js: 8.9.4\nscript:\n- npm test;\n- npm run webpack;\n- npm run bundlesize;";
+                _context3.next = 3;
+                return writeFile(folder + "/.travis.yml", travisFile);
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      return function createTravisFile() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
     var execInFolder, pkg, displaySuccessMessage, executeCmdInFolder, enterFolder, install, readFile, writeFile;
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             writeFile = function writeFile(filename, content) {
               return new Promise(function (resolve, reject) {
@@ -335,14 +365,14 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             };
 
             execInFolder = void 0;
-            _context3.prev = 7;
+            _context4.prev = 7;
 
             if (!program.force) {
-              _context3.next = 11;
+              _context4.next = 11;
               break;
             }
 
-            _context3.next = 11;
+            _context4.next = 11;
             return removeFolder(folder);
 
           case 11:
@@ -352,41 +382,51 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
               displaySuccessMessage("Using yarn to install");
             }
             execInFolder = executeCmdInFolder();
-            _context3.next = 16;
+            _context4.next = 16;
             return createFolder(folder);
 
           case 16:
-            _context3.next = 18;
+            _context4.next = 18;
             return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
 
           case 18:
-            _context3.next = 20;
-            return scaffold();
+            if (!program.travis) {
+              _context4.next = 22;
+              break;
+            }
 
-          case 20:
-            _context3.next = 22;
-            return fixPackageJson();
+            displaySuccessMessage("Created .travis.yml");
+            _context4.next = 22;
+            return createTravisFile();
 
           case 22:
-            _context3.next = 27;
-            break;
+            _context4.next = 24;
+            return scaffold();
 
           case 24:
-            _context3.prev = 24;
-            _context3.t0 = _context3["catch"](7);
+            _context4.next = 26;
+            return fixPackageJson();
 
-            if (!_context3.t0.message.indexOf("File exists")) {
+          case 26:
+            _context4.next = 31;
+            break;
+
+          case 28:
+            _context4.prev = 28;
+            _context4.t0 = _context4["catch"](7);
+
+            if (!_context4.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
-            } else if (_context3.t0.message.indexOf("File exists") !== -1) {
+            } else if (_context4.t0.message.indexOf("File exists") !== -1) {
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 27:
+          case 31:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, undefined, [[7, 24]]);
+    }, _callee4, undefined, [[7, 28]]);
   }));
 
   return function (_x) {

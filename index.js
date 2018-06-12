@@ -34,6 +34,7 @@ const deps = {
     "babel-plugin-transform-runtime",
     "babel-preset-env",
     "babel-preset-react",
+    "bundlesize",
     "compression-webpack-plugin",
     "css-loader",
     "enzyme",
@@ -89,6 +90,7 @@ const createFolder = folder => {
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
+  .option("-t, --travis", "Create .travis.yml file")
   .option("-f, --force", "Removing your folder for good measure")
   .option("-s, --skip", "Doesn't save to node_modules")
   .action(async folder => {
@@ -104,6 +106,10 @@ program
       execInFolder = executeCmdInFolder();
       await createFolder(folder);
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
+      if (program.travis) {
+        displaySuccessMessage("Created .travis.yml");
+        await createTravisFile();
+      }
       await scaffold();
       await fixPackageJson();
     } catch (error) {
@@ -124,6 +130,13 @@ program
         eslintConfig: {
           extends: ["mcrowder65"]
         },
+        bundlesize: [
+          {
+            "path": "./build/bundle.js",
+            "compression": "gzip",
+            "maxSize": "100 kB"
+          }
+        ],
         scripts: {
           ...pkgJson.scripts,
           start: "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server",
@@ -131,6 +144,7 @@ program
           jest: "./node_modules/.bin/jest --coverage",
           linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
           webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress",
+          bundlesize: "bundlesize",
           "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
         },
         jest: {
@@ -209,8 +223,19 @@ program
         }
       }
       displaySuccessMessage("Files scaffolded and placed");
+
     }
 
+    async function createTravisFile() {
+      const travisFile = `
+language: node_js
+node_js: 8.9.4
+script:
+- npm test;
+- npm run webpack;
+- npm run bundlesize;`;
+      await writeFile(`${folder}/.travis.yml`, travisFile);
+    }
     function displaySuccessMessage(message) {
       const spinner = ora(message).start();
       spinner.succeed();
