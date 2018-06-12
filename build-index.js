@@ -127,20 +127,30 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                 return writeFile(folder + "/package.json", JSON.stringify(newPkg, null, 2));
 
               case 10:
-                if (!program.skip) {
+                if (!(process.platform === "win32")) {
                   _context.next = 14;
                   break;
                 }
 
-                displaySuccessMessage("Skipping installation of node_modules");
-                _context.next = 16;
+                displaySuccessMessage("Installation of node_modules will be skipped because windows is not supported for node_module installation on this cli.");
+                _context.next = 20;
                 break;
 
               case 14:
-                _context.next = 16;
+                if (!program.skip) {
+                  _context.next = 18;
+                  break;
+                }
+
+                displaySuccessMessage("Skipping installation of node_modules");
+                _context.next = 20;
+                break;
+
+              case 18:
+                _context.next = 20;
                 return execInFolder("" + install(), "Installing dependencies and devDependencies");
 
-              case 16:
+              case 20:
               case "end":
                 return _context.stop();
             }

@@ -156,7 +156,9 @@ program
 
       };
       await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
-      if (program.skip) {
+      if (process.platform === "win32") {
+        displaySuccessMessage("Installation of node_modules will be skipped because windows is not supported for node_module installation on this cli.");
+      } else if (program.skip) {
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
         await execInFolder(`${install()}`, "Installing dependencies and devDependencies");
