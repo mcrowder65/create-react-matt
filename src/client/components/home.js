@@ -22,8 +22,10 @@ class Home extends React.Component {
           onChange={e => this.props.setInput(e.target.value)}
         /><br/>
 
-        {this.props.ping}<br/>
-        <button onClick={this.props.pingServer}>PING SERVER</button>
+        <p id="ping">
+          {this.props.ping}
+        </p><br/>
+        <button id="ping-server" onClick={this.props.pingServer}>PING SERVER</button>
         <br/>
       </div>
     );

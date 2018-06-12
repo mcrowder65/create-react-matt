@@ -2,17 +2,18 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const isProd = process.env.NODE_ENV === "production";
 const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
   cache: !isProd,
   devtool: isProd ? "" : "eval-cheap-module-source-map",
-  entry: isProd ? "./src/client/app.jsx" : [
+  entry: isProd ? "./src/client/app.js" : [
     "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:8080",
     "webpack/hot/only-dev-server",
-    "./src/client/app.jsx"
+    "./src/client/app.js"
   ],
   output: {
     path: `${__dirname}/build`,
@@ -21,7 +22,7 @@ const webpackConfig = {
   resolve: {
     extensions: [".js", ".scss", ".jsx", ".css"],
     modules: [sourcePath, path.resolve(__dirname, "./node_modules")],
-    symlinks: false
+    symlinks: true
   },
   module: {
     loaders: [
@@ -150,6 +151,9 @@ webpackConfig.plugins = [
   }),
 
 ];
+if (process.env.ANALYZE_BUNDLE) {
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+}
 if (isProd) {
 
   webpackConfig.plugins.push(

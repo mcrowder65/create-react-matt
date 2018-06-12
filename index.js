@@ -3,7 +3,7 @@ require("babel-polyfill");
 const program = require("commander");
 const { exec } = require("child_process");
 const ora = require("ora");
-const fs = require("fs");
+const fs = require("fs-extra");
 
 const deps = {
   "dependencies": [
@@ -34,75 +34,75 @@ const deps = {
     "babel-plugin-transform-runtime",
     "babel-preset-env",
     "babel-preset-react",
+    "compression-webpack-plugin",
     "css-loader",
     "enzyme",
     "enzyme-adapter-react-16",
     "eslint-config-mcrowder65",
     "jest",
-    "react-addons-test-utils",
-    "react-test-renderer",
+    "fetch-mock",
     "style-loader",
     "postcss-loader",
     "postcss-flexbugs-fixes",
     "sass-loader",
     "react-hot-loader",
     "webpack-dev-server",
-    "identity-obj-proxy"
+    "identity-obj-proxy",
+    "webpack-bundle-analyzer"
   ]
 };
-
-const executeCommand = (command, loadingText) => {
+const executeFunction = (func, loadingText) => {
   let spinner;
   return new Promise((resolve, reject) => {
     try {
       if (loadingText) {
         spinner = ora(loadingText).start();
       }
-      exec(command, (error, stdout) => {
+      func((error, output) => {
         if (error) {
-          if (error.message.indexOf("File exists") !== -1) {
-            spinner.fail(error.message);
-            reject(error);
-          } else {
-
-            reject(error);
-          }
+          spinner.fail(error.message);
+          reject(error);
         } else {
           if (loadingText) {
             spinner.succeed();
           }
-          resolve(stdout);
+          resolve(output);
         }
+
       });
     } catch (error) {
-      if (loadingText) {
-        spinner.fail();
-      }
       reject(error);
     }
   });
-
 };
 
-const curlCmd = `curl -O https://raw.githubusercontent.com/mcrowder65/create-react-matt/${process.env.TRAVIS_PULL_REQUEST_BRANCH || "master"}/`;
+const removeFolder = folder => {
+  return executeFunction(callback => fs.remove(folder, callback), `Removing ${folder}`);
+};
+const executeBashCommand = (command, loadingText) => {
+  return executeFunction(callback => exec(command, callback), loadingText);
+};
 
+const createFolder = folder => {
+  return executeFunction(callback => fs.mkdir(folder, callback), `Creating ${folder}`);
+};
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
-  .option("-f, --force", "rm -rf's your folder for good measure")
+  .option("-f, --force", "Removing your folder for good measure")
   .option("-s, --skip", "Doesn't save to node_modules")
   .action(async folder => {
     let execInFolder;
     try {
       if (program.force) {
-        await executeCommand(`rm -rf ${folder}`, `Removing ${folder}`);
+        await removeFolder(folder);
       }
       const pkg = program.yarn ? "yarn" : "npm";
       if (program.yarn) {
         displaySuccessMessage("Using yarn to install");
       }
-      await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       execInFolder = executeCmdInFolder();
+      await createFolder(folder);
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
       await scaffold();
       await fixPackageJson();
@@ -114,8 +114,7 @@ program
       }
     }
     async function fixPackageJson() {
-
-      const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+      const pkgJson = JSON.parse(await readFile(`${folder}/package.json`, false));
       const { dependencies, devDependencies } = deps;
 
       const newPkg = {
@@ -123,7 +122,7 @@ program
         dependencies: mapDeps(dependencies),
         devDependencies: mapDeps(devDependencies),
         eslintConfig: {
-          "extends": ["mcrowder65"]
+          extends: ["mcrowder65"]
         },
         scripts: {
           ...pkgJson.scripts,
@@ -131,21 +130,33 @@ program
           test: "npm run linter && npm run jest",
           jest: "./node_modules/.bin/jest --coverage",
           linter: "./node_modules/.bin/eslint src --ext .js,.jsx && ./node_modules/.bin/eslint test --ext .js,.jsx",
-          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress"
+          webpack: "export NODE_ENV=production && ./node_modules/.bin/webpack -p --progress",
+          "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
         },
         jest: {
           ...pkgJson.jest,
-          "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
-          "moduleNameMapper": {
+          setupTestFrameworkScriptFile: "<rootDir>/test/client/config.js",
+          moduleNameMapper: {
             "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
             "\\.(css|scss|less)$": "identity-obj-proxy"
           },
-          "coverageReporters": ["html"]
+          collectCoverageFrom: [
+            "src/client/**/*.{js*}",
+            "!src/client/browser-history.js",
+            "!src/client/app.js",
+            "!src/client/router.js",
+            "!src/client/actions/sagas/config.js",
+            "!src/client/actions/sagas/index.js"
+          ],
+          modulePaths: ["src/client/"],
+          coverageReporters: ["html"]
         }
 
       };
       await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
-      if (program.skip) {
+      if (process.platform === "win32") {
+        displaySuccessMessage("Installation of node_modules will be skipped because windows is not supported for node_module installation on this cli.");
+      } else if (program.skip) {
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
         await execInFolder(`${install()}`, "Installing dependencies and devDependencies");
@@ -165,78 +176,39 @@ program
       }
     }
     async function scaffold() {
-      await createFolderStructure();
-      await createConfigs();
-      await createSagas();
-      await createActions();
-      await createComponents();
-      await createReducers();
-      await createStyles();
-      await createClientFiles();
-
+      const files = [
+        "webpack.config.js",
+        ".babelrc",
+        "src/client/actions/sagas/config.js",
+        "src/client/actions/sagas/index.js",
+        "src/client/actions/sagas/ping-server.js",
+        "src/client/actions/sagas/types.js",
+        "src/client/actions/index.js",
+        "src/client/actions/types.js",
+        "src/client/components/home.js",
+        "src/client/reducers/index.js",
+        "src/client/reducers/initial-state.js",
+        "src/client/styles/base.scss",
+        "src/client/app.js",
+        "src/client/browser-history.js",
+        "src/client/index.html",
+        "src/client/router.js",
+        "test/client/__mocks__/file-mock.js",
+        "test/client/actions/sagas/ping-server.spec.js",
+        "test/client/actions/index.spec.js",
+        "test/client/config.js",
+        "test/client/reducers/index.spec.js"
+      ];
+      for (const f of files) {
+        try {
+          const file = await readFile(`./${f}`);
+          await writeFile(`${folder}/${f}`, file);
+        } catch (e) {
+          console.log(e);
+          throw e;
+        }
+      }
       displaySuccessMessage("Files scaffolded and placed");
-
-      async function createConfigs() {
-        const configFetcher = fileGetter("");
-        await configFetcher(".babelrc");
-        await configFetcher("webpack.config.js");
-      }
-      async function createSagas() {
-        const sagaFetcher = fileGetter(`src/client/actions/sagas`);
-        await sagaFetcher(`config.jsx`);
-        await sagaFetcher(`index.jsx`);
-        await sagaFetcher(`ping-server.jsx`);
-        await sagaFetcher(`types.jsx`);
-
-        const sagaTestFetcher = fileGetter("test/client/actions/sagas");
-        await sagaTestFetcher("ping-server.spec.jsx");
-      }
-      async function createActions() {
-        const actionFetcher = fileGetter(`src/client/actions`);
-        await actionFetcher("index.jsx");
-        await actionFetcher("types.jsx");
-
-        const actionTestFetcher = fileGetter("test/client/actions");
-        await actionTestFetcher("index.spec.jsx");
-      }
-      async function createComponents() {
-        const componentFetcher = fileGetter("src/client/components");
-        await componentFetcher("home.jsx");
-
-        const componentTestFetcher = fileGetter("test/client/components");
-        await componentTestFetcher("home.spec.jsx");
-      }
-      async function createReducers() {
-        const reducerFetcher = fileGetter("src/client/reducers");
-        await reducerFetcher("index.jsx");
-        await reducerFetcher("initial-state.jsx");
-      }
-      async function createStyles() {
-        const stylesFetcher = fileGetter("src/client/styles");
-        await stylesFetcher("base.scss");
-      }
-      async function createClientFiles() {
-        const clientFileFetcher = fileGetter("src/client");
-        await clientFileFetcher("app.jsx");
-        await clientFileFetcher("index.html");
-        await clientFileFetcher("router.jsx");
-        await clientFileFetcher("browser-history.jsx");
-
-        const clientTestFileFetcher = fileGetter("test/client");
-        await clientTestFileFetcher("config.jsx");
-
-        const clientMockTestFetcher = fileGetter("test/client/__mocks__");
-        await clientMockTestFetcher("file-mock.js");
-      }
-      function fileGetter(filepath) {
-        return function (filename) {
-          executeCommand(enterFolder(`${curlCmd}${filepath}/${filename}`, `/${filepath}`));
-        };
-      }
-      async function createFolderStructure() {
-        await execInFolder(`mkdir -p src/client/actions/sagas && mkdir -p src/client/components && mkdir -p src/client/reducers && mkdir -p src/client/styles`);
-        await execInFolder(`mkdir -p test/client/actions/sagas && mkdir -p test/client/components && mkdir -p test/client/__mocks__`);
-      }
     }
 
     function displaySuccessMessage(message) {
@@ -245,7 +217,7 @@ program
     }
 
     function executeCmdInFolder() {
-      return (str, output) => executeCommand(enterFolder(str), output);
+      return (str, output) => executeBashCommand(enterFolder(str), output);
     }
     function enterFolder(str, post) {
       return `cd ${folder}${post ? post : ""} && ${str}`;
@@ -253,9 +225,37 @@ program
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
+    function readFile(filename, includeDirname = true) {
+      return new Promise((resolve, reject) => {
+        fs.readFile(`${includeDirname ? `${__dirname}/` : ""}${filename}`, "UTF-8", (err, data) => {
+          try {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(data);
+            }
+
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+    }
     function writeFile(filename, content) {
       return new Promise((resolve, reject) => {
         try {
+          const dirs = filename.split("/");
+          if (dirs) {
+            dirs.forEach((d, i) => {
+              const dir = makeDir(d, i);
+              if (!fs.existsSync(dir) && d.indexOf(".") === -1) {
+                fs.mkdirSync(dir);
+              }
+              function makeDir(currentDirectory, index) {
+                return dirs.filter((di, ind) => ind <= index).join("/");
+              }
+            });
+          }
           fs.writeFile(filename, content, error => {
             if (error) {
               console.log(error);
