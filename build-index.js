@@ -30,7 +30,7 @@ var fs = require("fs-extra");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
+  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
 };
 var executeFunction = function executeFunction(func, loadingText) {
   var spinner = void 0;
@@ -112,12 +112,12 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
                     "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack"
                   }),
                   jest: (0, _extends4.default)({}, pkgJson.jest, {
-                    setupTestFrameworkScriptFile: "<rootDir>/test/client/config.jsx",
+                    setupTestFrameworkScriptFile: "<rootDir>/test/client/config.js",
                     moduleNameMapper: {
                       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
                       "\\.(css|scss|less)$": "identity-obj-proxy"
                     },
-                    collectCoverageFrom: ["src/client/**/*.{js*}", "!src/client/browser-history.jsx", "!src/client/app.jsx", "!src/client/router.jsx", "!src/client/actions/sagas/config.jsx", "!src/client/actions/sagas/index.jsx"],
+                    collectCoverageFrom: ["src/client/**/*.{js*}", "!src/client/browser-history.js", "!src/client/app.js", "!src/client/router.js", "!src/client/actions/sagas/config.js", "!src/client/actions/sagas/index.js"],
                     modulePaths: ["src/client/"],
                     coverageReporters: ["html"]
                   })
@@ -171,7 +171,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/config.jsx", "test/client/reducers/index.spec.jsx"];
+                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.js", "src/client/actions/sagas/index.js", "src/client/actions/sagas/ping-server.js", "src/client/actions/sagas/types.js", "src/client/actions/index.js", "src/client/actions/types.js", "src/client/components/home.js", "src/client/reducers/index.js", "src/client/reducers/initial-state.js", "src/client/styles/base.scss", "src/client/app.js", "src/client/browser-history.js", "src/client/index.html", "src/client/router.js", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.js", "test/client/actions/index.spec.js", "test/client/config.js", "test/client/reducers/index.spec.js"];
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;

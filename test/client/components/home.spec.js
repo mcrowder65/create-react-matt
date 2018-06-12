@@ -11,7 +11,7 @@ import Home from "components/home";
 import sagaActions from "actions/sagas";
 
 const generateEvent = value => ({ target: { value } });
-describe("test/client/components/home.spec.jsx", () => {
+describe("test/client/components/home.spec.js", () => {
   let home;
   let store;
   beforeAll(() => {
