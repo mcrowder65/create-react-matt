@@ -116,7 +116,7 @@ program
       }
     }
     async function fixPackageJson() {
-      const pkgJson = JSON.parse(await readFile(`${folder}/package.json`));
+      const pkgJson = JSON.parse(await readFile(`${folder}/package.json`, false));
       const { dependencies, devDependencies } = deps;
 
       const newPkg = {
@@ -227,9 +227,9 @@ program
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
-    function readFile(filename) {
+    function readFile(filename, includeDirname = true) {
       return new Promise((resolve, reject) => {
-        fs.readFile(`${__dirname}/${filename}`, "UTF-8", (err, data) => {
+        fs.readFile(`${includeDirname ? `${__dirname}/` : ""}${filename}`, "UTF-8", (err, data) => {
           try {
             if (err) {
               reject(err);

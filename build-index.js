@@ -91,7 +91,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
                 _context.t0 = JSON;
                 _context.next = 4;
-                return readFile(folder + "/package.json");
+                return readFile(folder + "/package.json", false);
 
               case 4:
                 _context.t1 = _context.sent;
@@ -298,8 +298,10 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             };
 
             readFile = function readFile(filename) {
+              var includeDirname = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
               return new Promise(function (resolve, reject) {
-                fs.readFile(__dirname + "/" + filename, "UTF-8", function (err, data) {
+                fs.readFile("" + (includeDirname ? __dirname + "/" : "") + filename, "UTF-8", function (err, data) {
                   try {
                     if (err) {
                       reject(err);
