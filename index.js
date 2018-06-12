@@ -93,6 +93,7 @@ program
   .option("-t, --travis", "Create .travis.yml file")
   .option("-f, --force", "Removing your folder for good measure")
   .option("-s, --skip", "Doesn't save to node_modules")
+  .option("-g, --git", "Does git init and creates .gitignore")
   .action(async folder => {
     let execInFolder;
     try {
@@ -106,6 +107,9 @@ program
       execInFolder = executeCmdInFolder();
       await createFolder(folder);
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
+      if (program.git) {
+        await gitInit();
+      }
       if (program.travis) {
         displaySuccessMessage("Created .travis.yml");
         await createTravisFile();
@@ -187,6 +191,20 @@ program
             [d]: combined[d]
           };
         }, {});
+      }
+    }
+    async function gitInit() {
+      if (process.platform === "win32") {
+        displaySuccessMessage("git initialization not supported on windows by this cli");
+      } else {
+        await execInFolder(`git init`, `git init`);
+        const gitIgnore = `node_modules
+coverage
+build
+.idea
+npm-debug.log`;
+        await writeFile(`${folder}/.gitignore`, gitIgnore);
+        displaySuccessMessage(`.gitignore created`);
       }
     }
     async function scaffold() {

@@ -72,8 +72,8 @@ var createFolder = function createFolder(folder) {
     return fs.mkdir(folder, callback);
   }, "Creating " + folder);
 };
-program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(folder) {
+program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").option("-g, --git", "Does git init and creates .gitignore").action(function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(folder) {
     var fixPackageJson = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var pkgJson, dependencies, devDependencies, newPkg, mapDeps;
@@ -169,131 +169,172 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
       };
     }();
 
-    var scaffold = function () {
+    var gitInit = function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        var files, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, f, file;
-
+        var gitIgnore;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(process.platform === "win32")) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                displaySuccessMessage("git initialization not supported on windows by this cli");
+                _context2.next = 10;
+                break;
+
+              case 4:
+                _context2.next = 6;
+                return execInFolder("git init", "git init");
+
+              case 6:
+                gitIgnore = "node_modules\ncoverage\nbuild\n.idea\nnpm-debug.log";
+                _context2.next = 9;
+                return writeFile(folder + "/.gitignore", gitIgnore);
+
+              case 9:
+                displaySuccessMessage(".gitignore created");
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function gitInit() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var scaffold = function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        var files, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, f, file;
+
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.js", "src/client/actions/sagas/index.js", "src/client/actions/sagas/ping-server.js", "src/client/actions/sagas/types.js", "src/client/actions/index.js", "src/client/actions/types.js", "src/client/components/home.js", "src/client/reducers/index.js", "src/client/reducers/initial-state.js", "src/client/styles/base.scss", "src/client/app.js", "src/client/browser-history.js", "src/client/index.html", "src/client/router.js", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.js", "test/client/actions/index.spec.js", "test/client/config.js", "test/client/reducers/index.spec.js"];
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context2.prev = 4;
+                _context3.prev = 4;
                 _iterator = files[Symbol.iterator]();
 
               case 6:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 23;
+                  _context3.next = 23;
                   break;
                 }
 
                 f = _step.value;
-                _context2.prev = 8;
-                _context2.next = 11;
+                _context3.prev = 8;
+                _context3.next = 11;
                 return readFile("./" + f);
 
               case 11:
-                file = _context2.sent;
-                _context2.next = 14;
+                file = _context3.sent;
+                _context3.next = 14;
                 return writeFile(folder + "/" + f, file);
 
               case 14:
-                _context2.next = 20;
+                _context3.next = 20;
                 break;
 
               case 16:
-                _context2.prev = 16;
-                _context2.t0 = _context2["catch"](8);
+                _context3.prev = 16;
+                _context3.t0 = _context3["catch"](8);
 
-                console.log(_context2.t0);
-                throw _context2.t0;
+                console.log(_context3.t0);
+                throw _context3.t0;
 
               case 20:
                 _iteratorNormalCompletion = true;
-                _context2.next = 6;
+                _context3.next = 6;
                 break;
 
               case 23:
-                _context2.next = 29;
+                _context3.next = 29;
                 break;
 
               case 25:
-                _context2.prev = 25;
-                _context2.t1 = _context2["catch"](4);
+                _context3.prev = 25;
+                _context3.t1 = _context3["catch"](4);
                 _didIteratorError = true;
-                _iteratorError = _context2.t1;
+                _iteratorError = _context3.t1;
 
               case 29:
-                _context2.prev = 29;
-                _context2.prev = 30;
+                _context3.prev = 29;
+                _context3.prev = 30;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
               case 32:
-                _context2.prev = 32;
+                _context3.prev = 32;
 
                 if (!_didIteratorError) {
-                  _context2.next = 35;
+                  _context3.next = 35;
                   break;
                 }
 
                 throw _iteratorError;
 
               case 35:
-                return _context2.finish(32);
+                return _context3.finish(32);
 
               case 36:
-                return _context2.finish(29);
+                return _context3.finish(29);
 
               case 37:
                 displaySuccessMessage("Files scaffolded and placed");
 
               case 38:
               case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this, [[4, 25, 29, 37], [8, 16], [30,, 32, 36]]);
-      }));
-
-      return function scaffold() {
-        return _ref3.apply(this, arguments);
-      };
-    }();
-
-    var createTravisFile = function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var travisFile;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                travisFile = "\nlanguage: node_js\nnode_js: 8.9.4\nscript:\n- npm test;\n- npm run webpack;\n- npm run bundlesize;";
-                _context3.next = 3;
-                return writeFile(folder + "/.travis.yml", travisFile);
-
-              case 3:
-              case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee3, this, [[4, 25, 29, 37], [8, 16], [30,, 32, 36]]);
       }));
 
-      return function createTravisFile() {
+      return function scaffold() {
         return _ref4.apply(this, arguments);
       };
     }();
 
+    var createTravisFile = function () {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+        var travisFile;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                travisFile = "\nlanguage: node_js\nnode_js: 8.9.4\nscript:\n- npm test;\n- npm run webpack;\n- npm run bundlesize;";
+                _context4.next = 3;
+                return writeFile(folder + "/.travis.yml", travisFile);
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function createTravisFile() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+
     var execInFolder, pkg, displaySuccessMessage, executeCmdInFolder, enterFolder, install, readFile, writeFile;
-    return _regenerator2.default.wrap(function _callee4$(_context4) {
+    return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             writeFile = function writeFile(filename, content) {
               return new Promise(function (resolve, reject) {
@@ -365,14 +406,14 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
             };
 
             execInFolder = void 0;
-            _context4.prev = 7;
+            _context5.prev = 7;
 
             if (!program.force) {
-              _context4.next = 11;
+              _context5.next = 11;
               break;
             }
 
-            _context4.next = 11;
+            _context5.next = 11;
             return removeFolder(folder);
 
           case 11:
@@ -382,51 +423,60 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
               displaySuccessMessage("Using yarn to install");
             }
             execInFolder = executeCmdInFolder();
-            _context4.next = 16;
+            _context5.next = 16;
             return createFolder(folder);
 
           case 16:
-            _context4.next = 18;
+            _context5.next = 18;
             return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
 
           case 18:
+            if (!program.git) {
+              _context5.next = 21;
+              break;
+            }
+
+            _context5.next = 21;
+            return gitInit();
+
+          case 21:
             if (!program.travis) {
-              _context4.next = 22;
+              _context5.next = 25;
               break;
             }
 
             displaySuccessMessage("Created .travis.yml");
-            _context4.next = 22;
+            _context5.next = 25;
             return createTravisFile();
 
-          case 22:
-            _context4.next = 24;
+          case 25:
+            _context5.next = 27;
             return scaffold();
 
-          case 24:
-            _context4.next = 26;
+          case 27:
+            _context5.next = 29;
             return fixPackageJson();
 
-          case 26:
-            _context4.next = 31;
+          case 29:
+            _context5.next = 34;
             break;
 
-          case 28:
-            _context4.prev = 28;
-            _context4.t0 = _context4["catch"](7);
+          case 31:
+            _context5.prev = 31;
+            _context5.t0 = _context5["catch"](7);
 
-            if (!_context4.t0.message.indexOf("File exists")) {
+            if (!_context5.t0.message.indexOf("File exists")) {
               console.error("Something went wrong, sorry");
-            } else if (_context4.t0.message.indexOf("File exists") !== -1) {
+            } else if (_context5.t0.message.indexOf("File exists") !== -1) {
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
-          case 31:
+          case 34:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, undefined, [[7, 28]]);
+    }, _callee5, undefined, [[7, 31]]);
   }));
 
   return function (_x) {
