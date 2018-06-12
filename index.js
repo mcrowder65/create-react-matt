@@ -118,8 +118,10 @@ program
       await fixPackageJson();
     } catch (error) {
       if (!error.message.indexOf("File exists")) {
+        // eslint-disable-next-line no-console
         console.error("Something went wrong, sorry");
       } else if (error.message.indexOf("File exists") !== -1) {
+        // eslint-disable-next-line no-console
         console.error(`You need to delete ${folder}, or run again with -f`);
       }
     }
@@ -236,6 +238,7 @@ npm-debug.log`;
           const file = await readFile(`./${f}`);
           await writeFile(`${folder}/${f}`, file);
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.log(e);
           throw e;
         }
@@ -301,6 +304,7 @@ script:
           }
           fs.writeFile(filename, content, error => {
             if (error) {
+              // eslint-disable-next-line no-console
               console.log(error);
               reject(error);
             } else {
@@ -308,6 +312,7 @@ script:
             }
           });
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.log(error);
           reject(error);
         }
