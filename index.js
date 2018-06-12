@@ -34,7 +34,7 @@ const deps = {
     "babel-plugin-transform-runtime",
     "babel-preset-env",
     "babel-preset-react",
-    "bundle-size",
+    "bundlesize",
     "compression-webpack-plugin",
     "css-loader",
     "enzyme",
