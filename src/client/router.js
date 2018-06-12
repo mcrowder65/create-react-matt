@@ -2,8 +2,8 @@ import React from "react";
 import { Router as BrowserRouter } from "react-router-dom";
 import { Route } from "react-router";
 
-import { browserHistory } from "./browser-history";
 import Home from "./components/home";
+import { browserHistory } from "./browser-history";
 
 const Router = () => (
   <BrowserRouter history={browserHistory}>

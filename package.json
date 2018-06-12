@@ -1,6 +1,6 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.75",
+  "version": "0.0.76",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "build-index.js",
   "repository": {
@@ -53,10 +53,10 @@
       "!src/client/browser-history.jsx",
       "!src/client/app.jsx",
       "!src/client/router.jsx",
-      "!src/client/actions/sagas/config.jsx",
+      "!src/client/actions/sagas/config.js",
       "!src/client/actions/sagas/index.jsx"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.jsx",
+    "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.js",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
       "\\.(css|scss|less)$": "identity-obj-proxy"
@@ -110,7 +110,7 @@
     "css-loader": "0.28.11",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
-    "eslint-config-mcrowder65": "0.0.28",
+    "eslint-config-mcrowder65": "0.0.29",
     "express": "4.16.3",
     "fetch-mock": "6.4.4",
     "history": "4.7.2",
@@ -124,13 +124,11 @@
     "pre-commit": "1.2.2",
     "prop-types": "15.6.1",
     "react": "16.4.0",
-    "react-addons-test-utils": "15.6.2",
     "react-dom": "16.4.0",
     "react-hot-loader": "4.2.0",
     "react-redux": "5.0.7",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
-    "react-test-renderer": "16.4.0",
     "redux": "4.0.0",
     "redux-saga": "0.16.0",
     "sass-loader": "7.0.2",

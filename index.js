@@ -41,8 +41,6 @@ const deps = {
     "eslint-config-mcrowder65",
     "jest",
     "fetch-mock",
-    "react-addons-test-utils",
-    "react-test-renderer",
     "style-loader",
     "postcss-loader",
     "postcss-flexbugs-fixes",
@@ -137,18 +135,18 @@ program
         },
         jest: {
           ...pkgJson.jest,
-          setupTestFrameworkScriptFile: "<rootDir>/test/client/config.jsx",
+          setupTestFrameworkScriptFile: "<rootDir>/test/client/config.js",
           moduleNameMapper: {
             "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
             "\\.(css|scss|less)$": "identity-obj-proxy"
           },
           collectCoverageFrom: [
             "src/client/**/*.{js*}",
-            "!src/client/browser-history.jsx",
-            "!src/client/app.jsx",
-            "!src/client/router.jsx",
-            "!src/client/actions/sagas/config.jsx",
-            "!src/client/actions/sagas/index.jsx"
+            "!src/client/browser-history.js",
+            "!src/client/app.js",
+            "!src/client/router.js",
+            "!src/client/actions/sagas/config.js",
+            "!src/client/actions/sagas/index.js"
           ],
           modulePaths: ["src/client/"],
           coverageReporters: ["html"]
@@ -181,25 +179,25 @@ program
       const files = [
         "webpack.config.js",
         ".babelrc",
-        "src/client/actions/sagas/config.jsx",
-        "src/client/actions/sagas/index.jsx",
-        "src/client/actions/sagas/ping-server.jsx",
-        "src/client/actions/sagas/types.jsx",
-        "src/client/actions/index.jsx",
-        "src/client/actions/types.jsx",
-        "src/client/components/home.jsx",
-        "src/client/reducers/index.jsx",
-        "src/client/reducers/initial-state.jsx",
+        "src/client/actions/sagas/config.js",
+        "src/client/actions/sagas/index.js",
+        "src/client/actions/sagas/ping-server.js",
+        "src/client/actions/sagas/types.js",
+        "src/client/actions/index.js",
+        "src/client/actions/types.js",
+        "src/client/components/home.js",
+        "src/client/reducers/index.js",
+        "src/client/reducers/initial-state.js",
         "src/client/styles/base.scss",
-        "src/client/app.jsx",
-        "src/client/browser-history.jsx",
+        "src/client/app.js",
+        "src/client/browser-history.js",
         "src/client/index.html",
-        "src/client/router.jsx",
+        "src/client/router.js",
         "test/client/__mocks__/file-mock.js",
-        "test/client/actions/sagas/ping-server.spec.jsx",
-        "test/client/actions/index.spec.jsx",
-        "test/client/config.jsx",
-        "test/client/reducers/index.spec.jsx"
+        "test/client/actions/sagas/ping-server.spec.js",
+        "test/client/actions/index.spec.js",
+        "test/client/config.js",
+        "test/client/reducers/index.spec.js"
       ];
       for (const f of files) {
         try {

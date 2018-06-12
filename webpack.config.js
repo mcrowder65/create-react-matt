@@ -9,11 +9,11 @@ const sourcePath = path.join(__dirname, "./src/client");
 const webpackConfig = {
   cache: !isProd,
   devtool: isProd ? "" : "eval-cheap-module-source-map",
-  entry: isProd ? "./src/client/app.jsx" : [
+  entry: isProd ? "./src/client/app.js" : [
     "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:8080",
     "webpack/hot/only-dev-server",
-    "./src/client/app.jsx"
+    "./src/client/app.js"
   ],
   output: {
     path: `${__dirname}/build`,
@@ -22,7 +22,7 @@ const webpackConfig = {
   resolve: {
     extensions: [".js", ".scss", ".jsx", ".css"],
     modules: [sourcePath, path.resolve(__dirname, "./node_modules")],
-    symlinks: false
+    symlinks: true
   },
   module: {
     loaders: [
