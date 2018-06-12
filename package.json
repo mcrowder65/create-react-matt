@@ -50,6 +50,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/client/**/*.{js*}",
+      "index.js",
       "!src/client/browser-history.js",
       "!src/client/app.js",
       "!src/client/router.js",
