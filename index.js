@@ -142,6 +142,14 @@ program
             "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
             "\\.(css|scss|less)$": "identity-obj-proxy"
           },
+          collectCoverageFrom: [
+            "src/client/**/*.{js*}",
+            "!src/client/browser-history.jsx",
+            "!src/client/app.jsx",
+            "!src/client/router.jsx",
+            "!src/client/actions/sagas/config.jsx",
+            "!src/client/actions/sagas/index.jsx"
+          ],
           modulePaths: ["src/client/"],
           coverageReporters: ["html"]
         }
