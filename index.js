@@ -3,7 +3,7 @@ require("babel-polyfill");
 const program = require("commander");
 const { exec } = require("child_process");
 const ora = require("ora");
-const fs = require("fs");
+const fs = require("fs-extra");
 
 const deps = {
   "dependencies": [
@@ -53,57 +53,58 @@ const deps = {
     "webpack-bundle-analyzer"
   ]
 };
-
-const executeCommand = (command, loadingText) => {
+const executeFunction = (func, loadingText) => {
   let spinner;
   return new Promise((resolve, reject) => {
     try {
       if (loadingText) {
         spinner = ora(loadingText).start();
       }
-      exec(command, (error, stdout) => {
+      func((error, output) => {
         if (error) {
-          if (error.message.indexOf("File exists") !== -1) {
-            spinner.fail(error.message);
-            reject(error);
-          } else {
-
-            reject(error);
-          }
+          spinner.fail(error.message);
+          reject(error);
         } else {
           if (loadingText) {
             spinner.succeed();
           }
-          resolve(stdout);
+          resolve(output);
         }
+
       });
     } catch (error) {
-      if (loadingText) {
-        spinner.fail();
-      }
       reject(error);
     }
   });
-
 };
 
+const removeFolder = folder => {
+  return executeFunction(callback => fs.remove(folder, callback), `Removing ${folder}`);
+};
+const executeBashCommand = (command, loadingText) => {
+  return executeFunction(callback => exec(command, callback), loadingText);
+};
+
+const createFolder = folder => {
+  return executeFunction(callback => fs.mkdir(folder, callback), `Creating ${folder}`);
+};
 program
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
-  .option("-f, --force", "rm -rf's your folder for good measure")
+  .option("-f, --force", "Removing your folder for good measure")
   .option("-s, --skip", "Doesn't save to node_modules")
   .action(async folder => {
     let execInFolder;
     try {
       if (program.force) {
-        await executeCommand(`rm -rf ${folder}`, `Removing ${folder}`);
+        await removeFolder(folder);
       }
       const pkg = program.yarn ? "yarn" : "npm";
       if (program.yarn) {
         displaySuccessMessage("Using yarn to install");
       }
-      await executeCommand(`mkdir ${folder}`, `Created ${folder}`);
       execInFolder = executeCmdInFolder();
+      await createFolder(folder);
       await execInFolder(`${pkg} init ${folder} -y`, `${pkg} init ${folder} -y`);
       await scaffold();
       await fixPackageJson();
@@ -115,8 +116,7 @@ program
       }
     }
     async function fixPackageJson() {
-
-      const pkgJson = JSON.parse(await execInFolder("cat package.json"));
+      const pkgJson = JSON.parse(await readFile(`${folder}/package.json`, false));
       const { dependencies, devDependencies } = deps;
 
       const newPkg = {
@@ -156,7 +156,9 @@ program
 
       };
       await writeFile(`${folder}/package.json`, JSON.stringify(newPkg, null, 2));
-      if (program.skip) {
+      if (process.platform === "win32") {
+        displaySuccessMessage("Installation of node_modules will be skipped because windows is not supported for node_module installation on this cli.");
+      } else if (program.skip) {
         displaySuccessMessage("Skipping installation of node_modules");
       } else {
         await execInFolder(`${install()}`, "Installing dependencies and devDependencies");
@@ -217,7 +219,7 @@ program
     }
 
     function executeCmdInFolder() {
-      return (str, output) => executeCommand(enterFolder(str), output);
+      return (str, output) => executeBashCommand(enterFolder(str), output);
     }
     function enterFolder(str, post) {
       return `cd ${folder}${post ? post : ""} && ${str}`;
@@ -225,9 +227,9 @@ program
     function install() {
       return program.yarn ? "yarn add" : "npm install";
     }
-    function readFile(filename) {
+    function readFile(filename, includeDirname = true) {
       return new Promise((resolve, reject) => {
-        fs.readFile(`${__dirname}/${filename}`, (err, data) => {
+        fs.readFile(`${includeDirname ? `${__dirname}/` : ""}${filename}`, "UTF-8", (err, data) => {
           try {
             if (err) {
               reject(err);
