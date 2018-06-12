@@ -26,46 +26,53 @@ var _require = require("child_process"),
     exec = _require.exec;
 
 var ora = require("ora");
-var fs = require("fs");
+var fs = require("fs-extra");
 
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
   "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "react-addons-test-utils", "react-test-renderer", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
 };
-
-var executeCommand = function executeCommand(command, loadingText) {
+var executeFunction = function executeFunction(func, loadingText) {
   var spinner = void 0;
   return new Promise(function (resolve, reject) {
     try {
       if (loadingText) {
         spinner = ora(loadingText).start();
       }
-      exec(command, function (error, stdout) {
+      func(function (error, output) {
         if (error) {
-          if (error.message.indexOf("File exists") !== -1) {
-            spinner.fail(error.message);
-            reject(error);
-          } else {
-
-            reject(error);
-          }
+          spinner.fail(error.message);
+          reject(error);
         } else {
           if (loadingText) {
             spinner.succeed();
           }
-          resolve(stdout);
+          resolve(output);
         }
       });
     } catch (error) {
-      if (loadingText) {
-        spinner.fail();
-      }
       reject(error);
     }
   });
 };
 
-program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "rm -rf's your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
+var removeFolder = function removeFolder(folder) {
+  return executeFunction(function (callback) {
+    return fs.remove(folder, callback);
+  }, "Removing " + folder);
+};
+var executeBashCommand = function executeBashCommand(command, loadingText) {
+  return executeFunction(function (callback) {
+    return exec(command, callback);
+  }, loadingText);
+};
+
+var createFolder = function createFolder(folder) {
+  return executeFunction(function (callback) {
+    return fs.mkdir(folder, callback);
+  }, "Creating " + folder);
+};
+program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(folder) {
     var fixPackageJson = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
@@ -84,7 +91,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
                 _context.t0 = JSON;
                 _context.next = 4;
-                return execInFolder("cat package.json");
+                return readFile(folder + "/package.json");
 
               case 4:
                 _context.t1 = _context.sent;
@@ -282,7 +289,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
             readFile = function readFile(filename) {
               return new Promise(function (resolve, reject) {
-                fs.readFile(__dirname + "/" + filename, function (err, data) {
+                fs.readFile(__dirname + "/" + filename, "UTF-8", function (err, data) {
                   try {
                     if (err) {
                       reject(err);
@@ -306,7 +313,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
 
             executeCmdInFolder = function executeCmdInFolder() {
               return function (str, output) {
-                return executeCommand(enterFolder(str), output);
+                return executeBashCommand(enterFolder(str), output);
               };
             };
 
@@ -324,7 +331,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             }
 
             _context3.next = 11;
-            return executeCommand("rm -rf " + folder, "Removing " + folder);
+            return removeFolder(folder);
 
           case 11:
             pkg = program.yarn ? "yarn" : "npm";
@@ -332,11 +339,11 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
             if (program.yarn) {
               displaySuccessMessage("Using yarn to install");
             }
-            _context3.next = 15;
-            return executeCommand("mkdir " + folder, "Created " + folder);
-
-          case 15:
             execInFolder = executeCmdInFolder();
+            _context3.next = 16;
+            return createFolder(folder);
+
+          case 16:
             _context3.next = 18;
             return execInFolder(pkg + " init " + folder + " -y", pkg + " init " + folder + " -y");
 
