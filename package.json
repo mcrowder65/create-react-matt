@@ -50,11 +50,11 @@
   "jest": {
     "collectCoverageFrom": [
       "src/client/**/*.{js*}",
-      "!src/client/browser-history.jsx",
-      "!src/client/app.jsx",
-      "!src/client/router.jsx",
+      "!src/client/browser-history.js",
+      "!src/client/app.js",
+      "!src/client/router.js",
       "!src/client/actions/sagas/config.js",
-      "!src/client/actions/sagas/index.jsx"
+      "!src/client/actions/sagas/index.js"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.js",
     "moduleNameMapper": {
