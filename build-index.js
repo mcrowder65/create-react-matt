@@ -249,6 +249,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
                 _context3.prev = 16;
                 _context3.t0 = _context3["catch"](8);
 
+                // eslint-disable-next-line no-console
                 console.log(_context3.t0);
                 throw _context3.t0;
 
@@ -355,6 +356,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
                   }
                   fs.writeFile(filename, content, function (error) {
                     if (error) {
+                      // eslint-disable-next-line no-console
                       console.log(error);
                       reject(error);
                     } else {
@@ -362,6 +364,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
                     }
                   });
                 } catch (error) {
+                  // eslint-disable-next-line no-console
                   console.log(error);
                   reject(error);
                 }
@@ -466,8 +469,10 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --tra
             _context5.t0 = _context5["catch"](7);
 
             if (!_context5.t0.message.indexOf("File exists")) {
+              // eslint-disable-next-line no-console
               console.error("Something went wrong, sorry");
             } else if (_context5.t0.message.indexOf("File exists") !== -1) {
+              // eslint-disable-next-line no-console
               console.error("You need to delete " + folder + ", or run again with -f");
             }
 
