@@ -196,7 +196,8 @@ program
         "test/client/__mocks__/file-mock.js",
         "test/client/actions/sagas/ping-server.spec.jsx",
         "test/client/actions/index.spec.jsx",
-        "test/client/config.jsx"
+        "test/client/config.jsx",
+        "test/client/reducers/index.spec.jsx"
       ];
       for (const f of files) {
         try {

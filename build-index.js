@@ -154,7 +154,7 @@ program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-f, --for
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/config.jsx"];
+                files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.jsx", "src/client/actions/sagas/index.jsx", "src/client/actions/sagas/ping-server.jsx", "src/client/actions/sagas/types.jsx", "src/client/actions/index.jsx", "src/client/actions/types.jsx", "src/client/components/home.jsx", "src/client/reducers/index.jsx", "src/client/reducers/initial-state.jsx", "src/client/styles/base.scss", "src/client/app.jsx", "src/client/browser-history.jsx", "src/client/index.html", "src/client/router.jsx", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.jsx", "test/client/actions/index.spec.jsx", "test/client/config.jsx", "test/client/reducers/index.spec.jsx"];
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
