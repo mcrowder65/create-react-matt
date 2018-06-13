@@ -8,7 +8,7 @@
     "url": "git+https://github.com/mcrowder65/create-react-matt.git"
   },
   "bin": {
-    "create-react-matt": "./build-index.js"
+    "create-react-matt": "./main.js"
   },
   "scripts": {
     "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack",

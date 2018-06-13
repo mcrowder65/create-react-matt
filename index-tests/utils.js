@@ -1,5 +1,9 @@
-const { exec } = require("child_process");
-const fs = require("fs-extra");
+
+import { exec } from "child_process";
+import fs from "fs-extra";
+
+import reactCli from "../index";
+
 
 const executeFunction = func => {
   return new Promise((resolve, reject) => {
@@ -29,5 +33,6 @@ export const doesFileExist = async path => {
   } catch (error) {
     return false;
   }
-
 };
+
+export const cli = () => reactCli();
