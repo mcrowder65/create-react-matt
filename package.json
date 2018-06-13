@@ -18,7 +18,7 @@
     "build": "babel index.js --out-file build-index.js",
     "test": "npm run linter && npm run jest",
     "pre-jest": "rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
-    "jest": "npm run pre-jest && jest --coverage && npm run pre-jest",
+    "jest": "npm run pre-jest && jest --coverage --silent && npm run pre-jest",
     "bundlesize": "bundlesize",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "prepublishOnly": "npm run build"
