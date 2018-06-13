@@ -80,10 +80,7 @@ var createFolder = function createFolder(folder) {
 };
 
 var cli = function cli() {
-  var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
-
-  console.log(args);
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (outerResolve, outerReject) {
 
     program.version(packageJson.version).arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").option("-g, --git", "Does git init and creates .gitignore").action(function () {
       var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(folder) {
@@ -474,7 +471,7 @@ var cli = function cli() {
                 return fixPackageJson();
 
               case 29:
-                resolve();
+                outerResolve();
                 _context5.next = 36;
                 break;
 
@@ -489,8 +486,7 @@ var cli = function cli() {
                   // eslint-disable-next-line no-console
                   console.error("You need to delete " + folder + ", or run again with -f");
                 }
-
-                reject();
+                outerReject();
 
               case 36:
               case "end":
@@ -500,10 +496,10 @@ var cli = function cli() {
         }, _callee5, undefined, [[7, 32]]);
       }));
 
-      return function (_x2) {
+      return function (_x) {
         return _ref.apply(this, arguments);
       };
-    }()).parse(args);
+    }()).parse(process.argv);
   });
 };
 
