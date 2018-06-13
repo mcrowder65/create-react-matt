@@ -1,4 +1,4 @@
-import { executeBashFunction, cli, doesFileExist } from "./utils.js";
+import { executeBashFunction, cli } from "./utils.js";
 
 test("When force exists, it should reject", async () => {
   try {
