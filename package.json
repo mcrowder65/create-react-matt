@@ -1,23 +1,23 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.81",
+  "version": "0.0.82",
   "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
-  "main": "build-index.js",
+  "main": "main-index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcrowder65/create-react-matt.git"
   },
   "bin": {
-    "create-react-matt": "./main.js"
+    "create-react-matt": "./main-index.js"
   },
   "scripts": {
     "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack",
     "start": "export NODE_ENV=development && webpack-dev-server",
     "linter": "eslint index.js && eslint index-tests --ext .js && eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
     "webpack": "export NODE_ENV=production && webpack -p --progress",
-    "build": "babel index.js --out-file build-index.js",
+    "build": "babel index.js --out-file build-index.js && babel main.js --out-file main-index.js",
     "test": "npm run linter && npm run jest",
-    "pre-jest": "rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
+    "pre-jest": "rm -rf forcef && rm -rf force && rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
     "jest": "npm run pre-jest && jest --coverage --silent && npm run pre-jest",
     "bundlesize": "bundlesize",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",

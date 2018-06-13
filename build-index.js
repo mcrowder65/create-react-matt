@@ -482,11 +482,11 @@ var cli = function cli() {
                 if (!_context5.t0.message.indexOf("File exists")) {
                   // eslint-disable-next-line no-console
                   console.error("Something went wrong, sorry");
-                } else if (_context5.t0.message.indexOf("File exists") !== -1) {
+                } else if (_context5.t0.message.indexOf("file already exists") !== -1) {
                   // eslint-disable-next-line no-console
                   console.error("You need to delete " + folder + ", or run again with -f");
                 }
-                outerReject();
+                outerReject(_context5.t0);
 
               case 36:
               case "end":

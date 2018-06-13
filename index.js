@@ -126,14 +126,14 @@ const cli = () => {
           await fixPackageJson();
           outerResolve();
         } catch (error) {
-          if (!error.message.indexOf("File exists")) {
-            // eslint-disable-next-line no-console
-            console.error("Something went wrong, sorry");
-          } else if (error.message.indexOf("File exists") !== -1) {
+          if (error.message.indexOf("file already exists") !== -1) {
             // eslint-disable-next-line no-console
             console.error(`You need to delete ${folder}, or run again with -f`);
+          } else {
+            // eslint-disable-next-line no-console
+            console.error("Something went wrong, sorry");
           }
-          outerReject();
+          outerReject(error);
         }
         async function fixPackageJson() {
           const pkgJson = JSON.parse(await readFile(`${folder}/package.json`, false));
