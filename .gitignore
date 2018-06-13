@@ -9,3 +9,10 @@ bundle.js
 index.html
 build
 build/bundle.js.gz
+standard
+git
+yarn
+skip
+npm
+travis
+yarn-skip

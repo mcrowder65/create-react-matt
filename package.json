@@ -13,10 +13,12 @@
   "scripts": {
     "analyze-bundle": "export ANALYZE_BUNDLE=true && npm run webpack",
     "start": "export NODE_ENV=development && webpack-dev-server",
-    "linter": "eslint index.js && eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
+    "linter": "eslint index.js && eslint index-tests --ext .js && eslint src --ext .js,.jsx && eslint test --ext .js,.jsx",
     "webpack": "export NODE_ENV=production && webpack -p --progress",
     "build": "babel index.js --out-file build-index.js",
-    "test": "npm run linter && jest --coverage",
+    "test": "npm run linter && npm run jest",
+    "pre-jest": "rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
+    "jest": "npm run pre-jest && jest --coverage && npm run pre-jest",
     "bundlesize": "bundlesize",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "prepublishOnly": "npm run build"

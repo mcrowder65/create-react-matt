@@ -13,5 +13,5 @@ app.get("*.js", (req, res, next) => {
   next();
 });
 app.use(express.static(path.resolve(__dirname, "../..", "build")));
-
+// eslint-disable-next-line no-console
 app.listen(3000, () => console.log(`server started on port 3000`));
