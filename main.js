@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import func from "./build-index.js";
 
 const exec = async () => {
