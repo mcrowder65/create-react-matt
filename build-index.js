@@ -479,12 +479,12 @@ var cli = function cli() {
                 _context5.prev = 32;
                 _context5.t0 = _context5["catch"](7);
 
-                if (!_context5.t0.message.indexOf("File exists")) {
-                  // eslint-disable-next-line no-console
-                  console.error("Something went wrong, sorry");
-                } else if (_context5.t0.message.indexOf("file already exists") !== -1) {
+                if (_context5.t0.message.indexOf("file already exists") !== -1) {
                   // eslint-disable-next-line no-console
                   console.error("You need to delete " + folder + ", or run again with -f");
+                } else {
+                  // eslint-disable-next-line no-console
+                  console.error("Something went wrong, sorry");
                 }
                 outerReject(_context5.t0);
 
