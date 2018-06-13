@@ -1,4 +1,4 @@
-const func = require("./build-index.js").default;
+import func from "./build-index.js";
 
 const exec = async () => {
   try {

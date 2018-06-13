@@ -8,9 +8,11 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _buildIndex = require("./build-index.js");
 
-var func = require("./build-index.js").default;
+var _buildIndex2 = _interopRequireDefault(_buildIndex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var exec = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
@@ -20,7 +22,7 @@ var exec = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return func();
+            return (0, _buildIndex2.default)();
 
           case 3:
             // eslint-disable-next-line no-console
