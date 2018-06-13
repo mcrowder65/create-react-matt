@@ -5,6 +5,8 @@ const { exec } = require("child_process");
 const ora = require("ora");
 const fs = require("fs-extra");
 
+const packageJson = require("./package.json");
+
 const deps = {
   "dependencies": [
     "babel-runtime",
@@ -88,6 +90,7 @@ const createFolder = folder => {
   return executeFunction(callback => fs.mkdir(folder, callback), `Creating ${folder}`);
 };
 program
+  .version(packageJson.version)
   .arguments("<folder>")
   .option("-y, --yarn", "Use yarn")
   .option("-t, --travis", "Create .travis.yml file")

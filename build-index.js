@@ -28,6 +28,8 @@ var _require = require("child_process"),
 var ora = require("ora");
 var fs = require("fs-extra");
 
+var packageJson = require("./package.json");
+
 var deps = {
   "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history"],
   "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "bundlesize", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
@@ -72,7 +74,7 @@ var createFolder = function createFolder(folder) {
     return fs.mkdir(folder, callback);
   }, "Creating " + folder);
 };
-program.arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").option("-g, --git", "Does git init and creates .gitignore").action(function () {
+program.version(packageJson.version).arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").option("-g, --git", "Does git init and creates .gitignore").action(function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(folder) {
     var fixPackageJson = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
