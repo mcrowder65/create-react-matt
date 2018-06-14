@@ -16,3 +16,6 @@ skip
 npm
 travis
 yarn-skip
+force
+forcef
+force-f
