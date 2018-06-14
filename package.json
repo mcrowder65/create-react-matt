@@ -40,7 +40,9 @@
     ".eslintrc",
     ".gitignore",
     "package.json",
-    "webpack.config.js"
+    "webpack.config.js",
+    "build-index.js",
+    "main-index.js"
   ],
   "keywords": [
     "react",
