@@ -1,6 +1,6 @@
 import { doesFileExist, cli } from "./utils";
 
-test("when passing -y, and -s yarn should be used to init, but no node_modules should be there", async () => {
+test.skip("when passing -y, and -s yarn should be used to init, but no node_modules should be there", async () => {
   const folder = "yarn-skip";
   process.argv.push(folder);
   process.argv.push("-y");
