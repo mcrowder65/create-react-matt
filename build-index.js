@@ -399,7 +399,7 @@ var cli = function cli() {
                 };
 
                 install = function install() {
-                  return program.yarn ? "yarn add" : "npm install";
+                  return program.yarn ? "yarn" : "npm install";
                 };
 
                 enterFolder = function enterFolder(str, post) {
