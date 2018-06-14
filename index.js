@@ -278,7 +278,7 @@ script:
           return `cd ${folder}${post ? post : ""} && ${str}`;
         }
         function install() {
-          return program.yarn ? "yarn add" : "npm install";
+          return program.yarn ? "yarn" : "npm install";
         }
         function readFile(filename, includeDirname = true) {
           return new Promise((resolve, reject) => {
