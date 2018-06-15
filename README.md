@@ -3,6 +3,7 @@
 [![Build Status][travis-image]][travis-url]
 [![Total Status][total-image]][total-url]
 [![PRs Welcome][pr-image]][pr-url]
+[![Coverage Status][coverage-image]][coverage-url]
 
 [npm-image]: https://badge.fury.io/js/create-react-matt.svg
 [npm-url]: https://npmjs.org/package/create-react-matt
@@ -15,3 +16,6 @@
 
 [pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
 [pr-url]: http://makeapullrequest.com
+
+[coverage-image]: https://coveralls.io/repos/github/mcrowder65/create-react-matt/badge.svg
+[coverage-url]: https://coveralls.io/github/mcrowder65/create-react-matt
