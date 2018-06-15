@@ -17,7 +17,7 @@
     "webpack": "export NODE_ENV=production && webpack -p --progress",
     "build": "babel index.js --out-file build-index.js && babel main.js --out-file main-index.js",
     "test": "npm run linter && npm run jest",
-    "pre-jest": "rm -rf forcef && rm -rf force && rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
+    "pre-jest": "rm -rf win32-git && rm -rf forcef && rm -rf force && rm -rf yarn-skip && rm -rf yarn && rm -rf npm && rm -rf travis && rm -rf skip && rm -rf git",
     "jest": "npm run pre-jest && jest --coverage --silent && npm run pre-jest",
     "bundlesize": "bundlesize",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",

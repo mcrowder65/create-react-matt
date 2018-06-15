@@ -1,6 +1,6 @@
 import { cli, executeBuild, doesFileExist } from "./utils";
 
-test("using npm", async () => {
+test.skip("using npm", async () => {
   const folder = "npm";
   process.argv.push(folder);
   await cli();
