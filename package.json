@@ -1,7 +1,7 @@
 {
   "name": "create-react-matt",
-  "version": "0.0.88",
-  "description": "React, Redux, Webpack, Babel, Jest, and code coverage all provided for you",
+  "version": "0.0.89",
+  "description": "React, Webpack, Babel, Jest, and code coverage all provided for you",
   "main": "main-index.js",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   },
   "bundlesize": [
     {
-      "path": "./build/bundle.js",
+      "path": "./build/*.bundle.js",
       "compression": "gzip",
       "maxSize": "100 kB"
     }
@@ -47,7 +47,6 @@
   ],
   "keywords": [
     "react",
-    "redux",
     "react router",
     "webpack",
     "jest"
@@ -59,10 +58,10 @@
       "!src/client/browser-history.js",
       "!src/client/app.js",
       "!src/client/router.js",
-      "!src/client/actions/sagas/config.js",
-      "!src/client/actions/sagas/index.js"
+      "!src/registerServiceWorker.js",
+      "!src/server/index.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test/client/config.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/test/config.js",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
       "\\.(css|scss|less)$": "identity-obj-proxy"
@@ -101,6 +100,8 @@
     "babel-eslint": "8.2.6",
     "babel-jest": "23.0.1",
     "babel-loader": "7.1.4",
+    "babel-plugin-import": "1.8.0",
+    "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-async-to-generator": "6.24.1",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "6.24.1",
@@ -112,11 +113,12 @@
     "body-parser": "1.18.3",
     "bundlesize": "0.17.0",
     "compression-webpack-plugin": "1.1.11",
+    "copy-webpack-plugin": "4.5.2",
     "coveralls": "3.0.1",
     "css-loader": "0.28.11",
     "enzyme": "3.3.0",
-    "enzyme-adapter-react-16": "1.1.1",
-    "eslint-config-mcrowder65": "0.0.29",
+    "enzyme-adapter-react-16": "1.2.0",
+    "eslint-config-mcrowder65": "0.0.32",
     "express": "4.16.3",
     "fetch-mock": "6.4.4",
     "history": "4.7.2",
@@ -133,17 +135,16 @@
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-hot-loader": "4.3.3",
-    "react-redux": "5.0.7",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
-    "redux": "4.0.0",
-    "redux-saga": "0.16.0",
     "sass-loader": "7.0.3",
-    "shortid": "^2.2.8",
+    "shortid": "2.2.8",
     "style-loader": "0.21.0",
+    "sw-precache-webpack-plugin": "0.11.5",
     "webpack": "3.12.0",
     "webpack-bundle-analyzer": "2.13.1",
-    "webpack-dev-server": "2.11.2"
+    "webpack-dev-server": "2.11.2",
+    "webpack-manifest-plugin": "2.0.3"
   },
   "bugs": {
     "url": "https://github.com/mcrowder65/create-react-matt/issues"

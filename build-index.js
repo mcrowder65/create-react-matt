@@ -34,8 +34,8 @@ var fs = require("fs-extra");
 var packageJson = require("./package.json");
 
 var deps = {
-  "dependencies": ["babel-runtime", "babel-polyfill", "html-webpack-plugin", "prop-types", "express", "react", "react-dom", "react-redux", "react-router", "react-router-dom", "redux", "redux-saga", "webpack", "node-sass", "history", "isomorphic-fetch"],
-  "devDependencies": ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-preset-env", "babel-preset-react", "bundlesize", "compression-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "shortid", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer"]
+  dependencies: ["babel-runtime", "html-webpack-plugin", "prop-types", "express", "react", "react-dom", "react-router", "react-router-dom", "webpack", "node-sass", "history", "isomorphic-fetch"],
+  devDependencies: ["babel-core", "babel-eslint", "babel-jest", "babel-loader", "babel-plugin-transform-async-to-generator", "babel-plugin-transform-class-properties", "babel-plugin-transform-es2015-modules-umd", "babel-plugin-transform-object-rest-spread", "babel-plugin-transform-runtime", "babel-plugin-syntax-dynamic-import", "babel-plugin-import", "babel-preset-env", "babel-preset-react", "bundlesize", "compression-webpack-plugin", "copy-webpack-plugin", "css-loader", "enzyme", "enzyme-adapter-react-16", "eslint-config-mcrowder65", "jest", "fetch-mock", "style-loader", "shortid", "postcss-loader", "postcss-flexbugs-fixes", "sass-loader", "sw-precache-webpack-plugin", "react-hot-loader", "webpack-dev-server", "identity-obj-proxy", "webpack-bundle-analyzer", "webpack-manifest-plugin"]
 };
 var executeFunction = function executeFunction(func, loadingText) {
   var spinner = void 0;
@@ -80,7 +80,6 @@ var createFolder = function createFolder(folder) {
 
 var cli = function cli() {
   return new Promise(function (outerResolve, outerReject) {
-
     program.version(packageJson.version).arguments("<folder>").option("-y, --yarn", "Use yarn").option("-t, --travis", "Create .travis.yml file").option("-f, --force", "Removing your folder for good measure").option("-s, --skip", "Doesn't save to node_modules").option("-g, --git", "Does git init and creates .gitignore").action(function () {
       var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(folder) {
         var fixPackageJson = function () {
@@ -113,9 +112,9 @@ var cli = function cli() {
                         extends: ["mcrowder65"]
                       },
                       bundlesize: [{
-                        "path": "./build/bundle.js",
-                        "compression": "gzip",
-                        "maxSize": "100 kB"
+                        path: "./build/*.bundle.js",
+                        compression: "gzip",
+                        maxSize: "100 kB"
                       }],
                       scripts: (0, _extends4.default)({}, pkgJson.scripts, {
                         start: "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server",
@@ -128,16 +127,15 @@ var cli = function cli() {
                         "server-watch": "NODE_ENV=development && babel-watch src/server/index.js"
                       }),
                       jest: (0, _extends4.default)({}, pkgJson.jest, {
-                        setupTestFrameworkScriptFile: "<rootDir>/test/client/config.js",
+                        setupTestFrameworkScriptFile: "<rootDir>/test/config.js",
                         moduleNameMapper: {
                           "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
                           "\\.(css|scss|less)$": "identity-obj-proxy"
                         },
-                        collectCoverageFrom: ["src/**/*.{js*}", "!src/client/browser-history.js", "!src/client/app.js", "!src/client/router.js", "!src/client/actions/sagas/config.js", "!src/client/actions/sagas/index.js"],
+                        collectCoverageFrom: ["src/**/*.{js*}", "index.js", "!src/client/browser-history.js", "!src/client/app.js", "!src/client/router.js", "!src/registerServiceWorker.js", "!src/server/index.js"],
                         modulePaths: ["src/"],
                         coverageReporters: ["html"]
                       })
-
                     });
                     _context.next = 10;
                     return writeFile(folder + "/package.json", JSON.stringify(newPkg, null, 2));
@@ -228,7 +226,7 @@ var cli = function cli() {
               while (1) {
                 switch (_context3.prev = _context3.next) {
                   case 0:
-                    files = ["webpack.config.js", ".babelrc", "src/client/actions/sagas/config.js", "src/client/actions/sagas/index.js", "src/client/actions/sagas/ping-server.js", "src/client/actions/sagas/types.js", "src/client/actions/index.js", "src/client/actions/types.js", "src/client/components/home.js", "src/client/reducers/index.js", "src/client/reducers/initial-state.js", "src/client/styles/base.scss", "src/client/app.js", "src/client/browser-history.js", "src/client/index.html", "src/client/router.js", "src/server/index.js", "src/shared/constants.js", "src/shared/fetch-wrapper.js", "test/client/__mocks__/file-mock.js", "test/client/actions/sagas/ping-server.spec.js", "test/client/actions/index.spec.js", "test/client/config.js", "test/client/reducers/index.spec.js", "test/server/index.spec.js", "test/shared/fetch-wrapper.spec.js"];
+                    files = ["webpack.config.js", ".babelrc", "src/registerServiceWorker.js", "src/client/pwa/logo.jpg", "src/client/pwa/manifest.json", "src/client/components/home.js", "src/client/components/__tests__/home.test.js", "src/client/app.js", "src/client/browser-history.js", "src/client/index.html", "src/client/router.js", "src/server/index.js", "src/shared/constants.js", "src/shared/fetch-wrapper.js", "src/shared/__tests__/fetch-wrapper.test.js", "src/shared/utils.js", "test/__mocks__/file-mock.js", "test/config.js"];
                     _iteratorNormalCompletion = true;
                     _didIteratorError = false;
                     _iteratorError = undefined;
